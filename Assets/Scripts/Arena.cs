@@ -13,30 +13,6 @@ public class Arena : MonoBehaviour
     float wreath_radius;
 
     [SerializeField]
-    [Range(0, 0.5f)]
-    float character_scale_factor;
-
-    [SerializeField]
-    [Range(0, 1f)]
-    float shooter_spawn_depth;
-    [SerializeField]
-    [Range(0, 6.2831f)]
-    float shooter_spawn_angle;
-    [SerializeField]
-    [Range(0, 1.5707f)]
-    float spawn_safe_zone;
-    [SerializeField]
-    GameObject shooter_prefab;
-
-    [SerializeField]
-    int enemy_count;
-    [SerializeField]
-    GameObject enemy_prefab;
-    [SerializeField]
-    [Range(0, 0.5f)]
-    float enemy_depth_mod_range;
-
-    [SerializeField]
     int collider_count;
     [SerializeField]
     GameObject collider_prefab;
@@ -47,15 +23,44 @@ public class Arena : MonoBehaviour
     GameObject[] ornament_prefabs;
 
     [SerializeField]
+    [Range(2, 10)]
+    float start_walker_prox;
+    [SerializeField]
+    [Range(0, 1)]
+    float end_walker_prox;
+
+    [SerializeField]
     float rotation_speed;
 
     [SerializeField]
     float regen_cooldown;
 
+    Referee referee;
+
     GameObject arena;
     GameObject wreath;
 
+    Walker walker;
+    float walker_prox;
+
     float regen_timer;
+
+    void GenerateBasics()
+    {
+        arena = Instantiate(arena_prefab);
+        arena.transform.SetParent(transform);
+        arena.transform.localPosition = Vector3.zero;
+
+        // Set the arena's scale to its radius. Note that this scaling op, and all after,
+        // assume that prefabs begin with a scale of (1,1,1)
+        float diameter = arena_radius * 2;
+        arena.transform.localScale = new Vector3(diameter, diameter, 1);
+
+        // The wreath is a dummy object which groups ornaments
+        wreath = new GameObject("Wreath");
+        wreath.transform.SetParent(transform);
+        wreath.transform.localPosition = Vector3.zero;
+    }
 
     void GenerateColliders()
     {
@@ -104,7 +109,7 @@ public class Arena : MonoBehaviour
 
         for(int i = 0; i < ornament_count; i++)
         {
-            // If ornaments are already present, destroy them
+            // Clean  up existing ornaments
             if(wreath.transform.childCount > i)
             {
                 Destroy(wreath.transform.GetChild(i).gameObject);
@@ -129,72 +134,60 @@ public class Arena : MonoBehaviour
         }
     }
 
-    void SpawnShooter()
-    {
-        // Size character relative to the arena
-        GameObject shooter = Instantiate(shooter_prefab);
-        float diameter = arena_radius * 2 * character_scale_factor;
-        shooter.transform.localScale = new Vector3(diameter, diameter, 1);
-        shooter.GetComponent<Shooter>().SetLimits(arena.transform.position, arena_radius);
-
-        // Position the character along a radial line according to angle value and depth value
-        Vector3 offset = new Vector3(Mathf.Cos(shooter_spawn_angle), Mathf.Sin(shooter_spawn_angle)) * arena_radius * shooter_spawn_depth;
-        shooter.transform.position = arena.transform.position + offset;
-    }
-
-    void SpawnEnemies()
-    {
-        for(int i = 0; i < enemy_count; i++)
-        {
-            // Size character relative to the arena
-            GameObject enemy = Instantiate(enemy_prefab);
-            float diameter = arena_radius * 2 * character_scale_factor;
-            enemy.transform.localScale = new Vector3(diameter, diameter, 1);
-
-            // Position the character along a radial line according to slice arc and depth value
-            // theta is offset by one half slice size to put each character in the middle of a slice
-            float arc = (((2 * Mathf.PI) - (2 * spawn_safe_zone))) / enemy_count;
-            float theta = shooter_spawn_angle + spawn_safe_zone + arc * (i + 0.5f);
-            float depth = 0.5f + Random.Range(-enemy_depth_mod_range, enemy_depth_mod_range);
-            Vector3 offset = new Vector3(Mathf.Cos(theta), Mathf.Sin(theta)) * arena_radius * depth;
-            enemy.transform.position = arena.transform.position + offset;
-        }
-    }
-
     void Awake()
     {
-        // Set the arena's scale to its radius. Note that this scaling op, and all after,
-        // assume that prefabs begin with a scale of (1,1,1)
-        arena = Instantiate(arena_prefab);
-        float diameter = arena_radius * 2;
-        arena.transform.localScale = new Vector3(diameter, diameter, 1);
+        referee = GetComponent<Referee>();
 
-        // The wreath is a dummy object which serves to group ornaments
-        wreath = new GameObject("Wreath");
+        walker = FindObjectOfType<Walker>();
 
+        GenerateBasics();
         GenerateColliders();
         GenerateOrnaments();
-        SpawnShooter();
-        SpawnEnemies();
     }
 
     void Update()
     {
-        if(regen_cooldown > 0)
-        {
-            if(regen_timer >= regen_cooldown)
-            {
-                GenerateOrnaments();
+        if(walker_prox > end_walker_prox){return;}
 
-                regen_timer = 0;
+        if(!referee.in_combat)
+        {
+            if(Input.GetKeyDown(KeyCode.P))
+            {
+                referee.StartCombat(arena.transform.position, arena_radius);
+            }
+        }
+        else
+        {
+            // Assess win condition
+            if(referee.AssessCombat() != 0)
+            {
+                referee.EndCombat();
             }
 
-            regen_timer += Time.deltaTime;
+            // Regenerate wreath
+            if(regen_cooldown > 0)
+            {
+                if(regen_timer >= regen_cooldown)
+                {
+                    GenerateOrnaments();
+
+                    regen_timer = 0;
+                }
+
+                regen_timer += Time.deltaTime;
+            }
         }
     }
 
     void FixedUpdate()
     {
-        wreath.transform.Rotate(Vector3.forward * Mathf.PI * rotation_speed * Mathf.Rad2Deg * Time.fixedDeltaTime);
+        walker_prox = Mathf.Abs(transform.position.x - walker.transform.position.x);
+        walker_prox = Mathf.Clamp(walker_prox, 0, start_walker_prox);
+
+        float progress = 1-(walker_prox / start_walker_prox);
+        print(progress);
+
+        transform.localScale = new Vector3(progress, progress, 1);
+        wreath.transform.Rotate(Vector3.forward * Mathf.PI * rotation_speed * Mathf.Rad2Deg * Time.fixedDeltaTime * progress);
     }
 }
