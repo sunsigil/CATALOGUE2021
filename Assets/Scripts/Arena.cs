@@ -23,11 +23,11 @@ public class Arena : MonoBehaviour
     GameObject[] ornament_prefabs;
 
     [SerializeField]
-    [Range(2, 10)]
-    float start_walker_prox;
-    [SerializeField]
     [Range(0, 1)]
-    float end_walker_prox;
+    float inner_dist_bound;
+    [SerializeField]
+    [Range(2, 10)]
+    float outer_dist_bound;
 
     [SerializeField]
     float rotation_speed;
@@ -41,7 +41,7 @@ public class Arena : MonoBehaviour
     GameObject wreath;
 
     Walker walker;
-    float walker_prox;
+    float walker_dist;
 
     float regen_timer;
 
@@ -147,11 +147,11 @@ public class Arena : MonoBehaviour
 
     void Update()
     {
-        if(walker_prox > end_walker_prox){return;}
+        if(walker_dist > inner_dist_bound){return;}
 
         if(!referee.in_combat)
         {
-            if(Input.GetKeyDown(KeyCode.P))
+            if(Input.GetKeyDown(KeyCode.F))
             {
                 referee.StartCombat(arena.transform.position, arena_radius);
             }
@@ -181,13 +181,26 @@ public class Arena : MonoBehaviour
 
     void FixedUpdate()
     {
-        walker_prox = Mathf.Abs(transform.position.x - walker.transform.position.x);
-        walker_prox = Mathf.Clamp(walker_prox, 0, start_walker_prox);
+        walker_dist = Mathf.Abs(transform.position.x - walker.transform.position.x);
+        float dist_range = outer_dist_bound - inner_dist_bound;
+        float adjusted_dist = Mathf.Clamp(walker_dist - inner_dist_bound, 0, dist_range);
+        float progress = 1-(adjusted_dist / dist_range);
 
-        float progress = 1-(walker_prox / start_walker_prox);
-        print(progress);
+        if(progress > 0)
+        {
+            Debug.DrawLine(walker.transform.position, new Vector3(transform.position.x, walker.transform.position.y, 0), Color.red);
+            Debug.DrawLine(new Vector3(transform.position.x, walker.transform.position.y, 0), arena.transform.position, Color.red);
+            Debug.DrawLine(walker.transform.position, arena.transform.position, Color.red);
+        }
 
         transform.localScale = new Vector3(progress, progress, 1);
         wreath.transform.Rotate(Vector3.forward * Mathf.PI * rotation_speed * Mathf.Rad2Deg * Time.fixedDeltaTime * progress);
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, arena_radius);
+        Gizmos.DrawWireSphere(transform.position, wreath_radius);
     }
 }

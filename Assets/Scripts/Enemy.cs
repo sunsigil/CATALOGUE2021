@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour, IHittable
     float lock_time = 0.5f;
     float timer;
 
+    float line_width;
+
     public void ProcessHit()
     {
         lives--;
@@ -39,6 +41,8 @@ public class Enemy : MonoBehaviour, IHittable
         line_renderer = GetComponent<LineRenderer>();
 
         shooter = FindObjectOfType<Shooter>();
+
+        line_width = line_renderer.widthCurve[0].value;
     }
 
     void Update()
@@ -61,6 +65,9 @@ public class Enemy : MonoBehaviour, IHittable
             }
             else if(timer >= targeting_cutoff && timer < cooldown)
             {
+                float adjusted_line_width = line_width * transform.localScale.x;
+                line_renderer.SetWidth(adjusted_line_width, adjusted_line_width);
+
                 line_renderer.enabled = true;
                 line_renderer.SetPosition(0, transform.position);
                 line_renderer.SetPosition(1, target_position);

@@ -30,6 +30,8 @@ public class Shooter : MonoBehaviour, IHittable
     float speed;
     Vector3 destination;
 
+    float line_width;
+
     public void SetLimits(Vector3 arena_center, float arena_radius)
     {
         this.arena_center = arena_center;
@@ -49,6 +51,8 @@ public class Shooter : MonoBehaviour, IHittable
     {
         rigidbody = GetComponent<Rigidbody2D>();
         line_renderer = GetComponent<LineRenderer>();
+
+        line_width = line_renderer.widthCurve[0].value;
     }
 
     void Update()
@@ -60,8 +64,7 @@ public class Shooter : MonoBehaviour, IHittable
         direction = mouse_line.normalized;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90);
 
-        line_renderer.SetPosition(0, tip.position);
-        line_renderer.SetPosition(1, tip.position);
+        line_renderer.enabled = false;
         marker.SetActive(false);
 
         if(Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.Space))
@@ -88,8 +91,13 @@ public class Shooter : MonoBehaviour, IHittable
 
             destination = tip.position + offset;
 
+            float adjusted_line_width = line_width * transform.localScale.x;
+            line_renderer.SetWidth(adjusted_line_width, adjusted_line_width);
+            line_renderer.enabled = true;
+
             line_renderer.SetPosition(0, tip.position);
             line_renderer.SetPosition(1, Vector3.Lerp(tip.position, destination, charge_timer/charge_period));
+
             marker.SetActive(true);
             marker.transform.position = destination;
         }
