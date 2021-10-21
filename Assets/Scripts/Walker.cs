@@ -24,6 +24,7 @@ public class Walker : MonoBehaviour
 
     Rigidbody2D rigidbody_2d;
     SpriteRenderer body_renderer;
+    Catalogue catalogue;
 
     Vector3 hat_origin;
     Vector3 head_origin;
@@ -39,12 +40,18 @@ public class Walker : MonoBehaviour
 
         rigidbody_2d = GetComponent<Rigidbody2D>();
         body_renderer = body.GetComponent<SpriteRenderer>();
+        catalogue = GetComponent<Catalogue>();
 
         hat_origin = hat.transform.localPosition;
         head_origin = head.transform.localPosition;
         body_origin = body.transform.localPosition;
 
         walk_frequency = 1/walk_fps;
+    }
+
+    void Start()
+    {
+        catalogue.Load();
     }
 
     void Update()
@@ -96,5 +103,15 @@ public class Walker : MonoBehaviour
                 walk_timer = 0;
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        catalogue.Save();
+    }
+
+    void OnApplicationQuit()
+    {
+        catalogue.Save();
     }
 }

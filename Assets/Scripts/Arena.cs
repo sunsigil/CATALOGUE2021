@@ -8,6 +8,9 @@ public class Arena : MonoBehaviour
     GameObject arena_prefab;
 
     [SerializeField]
+    Enchantment enchantment;
+
+    [SerializeField]
     float arena_radius;
     [SerializeField]
     float wreath_radius;
@@ -161,6 +164,11 @@ public class Arena : MonoBehaviour
             // Assess win condition
             if(referee.AssessCombat() != 0)
             {
+                if(referee.AssessCombat() == 1)
+                {
+                    walker.GetComponent<Catalogue>().AddSuccess(enchantment);
+                }
+
                 referee.EndCombat();
             }
 

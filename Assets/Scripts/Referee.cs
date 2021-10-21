@@ -77,7 +77,6 @@ public class Referee : MonoBehaviour
             float diameter = arena_radius * 2 * combatant_scale_factor;
             enemies[i].transform.localScale = new Vector3(diameter, diameter, 1);
 
-
             // Position the character along a radial line according to slice arc and depth value
             // theta is offset by one half slice size to put each character in the middle of a slice
             float arc = (((2 * Mathf.PI) - (2 * spawn_safe_zone))) / enemy_count;
@@ -85,6 +84,8 @@ public class Referee : MonoBehaviour
             float depth = 0.5f + Random.Range(-enemy_depth_mod_range, enemy_depth_mod_range);
             Vector3 offset = new Vector3(Mathf.Cos(theta), Mathf.Sin(theta)) * arena_radius * depth;
             enemies[i].transform.position = arena_center + offset;
+
+            enemies[i].RecordSpawnValues();
         }
     }
 

@@ -257,6 +257,7 @@ GameObject:
   - component: {fileID: 4708744309521678305}
   - component: {fileID: 4708744309521678307}
   - component: {fileID: 4708744309521678306}
+  - component: {fileID: 7987644805969989112}
   m_Layer: 0
   m_Name: Walker
   m_TagString: Untagged
@@ -322,3 +323,16 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 605d5be5e0b2f094da8ed51dc3e08289, type: 3}
   walk_fps: 3
   speed: 4
+--- !u!114 &7987644805969989112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708744309521678301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bf00c0e83ca9ba4ab85d04a685ab003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  save_path: catalogue.txt

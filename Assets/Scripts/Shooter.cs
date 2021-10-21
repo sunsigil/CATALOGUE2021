@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shooter : MonoBehaviour, IHittable
+public class Shooter : MonoBehaviour
 {
     [SerializeField]
     Transform tip;
@@ -42,9 +42,10 @@ public class Shooter : MonoBehaviour, IHittable
 
     public void ProcessHit()
     {
-        lives--;
-
-        if(lives == 0){Destroy(gameObject);}
+        if(--lives <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Awake()
@@ -75,7 +76,11 @@ public class Shooter : MonoBehaviour, IHittable
             }
 
             // speed ramp function f(x) = 10 ^ 3(x-1) tested in desmos
-            speed = max_speed * Mathf.Pow(5, 3 * (charge_timer - 1));
+            //  speed = max_speed * Mathf.Pow(5, 3 * (charge_timer - 1));
+            // speed ramp function in form:
+            //  f(x) = (e^(kx) - 1) / (e^k - 1)
+            float k = 2.4f;
+            speed = max_speed * (Mathf.Exp(k * charge_timer) - 1) / (Mathf.Exp(k) - 1);
 
             Vector3 offset = direction * speed;
 
