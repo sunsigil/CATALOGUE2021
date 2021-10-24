@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CatalogueMenu : MonoBehaviour
+public class CatalogueMenu : Controller
 {
     [SerializeField]
     GameObject background_prefab;
@@ -11,7 +11,6 @@ public class CatalogueMenu : MonoBehaviour
 
     Camera camera;
 
-    GameObject menu;
     GameObject background_object;
     GameObject display_object;
 
@@ -25,25 +24,6 @@ public class CatalogueMenu : MonoBehaviour
 
     float expansion_duration = 1;
     float expansion_timer;
-
-    void SpawnMenu()
-    {
-        if(menu){Destroy(menu);}
-
-        anchor_point = camera.ScreenToWorldPoint(screen_center);
-        anchor_point.z = 0;
-
-        menu = new GameObject("Menu");
-        menu.transform.position = anchor_point;
-
-        background_object = Instantiate(background_prefab, menu.transform);
-        display_object = Instantiate(display_prefab, menu.transform);
-
-        initial_background_radius = background_object.transform.localScale.x / 2;
-        initial_display_radius = background_object.transform.localScale.x / 2;
-
-        expansion_timer = 0;
-    }
 
     void Awake()
     {
@@ -63,26 +43,29 @@ public class CatalogueMenu : MonoBehaviour
 
         max_background_radius = screen_span;
         max_display_radius = max_background_radius * 0.25f;
+
+        transform.position = anchor_point;
+
+        background_object = Instantiate(background_prefab, transform);
+        display_object = Instantiate(display_prefab, transform);
+
+        initial_background_radius = background_object.transform.localScale.x / 2;
+        initial_display_radius = background_object.transform.localScale.x / 2;
+
+        expansion_timer = 0;
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Tab))
+        if(Pressed(InputCode.CANCEL))
         {
-            if(!menu)
-            {
-                SpawnMenu();
-            }
-            else if(expansion_timer >= expansion_duration)
-            {
-                Destroy(menu);
-            }
+            Destroy(gameObject);
         }
     }
 
     void FixedUpdate()
     {
-        if(menu && expansion_timer <= expansion_duration)
+        if(expansion_timer <= expansion_duration)
         {
             float progress = expansion_timer / expansion_duration;
             progress = Mathf.Clamp(progress, 0, 1);

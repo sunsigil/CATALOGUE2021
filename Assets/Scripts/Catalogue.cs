@@ -6,6 +6,9 @@ using UnityEngine;
 public class Catalogue : MonoBehaviour
 {
     [SerializeField]
+    GameObject menu_prefab;
+
+    [SerializeField]
     string save_path;
     string full_save_path;
 
@@ -111,6 +114,11 @@ public class Catalogue : MonoBehaviour
         StreamWriter writer = new StreamWriter(full_save_path);
         writer.WriteLine("");
         writer.Close();
+    }
+
+    public void SpawnMenu()
+    {
+        Instantiate(menu_prefab);
     }
 
     void Awake()

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Walker : MonoBehaviour
+public class Walker : Controller
 {
     [SerializeField]
     GameObject hat;
@@ -56,7 +56,7 @@ public class Walker : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F))
+        if(Pressed(InputCode.CONFIRM))
         {
             RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 2f, transform.right);
 
@@ -74,12 +74,16 @@ public class Walker : MonoBehaviour
                 }
             }
         }
+        else if(Pressed(InputCode.CANCEL))
+        {
+            catalogue.SpawnMenu();
+        }
     }
 
     void FixedUpdate()
     {
         float max_frame_speed = speed * Time.fixedDeltaTime;
-        float current_frame_speed = max_frame_speed * Input.GetAxis("Horizontal");
+        float current_frame_speed = max_frame_speed * InputValue("Horizontal");
         float speed_ratio = Mathf.Abs(current_frame_speed / max_frame_speed);
 
         Vector2 position = new Vector2(transform.position.x, transform.position.y);

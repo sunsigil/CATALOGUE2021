@@ -1,0 +1,29 @@
+<scheme>
+	<confirm>
+		f
+	</confirm>
+
+	<cancel>
+		escape
+	</cancel>
+
+	<action>
+		space
+	</action>
+
+	<up>
+		w
+	</up>
+
+	<down>
+		s
+	</down>
+
+	<left>
+		a
+	</left>
+
+	<right>
+		d
+	</right>
+</scheme>

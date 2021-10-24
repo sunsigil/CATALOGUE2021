@@ -315,6 +315,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbf4b44569003745aa8e531e577d2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _unmanaged: 0
+  _controlLayer: 0
   hat: {fileID: 4212619114161855425}
   head: {fileID: 2937803530825660569}
   body: {fileID: 3094996504966965821}
@@ -335,4 +337,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf00c0e83ca9ba4ab85d04a685ab003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu_prefab: {fileID: 8903841352463372155, guid: 04096ee0452ab824987f3cc8b9a1eb00, type: 3}
   save_path: catalogue.txt

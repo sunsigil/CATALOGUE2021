@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shooter : MonoBehaviour
+public class Shooter : Controller
 {
     [SerializeField]
     Transform tip;
@@ -68,7 +68,7 @@ public class Shooter : MonoBehaviour
         line_renderer.enabled = false;
         marker.SetActive(false);
 
-        if(Input.GetKeyDown(KeyCode.Space) || Input.GetKey(KeyCode.Space))
+        if(Pressed(InputCode.ACTION) || Held(InputCode.ACTION))
         {
             if(charge_timer < charge_period)
             {
@@ -106,7 +106,7 @@ public class Shooter : MonoBehaviour
             marker.SetActive(true);
             marker.transform.position = destination;
         }
-        if(Input.GetKeyUp(KeyCode.Space))
+        if(Released(InputCode.ACTION))
         {
             rigidbody.MovePosition(destination);
 
