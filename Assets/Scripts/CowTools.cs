@@ -27,4 +27,9 @@ public static class CowTools
     {
         return (TEnum)System.Enum.Parse(typeof(TEnum), s, true);
     }
+
+    public static TEnum[] EnumArray<TEnum>()
+    {
+        return (TEnum[])System.Enum.GetValues(typeof(TEnum));
+    }
 }

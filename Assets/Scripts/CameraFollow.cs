@@ -10,6 +10,15 @@ public class CameraFollow : MonoBehaviour
 
     Walker walker;
 
+    public void Snap()
+    {
+        Vector3 pos = transform.position;
+        Vector3 dest = walker.transform.position;
+        pos.x = dest.x;
+
+        transform.position = pos;
+    }
+
     void Awake()
     {
         walker = FindObjectOfType<Walker>();

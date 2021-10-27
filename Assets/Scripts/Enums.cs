@@ -19,3 +19,10 @@ public enum InputCode
     LEFT,
     RIGHT
 }
+
+public enum Enchantment
+{
+    DIVISION,
+    SUNGLEAM,
+    WITHERED
+}

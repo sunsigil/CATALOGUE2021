@@ -103,7 +103,7 @@ public class Catalogue : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, y_rotation, 0);
     }
 
-    [ContextMenu("Clear")]
+    [ContextMenu("Clear Saved Data")]
     public void Clear()
     {
         full_save_path = $"{Application.persistentDataPath}\\{save_path}";
@@ -118,14 +118,30 @@ public class Catalogue : MonoBehaviour
 
     public void SpawnMenu()
     {
-        Instantiate(menu_prefab);
+        CatalogueMenu menu = Instantiate(menu_prefab.gameObject).GetComponent<CatalogueMenu>();
+        for(int i = 0; i < successes.Length; i++)
+        {
+            if(successes[i]){menu.Expose(i);}
+        }
     }
 
     void Awake()
     {
         full_save_path = $"{Application.persistentDataPath}\\{save_path}";
 
-        enchantments = CowTools.LoadAssets<Enchantment>("Enchantments");
+        enchantments = CowTools.EnumArray<Enchantment>();
         successes = new bool[enchantments.Length];
+
+        Load();
+    }
+
+    void OnDestroy()
+    {
+        Save();
+    }
+
+    void OnApplicationQuit()
+    {
+        Save();
     }
 }

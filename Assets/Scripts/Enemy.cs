@@ -5,6 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
+    GameObject death_ring_prefab;
+
+    [SerializeField]
     int max_lives;
 
     bool _aggro;
@@ -116,8 +119,9 @@ public class Enemy : MonoBehaviour
             if(primed)
             {
                 print("Miss");
+
                 primed = false;
-                Debug.Break();
+                //Debug.Break();
             }
 
             timer += Time.deltaTime;
@@ -144,12 +148,18 @@ public class Enemy : MonoBehaviour
             if(primed)
             {
                 print("Hit!");
+
                 shooter.ProcessHit();
                 primed = false;
             }
             else
             {
                 print("Hurt...");
+
+                GameObject death_ring_object = Instantiate(death_ring_prefab);
+                death_ring_object.transform.localScale = transform.localScale * 10;
+                death_ring_object.transform.position = transform.position;
+
                 Destroy(gameObject);
             }
         }

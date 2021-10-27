@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class Arena : MonoBehaviour
 {
+    enum ArenaState
+    {
+        DORMANT,
+        WATCHING,
+        ACTIVE,
+        SHUTDOWN
+    }
+    ArenaState state;
+
     [SerializeField]
     GameObject arena_prefab;
 
@@ -36,7 +45,8 @@ public class Arena : MonoBehaviour
     float rotation_speed;
 
     [SerializeField]
-    float regen_cooldown;
+    float shutdown_duration;
+    float shutdown_timer;
 
     Referee referee;
 
@@ -44,9 +54,8 @@ public class Arena : MonoBehaviour
     GameObject wreath;
 
     Walker walker;
+    Catalogue catalogue;
     float walker_dist;
-
-    float regen_timer;
 
     void GenerateBasics()
     {
@@ -137,72 +146,105 @@ public class Arena : MonoBehaviour
         }
     }
 
+    void Cleanup()
+    {
+        Destroy(arena);
+        Destroy(wreath);
+    }
+
     void Awake()
     {
         referee = GetComponent<Referee>();
 
         walker = FindObjectOfType<Walker>();
+        catalogue = walker.GetComponent<Catalogue>();
+    }
 
-        GenerateBasics();
-        GenerateColliders();
-        GenerateOrnaments();
+    void Start()
+    {
+        if(catalogue.GetSuccess(enchantment))
+        {
+            state = ArenaState.DORMANT;
+        }
+        else
+        {
+            GenerateBasics();
+            GenerateColliders();
+            GenerateOrnaments();
+
+            state = ArenaState.WATCHING;
+        }
     }
 
     void Update()
     {
-        if(walker_dist > inner_dist_bound){return;}
-
-        if(!referee.in_combat)
+        if(state == ArenaState.WATCHING)
         {
-            if(Input.GetKeyDown(KeyCode.F))
+            if(walker_dist > inner_dist_bound){return;}
+
+            if(!referee.in_combat)
             {
-                referee.StartCombat(arena.transform.position, arena_radius);
+                if(Input.GetKeyDown(KeyCode.F))
+                {
+                    referee.StartCombat(arena.transform.position, arena_radius);
+
+                    state = ArenaState.ACTIVE;
+                }
             }
         }
-        else
+        else if(state == ArenaState.ACTIVE)
         {
             // Assess win condition
             if(referee.AssessCombat() != 0)
             {
                 if(referee.AssessCombat() == 1)
                 {
-                    walker.GetComponent<Catalogue>().AddSuccess(enchantment);
+                    catalogue.AddSuccess(enchantment);
+
+                    state = ArenaState.SHUTDOWN;
+                }
+                else
+                {
+                    state = ArenaState.WATCHING;
                 }
 
                 referee.EndCombat();
             }
-
-            // Regenerate wreath
-            if(regen_cooldown > 0)
-            {
-                if(regen_timer >= regen_cooldown)
-                {
-                    GenerateOrnaments();
-
-                    regen_timer = 0;
-                }
-
-                regen_timer += Time.deltaTime;
-            }
         }
+    }
+
+    [ContextMenu("Log Current State")]
+    public void LogState()
+    {
+        Debug.Log(state);
     }
 
     void FixedUpdate()
     {
-        walker_dist = Mathf.Abs(transform.position.x - walker.transform.position.x);
-        float dist_range = outer_dist_bound - inner_dist_bound;
-        float adjusted_dist = Mathf.Clamp(walker_dist - inner_dist_bound, 0, dist_range);
-        float progress = 1-(adjusted_dist / dist_range);
-
-        if(progress > 0)
+        if(state == ArenaState.WATCHING)
         {
-            Debug.DrawLine(walker.transform.position, new Vector3(transform.position.x, walker.transform.position.y, 0), Color.red);
-            Debug.DrawLine(new Vector3(transform.position.x, walker.transform.position.y, 0), arena.transform.position, Color.red);
-            Debug.DrawLine(walker.transform.position, arena.transform.position, Color.red);
-        }
+            walker_dist = Mathf.Abs(transform.position.x - walker.transform.position.x);
+            float dist_range = outer_dist_bound - inner_dist_bound;
+            float adjusted_dist = Mathf.Clamp(walker_dist - inner_dist_bound, 0, dist_range);
+            float progress = 1-(adjusted_dist / dist_range);
 
-        transform.localScale = new Vector3(progress, progress, 1);
-        wreath.transform.Rotate(Vector3.forward * Mathf.PI * rotation_speed * Mathf.Rad2Deg * Time.fixedDeltaTime * progress);
+            transform.localScale = new Vector3(progress, progress, 1);
+        }
+        else if(state == ArenaState.ACTIVE)
+        {
+            wreath.transform.Rotate(Vector3.forward * Mathf.PI * rotation_speed * Mathf.Rad2Deg * Time.fixedDeltaTime);
+        }
+        else if(state == ArenaState.SHUTDOWN)
+        {
+            float progress = shutdown_timer / shutdown_duration;
+            float scalar = 1-Mathf.Pow(progress, 6);
+
+            if(progress >= 1){Destroy(gameObject);}
+
+            transform.localScale = new Vector3(scalar, scalar, 1);
+
+            shutdown_timer += Time.fixedDeltaTime;
+        }
     }
 
     void OnDrawGizmos()

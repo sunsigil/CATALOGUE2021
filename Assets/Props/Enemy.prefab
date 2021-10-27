@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b0b35be2c06c5428b9cb857054e3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  death_ring_prefab: {fileID: 2965668099856816860, guid: 68b9c73e86b8feb40b67afdff31875aa, type: 3}
   max_lives: 1
 --- !u!120 &4742779823164261080
 LineRenderer:

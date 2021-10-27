@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arena_prefab: {fileID: 8990099927021841938, guid: 9f0bb3c28784144458e180f3d7539164, type: 3}
+  enchantment: {fileID: 0}
   arena_radius: 1.5
   wreath_radius: 1.6
   collider_count: 16
@@ -57,7 +58,7 @@ MonoBehaviour:
   inner_dist_bound: 0.25
   outer_dist_bound: 4
   rotation_speed: 0.06125
-  regen_cooldown: 7
+  shutdown_duration: 1
 --- !u!114 &6789812576769611122
 MonoBehaviour:
   m_ObjectHideFlags: 0

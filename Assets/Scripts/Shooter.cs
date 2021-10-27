@@ -5,10 +5,15 @@ using UnityEngine;
 public class Shooter : Controller
 {
     [SerializeField]
+    GameObject death_ring_prefab;
+
+    [SerializeField]
     Transform tip;
 
     [SerializeField]
     GameObject marker;
+    [SerializeField]
+    GameObject[] life_orbs;
 
     [SerializeField]
     int max_lives;
@@ -19,7 +24,7 @@ public class Shooter : Controller
     Rigidbody2D rigidbody;
     LineRenderer line_renderer;
 
-    int lives;
+    int lives = 3;
 
     Vector3 arena_center;
     float arena_radius;
@@ -42,8 +47,16 @@ public class Shooter : Controller
 
     public void ProcessHit()
     {
-        if(--lives <= 0)
+        Destroy(life_orbs[lives-1]);
+
+        lives--;
+
+        if(lives <= 0)
         {
+            GameObject death_ring_object = Instantiate(death_ring_prefab);
+            death_ring_object.transform.localScale = transform.localScale * 10;
+            death_ring_object.transform.position = transform.position;
+
             Destroy(gameObject);
         }
     }
@@ -104,7 +117,7 @@ public class Shooter : Controller
             line_renderer.SetPosition(1, Vector3.Lerp(tip.position, destination, charge_timer/charge_period));
 
             marker.SetActive(true);
-            marker.transform.position = destination;
+            marker.transform.position = line_renderer.GetPosition(1);
         }
         if(Released(InputCode.ACTION))
         {

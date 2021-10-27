@@ -49,11 +49,6 @@ public class Walker : Controller
         walk_frequency = 1/walk_fps;
     }
 
-    void Start()
-    {
-        catalogue.Load();
-    }
-
     void Update()
     {
         if(Pressed(InputCode.CONFIRM))
@@ -76,6 +71,7 @@ public class Walker : Controller
         }
         else if(Pressed(InputCode.CANCEL))
         {
+            FindObjectOfType<CameraFollow>().Snap();
             catalogue.SpawnMenu();
         }
     }
@@ -107,15 +103,5 @@ public class Walker : Controller
                 walk_timer = 0;
             }
         }
-    }
-
-    void OnDestroy()
-    {
-        catalogue.Save();
-    }
-
-    void OnApplicationQuit()
-    {
-        catalogue.Save();
     }
 }
