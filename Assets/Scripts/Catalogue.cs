@@ -6,39 +6,26 @@ using UnityEngine;
 public class Catalogue : MonoBehaviour
 {
     [SerializeField]
-    GameObject menu_prefab;
-
-    [SerializeField]
     string save_path;
     string full_save_path;
 
-    Enchantment[] enchantments;
     bool[] successes;
     float x_position;
     float y_rotation;
 
     public void AddSuccess(Enchantment enchantment)
     {
-        for(int i = 0; i < enchantments.Length; i++)
-        {
-            if(enchantments[i] == enchantment)
-            {
-                successes[i] = true;
-            }
-        }
+        successes[(int)enchantment] = true;
     }
 
     public bool GetSuccess(Enchantment enchantment)
     {
-        for(int i = 0; i < enchantments.Length; i++)
-        {
-            if(enchantments[i] == enchantment)
-            {
-                return successes[i];
-            }
-        }
+        return successes[(int)enchantment];
+    }
 
-        return false;
+    public bool GetSuccess(int index)
+    {
+        return successes[index];
     }
 
     public bool IsComplete()
@@ -108,29 +95,18 @@ public class Catalogue : MonoBehaviour
     {
         full_save_path = $"{Application.persistentDataPath}\\{save_path}";
 
-        enchantments = CowTools.LoadAssets<Enchantment>("Enchantments");
-        successes = new bool[enchantments.Length];
+        successes = new bool[CowTools.GetEnumLength<Enchantment>()];
 
         StreamWriter writer = new StreamWriter(full_save_path);
         writer.WriteLine("");
         writer.Close();
     }
 
-    public void SpawnMenu()
-    {
-        CatalogueMenu menu = Instantiate(menu_prefab.gameObject).GetComponent<CatalogueMenu>();
-        for(int i = 0; i < successes.Length; i++)
-        {
-            if(successes[i]){menu.Expose(i);}
-        }
-    }
-
     void Awake()
     {
         full_save_path = $"{Application.persistentDataPath}\\{save_path}";
 
-        enchantments = CowTools.EnumArray<Enchantment>();
-        successes = new bool[enchantments.Length];
+        successes = new bool[CowTools.GetEnumLength<Enchantment>()];
 
         Load();
     }

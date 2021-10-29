@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class CatalogueMenu : Controller
 {
@@ -8,10 +9,12 @@ public class CatalogueMenu : Controller
     GameObject background_object;
     [SerializeField]
     GameObject display_object;
+    GameObject[] display_covers;
     [SerializeField]
-    GameObject[] covers;
+    MapRing map_ring;
 
     Camera camera;
+    Catalogue catalogue;
 
     Vector2 screen_center;
     Vector3 anchor_point;
@@ -21,7 +24,7 @@ public class CatalogueMenu : Controller
     float initial_background_radius;
     float initial_display_radius;
 
-    float expansion_duration = 1;
+    float expansion_duration = 0.5f;
     float expansion_timer;
     bool expanding => expansion_timer > 0 && expansion_timer < expansion_duration;
 
@@ -31,18 +34,26 @@ public class CatalogueMenu : Controller
 
     public void Expose(int cover_index)
     {
-        covers[cover_index].SetActive(false);
+        display_covers[cover_index].SetActive(false);
     }
 
     void Awake()
     {
         camera = Camera.main;
+        catalogue = FindObjectOfType<Catalogue>();
+
+        display_covers = new GameObject[display_object.transform.childCount];
+        for(int i = 0; i < display_object.transform.childCount; i++)
+        {
+            display_covers[i] = display_object.transform.GetChild(i).gameObject;
+            display_covers[i].SetActive(!catalogue.GetSuccess(i));
+        }
 
         float w = Screen.width;
         float h = Screen.height;
 
-        Vector2 screen_corner = new Vector2(w, h);
-        screen_center = screen_corner / 2;
+        Vector3 screen_corner = new Vector3(w, h, 1);
+        screen_center = new Vector3(w/2, h/2, 1);
 
         Vector3 corner_point = camera.ScreenToWorldPoint(screen_corner);
         corner_point.z = 0;
@@ -50,8 +61,8 @@ public class CatalogueMenu : Controller
         anchor_point.z = 0;
         float screen_span = (corner_point - anchor_point).magnitude;
 
-        max_background_radius = screen_span;
-        max_display_radius = max_background_radius * 0.25f;
+        max_background_radius = screen_span * 1.15f;
+        max_display_radius = screen_span * 0.25f;
 
         transform.position = anchor_point;
 
@@ -63,7 +74,12 @@ public class CatalogueMenu : Controller
 
     void Update()
     {
-        if(Pressed(InputCode.CANCEL) && !expanding)
+        if
+        (
+            Pressed(InputCode.MENU) ||
+            Pressed(InputCode.CANCEL) &&
+            !expanding
+        )
         {
             collapsing = true;
         }
@@ -78,9 +94,11 @@ public class CatalogueMenu : Controller
 
             float background_radius = Mathf.Lerp(initial_background_radius, max_background_radius, progress);
             float display_radius = Mathf.Lerp(initial_display_radius, max_display_radius, progress);
+            float map_radius = display_radius * 1.1f;
 
             background_object.transform.localScale = new Vector3(background_radius * 2, background_radius * 2, 1);
             display_object.transform.localScale = new Vector3(display_radius * 2, display_radius * 2, 1);
+            map_ring.transform.localScale = new Vector3(map_radius * 2, map_radius * 2, 1);
 
             expansion_timer += Time.fixedDeltaTime;
         }
@@ -93,9 +111,11 @@ public class CatalogueMenu : Controller
 
                 float background_radius = Mathf.Lerp(initial_background_radius, max_background_radius, progress);
                 float display_radius = Mathf.Lerp(initial_display_radius, max_display_radius, progress);
+                float map_radius = display_radius * 1.1f;
 
                 background_object.transform.localScale = new Vector3(background_radius * 2, background_radius * 2, 1);
                 display_object.transform.localScale = new Vector3(display_radius * 2, display_radius * 2, 1);
+                map_ring.transform.localScale = new Vector3(map_radius * 2, map_radius * 2, 1);
 
                 collapse_timer += Time.fixedDeltaTime;
             }

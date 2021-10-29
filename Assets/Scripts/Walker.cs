@@ -10,9 +10,13 @@ public class Walker : Controller
     GameObject head;
     [SerializeField]
     GameObject body;
-
     [SerializeField]
     Sprite[] walk_sprites;
+
+    [SerializeField]
+    GameObject start_menu_prefab;
+    [SerializeField]
+    GameObject catalogue_menu_prefab;
 
     [SerializeField]
     float walk_fps;
@@ -49,6 +53,12 @@ public class Walker : Controller
         walk_frequency = 1/walk_fps;
     }
 
+    void Start()
+    {
+        FindObjectOfType<CameraFollow>().Snap();
+        Instantiate(start_menu_prefab);
+    }
+
     void Update()
     {
         if(Pressed(InputCode.CONFIRM))
@@ -69,10 +79,15 @@ public class Walker : Controller
                 }
             }
         }
+        else if(Pressed(InputCode.MENU))
+        {
+            FindObjectOfType<CameraFollow>().Snap();
+            Instantiate(catalogue_menu_prefab);
+        }
         else if(Pressed(InputCode.CANCEL))
         {
             FindObjectOfType<CameraFollow>().Snap();
-            catalogue.SpawnMenu();
+            Instantiate(start_menu_prefab);
         }
     }
 

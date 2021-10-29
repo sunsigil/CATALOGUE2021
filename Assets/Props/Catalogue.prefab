@@ -259,8 +259,8 @@ GameObject:
   - component: {fileID: 4708744309521678306}
   - component: {fileID: 7987644805969989112}
   m_Layer: 0
-  m_Name: Walker
-  m_TagString: Untagged
+  m_Name: Catalogue
+  m_TagString: Map Beacon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -323,6 +323,8 @@ MonoBehaviour:
   walk_sprites:
   - {fileID: 21300000, guid: e579b9809b2977441b51e4dd0c562088, type: 3}
   - {fileID: 21300000, guid: 605d5be5e0b2f094da8ed51dc3e08289, type: 3}
+  start_menu_prefab: {fileID: 8903841352463372155, guid: 5b625246fb6752c43b0254e399906616, type: 3}
+  catalogue_menu_prefab: {fileID: 8903841352463372155, guid: 04096ee0452ab824987f3cc8b9a1eb00, type: 3}
   walk_fps: 3
   speed: 4
 --- !u!114 &7987644805969989112
@@ -337,5 +339,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf00c0e83ca9ba4ab85d04a685ab003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menu_prefab: {fileID: 8903841352463372155, guid: 04096ee0452ab824987f3cc8b9a1eb00, type: 3}
   save_path: catalogue.txt

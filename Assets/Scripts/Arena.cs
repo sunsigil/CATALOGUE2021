@@ -35,7 +35,7 @@ public class Arena : MonoBehaviour
     GameObject[] ornament_prefabs;
 
     [SerializeField]
-    [Range(0, 1)]
+    [Range(0, 2)]
     float inner_dist_bound;
     [SerializeField]
     [Range(2, 10)]
@@ -252,5 +252,11 @@ public class Arena : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, arena_radius);
         Gizmos.DrawWireSphere(transform.position, wreath_radius);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position - transform.right * outer_dist_bound, transform.position + transform.right * outer_dist_bound);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position - transform.right * inner_dist_bound, transform.position + transform.right * inner_dist_bound);
     }
 }

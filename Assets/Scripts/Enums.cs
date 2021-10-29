@@ -17,12 +17,18 @@ public enum InputCode
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    MENU
 }
 
 public enum Enchantment
 {
     DIVISION,
     SUNGLEAM,
-    WITHERED
+    WITHERED,
+    ENCH_3,
+    ENCH_4,
+    ENCH_5,
+    ENCH_6,
+    ENCH_7
 }

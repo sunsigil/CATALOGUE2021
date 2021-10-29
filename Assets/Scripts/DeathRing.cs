@@ -41,8 +41,8 @@ public class DeathRing : MonoBehaviour
         material.SetFloat("_Inner_Radius", inner_radius);
         material.SetFloat("_Outer_Radius", outer_radius);
 
-        float colour_scalar = 1-Mathf.Pow(progress, 6);
-        colour.a *= colour_scalar;
+        float alpha_scalar = 1-Mathf.Pow(progress, 6);
+        colour.a *= alpha_scalar;
         sprite_renderer.color = colour;
 
         if(timer >= duration)
