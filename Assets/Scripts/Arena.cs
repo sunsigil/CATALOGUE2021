@@ -54,8 +54,8 @@ public class Arena : MonoBehaviour
     GameObject wreath;
 
     Walker walker;
-    Catalogue catalogue;
     float walker_dist;
+    Catalogue catalogue;
 
     void GenerateBasics()
     {
@@ -157,7 +157,7 @@ public class Arena : MonoBehaviour
         referee = GetComponent<Referee>();
 
         walker = FindObjectOfType<Walker>();
-        catalogue = walker.GetComponent<Catalogue>();
+        catalogue = FindObjectOfType<Catalogue>();
     }
 
     void Start()
@@ -211,12 +211,6 @@ public class Arena : MonoBehaviour
                 referee.EndCombat();
             }
         }
-    }
-
-    [ContextMenu("Log Current State")]
-    public void LogState()
-    {
-        Debug.Log(state);
     }
 
     void FixedUpdate()

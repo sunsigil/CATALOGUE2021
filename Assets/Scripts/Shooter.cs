@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Shooter : Controller
 {
+    enum ShooterState
+    {
+        AIM,
+        CHARGE,
+        TRAVEL
+    }
+    ShooterState state;
+
     [SerializeField]
     GameObject death_ring_prefab;
 
@@ -15,34 +23,70 @@ public class Shooter : Controller
     [SerializeField]
     GameObject[] life_orbs;
 
-    [SerializeField]
-    int max_lives;
-
-    [SerializeField]
-    float charge_period;
-
     Rigidbody2D rigidbody;
     LineRenderer line_renderer;
 
-    int lives = 3;
+    float initial_line_width;
 
     Vector3 arena_center;
     float arena_radius;
+    float max_travel;
 
-    float max_speed;
+    int lives = 3;
+
+    float charge_duration = 1f;
     float charge_timer;
-    Vector3 direction;
-    float speed;
-    Vector3 destination;
+    float charge_progress => charge_timer / charge_duration;
 
-    float line_width;
+    float travel_duration = 0.25f;
+    float travel_timer;
+    float travel_progress => travel_timer / travel_duration;
+
+    Vector3 mouse_direction;
+    Vector3 destination;
+    Vector3 path;
+
+    public float speed => (state == ShooterState.TRAVEL) ? (path.magnitude / travel_duration) : 0;
+
+    void TurnToMouse()
+    {
+        Vector3 mouse_point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouse_point.z = transform.position.z;
+        Vector3 mouse_line = mouse_point - transform.position;
+        mouse_direction = mouse_line.normalized;
+        transform.rotation = CowTools.Vec2Rot(mouse_direction, -90);
+    }
+
+    void TurnToPath()
+    {
+        transform.rotation = CowTools.Vec2Rot(path.normalized, -90);
+    }
+
+    void ShowAimers()
+    {
+        marker.transform.position = destination;
+        line_renderer.SetPosition(0, tip.position);
+        line_renderer.SetPosition(1, destination);
+
+        float line_width = initial_line_width * transform.localScale.x;
+        line_renderer.SetWidth(line_width, line_width);
+
+        marker.SetActive(true);
+        line_renderer.enabled = true;
+    }
+
+    void HideAimers()
+    {
+        marker.SetActive(false);
+        line_renderer.enabled = false;
+    }
 
     public void SetLimits(Vector3 arena_center, float arena_radius)
     {
         this.arena_center = arena_center;
         this.arena_radius = arena_radius;
 
-        max_speed = arena_radius / 1.5f;
+        max_travel = arena_radius / 1.5f;
     }
 
     public void ProcessHit()
@@ -66,39 +110,53 @@ public class Shooter : Controller
         rigidbody = GetComponent<Rigidbody2D>();
         line_renderer = GetComponent<LineRenderer>();
 
-        line_width = line_renderer.widthCurve[0].value;
+        initial_line_width = line_renderer.widthCurve[0].value;
     }
 
     void Update()
     {
-        Vector3 mouse_point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mouse_point.z = transform.position.z;
-        Vector3 mouse_line = mouse_point - transform.position;
-
-        direction = mouse_line.normalized;
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90);
-
-        line_renderer.enabled = false;
-        marker.SetActive(false);
-
-        if(Pressed(InputCode.ACTION) || Held(InputCode.ACTION))
+        if(state == ShooterState.AIM)
         {
-            if(charge_timer < charge_period)
+            if(Pressed(InputCode.ACTION) || Held(InputCode.ACTION))
             {
-                charge_timer += Time.deltaTime;
+                state = ShooterState.CHARGE;
+                charge_timer = 0;
             }
+        }
+        else if(state == ShooterState.CHARGE)
+        {
+            if(Released(InputCode.ACTION))
+            {
+                state = ShooterState.TRAVEL;
+                travel_timer = 0;
+            }
+        }
+    }
 
-            // speed ramp function f(x) = 10 ^ 3(x-1) tested in desmos
-            //  speed = max_speed * Mathf.Pow(5, 3 * (charge_timer - 1));
+    void FixedUpdate()
+    {
+        if(state == ShooterState.AIM)
+        {
+            TurnToMouse();
+            HideAimers();
+        }
+        else if(state == ShooterState.CHARGE)
+        {
+            charge_timer += Time.fixedDeltaTime;
+            charge_timer = Mathf.Clamp(charge_timer, 0, charge_duration);
+
+            TurnToMouse();
+
             // speed ramp function in form:
             //  f(x) = (e^(kx) - 1) / (e^k - 1)
             float k = 2.4f;
-            speed = max_speed * (Mathf.Exp(k * charge_timer) - 1) / (Mathf.Exp(k) - 1);
+            float progress = (Mathf.Exp(k * charge_progress) - 1) / (Mathf.Exp(k) - 1);
 
-            Vector3 offset = direction * speed;
+            Vector3 furthest_offset = mouse_direction * max_travel;
+            Vector3 offset = Vector3.Lerp(Vector3.zero, furthest_offset, progress);
 
             int mask = ~(1 << 3);
-            RaycastHit2D hit = Physics2D.Raycast(tip.position, direction, offset.magnitude, mask);
+            RaycastHit2D hit = Physics2D.Raycast(tip.position, mouse_direction, offset.magnitude, mask);
             if(hit.transform != null)
             {
                 Vector3 hit_point = new Vector3(hit.point.x, hit.point.y, transform.position.z);
@@ -108,22 +166,25 @@ public class Shooter : Controller
             }
 
             destination = tip.position + offset;
+            path = destination - transform.position;
 
-            float adjusted_line_width = line_width * transform.localScale.x;
-            line_renderer.SetWidth(adjusted_line_width, adjusted_line_width);
-            line_renderer.enabled = true;
-
-            line_renderer.SetPosition(0, tip.position);
-            line_renderer.SetPosition(1, Vector3.Lerp(tip.position, destination, charge_timer/charge_period));
-
-            marker.SetActive(true);
-            marker.transform.position = line_renderer.GetPosition(1);
+            ShowAimers();
         }
-        if(Released(InputCode.ACTION))
+        else if(state == ShooterState.TRAVEL)
         {
-            rigidbody.MovePosition(destination);
+            TurnToPath();
 
-            charge_timer = 0;
+            Vector3 offset = path.normalized * speed * Time.fixedDeltaTime;
+            rigidbody.MovePosition(transform.position + offset);
+
+            travel_timer += Time.fixedDeltaTime;
+
+            ShowAimers();
+
+            if(travel_progress >= 1)
+            {
+                state = ShooterState.AIM;
+            }
         }
     }
 }

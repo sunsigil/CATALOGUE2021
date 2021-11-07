@@ -56,11 +56,6 @@ Shader "Unlit/Tester"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 col *= i.col;
 
-                float2 center = float2(0.5, 0.5);
-                float2 spoke = i.uv - center;
-
-                col.a *= (length(spoke) <= center.x);
-
                 uint resolution = 64;
 
                 float x_f = i.uv.x * resolution;

@@ -25,13 +25,17 @@ public class StartMenu : Controller
     LineRenderer shaft_renderer;
     float initial_shaft_width;
 
-    float charge_duration = 1.5f;
+    float charge_duration = 1f;
     float charge_timer;
+    float charge_progress => charge_timer / charge_duration;
 
-    float collapse_duration = 0.5f;
+    float slide_duration = 1f;
+    float slide_timer;
+    float slide_progress => slide_timer / slide_duration;
+
+    float collapse_duration = 0.75f;
     float collapse_timer;
-
-    bool unlocked;
+    float collapse_progress => collapse_timer / collapse_duration;
 
     void Awake()
     {
@@ -59,64 +63,55 @@ public class StartMenu : Controller
         initial_shaft_width = shaft_renderer.widthCurve[0].value;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if(!unlocked)
-        {
-            if(Pressed(InputCode.ACTION) || Held(InputCode.ACTION))
-            {
-                if(charge_timer < charge_duration)
-                {
-                    charge_timer += Time.deltaTime;
-                    charge_timer = Mathf.Clamp(charge_timer, 0, charge_duration);
-                }
-                else
-                {
-                    unlocked = true;
-                }
-            }
-            else
-            {
-                if(charge_timer > 0)
-                {
-                    charge_timer -= Time.deltaTime;
-                    charge_timer = Mathf.Clamp(charge_timer, 0, charge_duration);
-                }
-            }
-        }
-
-        // speed ramp function in form:
-        //  f(x) = (e^(kx) - 1) / (e^k - 1)
-        float progress = charge_timer/charge_duration;
-        float k = 4f;
-        progress = (Mathf.Exp(k * progress) - 1) / (Mathf.Exp(k) - 1);
-
-        Vector3 destination = Vector3.Lerp(key_start.transform.position, key_end.transform.position, progress);
-
         float shaft_width = initial_shaft_width * (transform.localScale.x / 8);
         shaft_renderer.SetWidth(shaft_width, shaft_width);
 
-        shaft_renderer.SetPosition(0, key_start.transform.position);
-        shaft_renderer.SetPosition(1, destination);
-    }
-
-    void FixedUpdate()
-    {
-        if(unlocked)
+        if(charge_progress < 1)
         {
-            float progress = collapse_timer / collapse_duration;
-            float radius_scalar = 1 - Mathf.Pow(progress, 5);
+            if(Pressed(InputCode.ACTION) || Held(InputCode.ACTION))
+            {
+                charge_timer += Time.fixedDeltaTime;
+                charge_timer = Mathf.Clamp(charge_timer, 0, charge_duration);
+            }
+            else
+            {
+                charge_timer -= Time.fixedDeltaTime;
+                charge_timer = Mathf.Clamp(charge_timer, 0, charge_duration);
+            }
 
-            float radius = Mathf.Lerp(initial_radius, max_radius, radius_scalar);
+            // speed ramp function in form:
+            //  f(x) = (e^(kx) - 1) / (e^k - 1)
+            float k = -3f;
+            float progress = (Mathf.Exp(k * charge_progress) - 1) / (Mathf.Exp(k) - 1);
+
+            Vector3 destination = Vector3.Lerp(key_start.transform.position, key_end.transform.position, progress);
+
+            shaft_renderer.SetPosition(0, key_start.transform.position);
+            shaft_renderer.SetPosition(1, destination);
+        }
+        else if(slide_progress < 1)
+        {
+            Vector3 current = Vector3.Lerp(key_start.transform.position, key_end.transform.position, slide_progress);
+
+            key_start.transform.position = current;
+            shaft_renderer.SetPosition(0, current);
+
+            slide_timer += Time.fixedDeltaTime;
+        }
+        else if(collapse_progress < 1)
+        {
+            float radius_t = 1 - Mathf.Pow(collapse_progress, 5);
+            float radius = Mathf.Lerp(initial_radius, max_radius, radius_t);
 
             transform.localScale = new Vector3(radius * 2, radius * 2, 1);
 
             collapse_timer += Time.fixedDeltaTime;
-
-            if(collapse_timer >= collapse_duration)
-            {
-                Destroy(gameObject);
-            }
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }

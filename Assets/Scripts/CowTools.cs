@@ -32,4 +32,9 @@ public static class CowTools
     {
         return (TEnum[])System.Enum.GetValues(typeof(TEnum));
     }
+
+    public static Quaternion Vec2Rot(Vector2 v, float offset=0)
+    {
+        return Quaternion.Euler(0, 0, Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg + offset);
+    }
 }

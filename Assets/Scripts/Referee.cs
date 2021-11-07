@@ -132,7 +132,7 @@ public class Referee : MonoBehaviour
 
         for(int i = 0; i < enemies.Length; i++)
         {
-            if(enemies[i] != null && enemies[i].aggro)
+            if(enemies[i] != null && enemies[i].IsAggroed())
             {
                 // Not yet time to pick another round of attackers
                 return;
@@ -161,7 +161,7 @@ public class Referee : MonoBehaviour
                 }
             }
 
-            enemies[random_index].aggro = true;
+            enemies[random_index].Aggro();
             aggro_indices[i] = random_index;
         }
     }
