@@ -37,4 +37,9 @@ public static class CowTools
     {
         return Quaternion.Euler(0, 0, Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg + offset);
     }
+
+    public static Vector3 ScaleXY(float scale)
+    {
+        return new Vector3(scale, scale, 1);
+    }
 }

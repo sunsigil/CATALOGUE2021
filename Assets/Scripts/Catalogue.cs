@@ -12,6 +12,7 @@ public class Catalogue : MonoBehaviour
     bool[] successes;
     float x_position;
     float y_rotation;
+    float furthest_x;
 
     public void AddSuccess(Enchantment enchantment)
     {
@@ -50,11 +51,13 @@ public class Catalogue : MonoBehaviour
 
         x_position = transform.position.x;
         y_rotation = transform.rotation.eulerAngles.y;
+        if(x_position > furthest_x){furthest_x = x_position;}
 
         StreamWriter writer = new StreamWriter(full_save_path);
         writer.WriteLine(success_string);
         writer.WriteLine(x_position.ToString());
         writer.WriteLine(y_rotation.ToString());
+        writer.WriteLine(furthest_x.ToString());
         writer.Close();
     }
 
@@ -68,6 +71,7 @@ public class Catalogue : MonoBehaviour
             success_string = reader.ReadLine();
             x_position = float.Parse(reader.ReadLine());
             y_rotation = float.Parse(reader.ReadLine());
+            furthest_x = float.Parse(reader.ReadLine());
             reader.Close();
         }
         catch

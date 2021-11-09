@@ -9,11 +9,6 @@ public class Mapper : MonoBehaviour
     List<GameObject> _beacons;
     public List<GameObject> beacons => _beacons;
 
-    public void RegisterBeacon(GameObject beacon)
-    {
-        _beacons.Add(beacon);
-    }
-
     public float NormalizePosition(GameObject map_element)
     {
         float start_x = start.transform.position.x;
