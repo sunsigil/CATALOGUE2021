@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc71bbbcb07afe54aa5dc6ef57b827a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beacon_prefab: {fileID: 9151143677602298072, guid: d600ed5307bc30f4585c56a1f916440a, type: 3}
+  beacon_prefab: {fileID: 4243107777734902448, guid: efd70378002397a4c91e8664939c08b5, type: 3}
 --- !u!1 &4189939086708295852
 GameObject:
   m_ObjectHideFlags: 0
@@ -940,7 +940,7 @@ GameObject:
   - component: {fileID: 8903841352463372154}
   - component: {fileID: -409009031779185648}
   m_Layer: 0
-  m_Name: Menu
+  m_Name: Catalogue Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

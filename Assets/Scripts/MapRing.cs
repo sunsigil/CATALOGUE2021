@@ -30,7 +30,7 @@ public class MapRing : MonoBehaviour
             text.text = beacon.name;
             if(beacon.name.Equals("Catalogue")){text.color = Color.red;}
 
-            float radius = 1.025f;
+            float radius = 0.55f;
             float angle = mapper.NormalizePosition(beacon) * 2 * Mathf.PI;
             Vector3 position = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * radius;
             Vector3 orientation = Vector3.forward * angle * Mathf.Rad2Deg;

@@ -92,8 +92,6 @@ public class Enemy : MonoBehaviour
     {
         if(!shooter){return;}
 
-        print(state);
-
         if(state == EnemyState.AIM)
         {
             HideAimers();
@@ -134,6 +132,8 @@ public class Enemy : MonoBehaviour
         else if(state == EnemyState.TRAVEL)
         {
             HideAimers();
+
+            transform.localScale = initial_scale;
 
             Vector3 offset = path.normalized * speed * Time.fixedDeltaTime;
             rigidbody.MovePosition(transform.position + offset);
