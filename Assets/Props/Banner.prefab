@@ -818,6 +818,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3977297887497485749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7044792473655672174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b58748a25755ec2499b619682dbdc3e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8926083450896458322
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,10 +991,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5075028165551482337, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
       propertyPath: m_Name
-      value: Anti-Tree Volume
+      value: Anti-Clutter Volume
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4346712134035719688, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
+--- !u!1 &7044792473655672174 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5075028165551482337, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
+  m_PrefabInstance: {fileID: 2858165445433432207}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4376396653449306063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}

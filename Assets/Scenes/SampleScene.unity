@@ -452,24 +452,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 172307879}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f26e2ec780492d44b8d1694e9156a9ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc8712b654cd294eb73541c58a21a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clutter:
-  - {fileID: 8610473008840379094, guid: 738e050c3690f2f48846e8209e6a6d16, type: 3}
-  - {fileID: 8610473008840379094, guid: 399f8f3a8d1af324e80580d715bfae48, type: 3}
-  - {fileID: 8610473008840379094, guid: 4941faf6e07d9ab4eb66f09762049182, type: 3}
-  - {fileID: 8610473008840379094, guid: e8a8e66f051ebee4fac9aea99e76dd80, type: 3}
-  - {fileID: 8610473008840379094, guid: 5d6cecaeb098c3f4bafb39f50640ff1e, type: 3}
-  trees:
-  - {fileID: 4183427011643965259, guid: 43ca1fd1ae68b2d4182bb6d5b4515ada, type: 3}
-  spawn_y: 0
-  clutter_rate: 0.75
-  clutter_padding: 0
-  clutter_spacing: 1.5
-  tree_rate: 0.8
-  tree_padding: 1
-  tree_spacing: 2
+  profiles:
+  - {fileID: 11400000, guid: 40c925a40f3cb9d4c94be508159cf9af, type: 2}
+  - {fileID: 11400000, guid: 20f8014d92dff1a49a372e6143b76c9f, type: 2}
 --- !u!1001 &200429642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3658,6 +3646,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5187783909433306120, guid: 91ea2889c55977e43abfd8ee18c8cad8, type: 3}
   m_PrefabInstance: {fileID: 1747093597}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1750145501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1750145502}
+  - component: {fileID: 1750145503}
+  m_Layer: 0
+  m_Name: Sentinel Swarm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1750145502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750145501}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.82, y: 4.7, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1750145503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1750145501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c6db32d4b221944a38f45708672f64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  template: {fileID: 2800000, guid: 66c8fd834b83729498ce2bfcb23f2cac, type: 3}
+  sentinel_prefab: {fileID: 3348866413341909406, guid: c7214080e94c9b840963b29c6fd8ddb4, type: 3}
 --- !u!1001 &1757107206
 PrefabInstance:
   m_ObjectHideFlags: 0

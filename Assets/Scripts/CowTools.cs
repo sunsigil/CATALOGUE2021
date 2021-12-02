@@ -42,4 +42,15 @@ public static class CowTools
     {
         return new Vector3(scale, scale, 1);
     }
+
+    public static Vector3 FromXY(Vector2 v)
+    {
+        return new Vector3(v.x, v.y, 0);
+    }
+
+    public static T PickRandom<T>(T[] array)
+    {
+        int index = Random.Range(0, array.Length);
+        return array[index];
+    }
 }

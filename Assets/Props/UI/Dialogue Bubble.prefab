@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.6, y: 0.6}
+  m_SizeDelta: {x: 0.75, y: 0.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5439652108703765310
 CanvasRenderer:
@@ -65,17 +65,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Dialogue
+  m_text: Here is some test dialogue...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 72865a5632d453b4b86c7d916eb9e4ec, type: 2}
-  m_sharedMaterial: {fileID: 2892163201060250043, guid: 72865a5632d453b4b86c7d916eb9e4ec, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bad8e8edd2e43ca4daee7d4de24630a9, type: 2}
+  m_sharedMaterial: {fileID: 6376697201171394427, guid: bad8e8edd2e43ca4daee7d4de24630a9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
-  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
+    rgba: 4278190323
+  m_fontColor: {r: 0.9528302, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

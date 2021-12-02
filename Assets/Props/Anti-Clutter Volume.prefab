@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1951795617400801088}
-  - component: {fileID: 4346712134035719688}
+  - component: {fileID: 6573679822610956379}
   m_Layer: 0
-  m_Name: Anti-Tree Volume
+  m_Name: Anti-Clutter Volume
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4346712134035719688
+--- !u!114 &6573679822610956379
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,6 +40,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5075028165551482337}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 713febc5613ae0b48ae625152febce53, type: 3}
+  m_Script: {fileID: 11500000, guid: b58748a25755ec2499b619682dbdc3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
