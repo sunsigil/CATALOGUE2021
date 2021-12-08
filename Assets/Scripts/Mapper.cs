@@ -32,4 +32,16 @@ public class Mapper : MonoBehaviour
             _beacons.Add(beacon);
         }
     }
+
+    void OnDrawGizmos()
+    {
+        if(_start == null || _end == null)
+        {
+            _start = GameObject.FindWithTag("Map Start");
+            _end = GameObject.FindWithTag("Map End");
+        }
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(_start.transform.position, _end.transform.position);
+    }
 }

@@ -45,12 +45,6 @@ public class NPC : MonoBehaviour, IUsable
         text = null;
     }
 
-    public bool AssessUsability()
-    {
-        float walker_dist = Mathf.Abs(transform.position.x - walker.transform.position.x);
-        return walker_dist <= inner_dist_bound;
-    }
-
     public void Use()
     {
         if(bubble == null)
@@ -77,7 +71,8 @@ public class NPC : MonoBehaviour, IUsable
 
     void Update()
     {
-        Vector3 line = transform.position - walker.transform.position;
+        Vector3 y_corrected_pos = transform.position.ModifyAt(1, walker.transform.position.y);
+        Vector3 line = y_corrected_pos - walker.transform.position;
         float walker_sign = Mathf.Sign(line.x);
         float walker_dist = Mathf.Abs(line.x);
 
@@ -110,7 +105,7 @@ public class NPC : MonoBehaviour, IUsable
 
             Debug.DrawLine(origin, origin + line, Color.red);
             Debug.DrawLine(origin, apex, Color.red);
-            Debug.DrawLine(transform.position, apex, Color.red);
+            Debug.DrawLine(y_corrected_pos, apex, Color.red);
 
             bubble.transform.position = apex;
         }

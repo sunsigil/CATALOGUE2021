@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clutter:
   - {fileID: 8433596239804279672, guid: 43ca1fd1ae68b2d4182bb6d5b4515ada, type: 3}
+  - {fileID: 2491146719503193801, guid: 537957cf5b16cbc47a2206dbb98f681b, type: 3}
   _prevalence: 1
   _ignore_volumes: 0
   layer: Background

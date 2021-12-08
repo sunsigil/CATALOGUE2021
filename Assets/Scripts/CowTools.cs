@@ -53,4 +53,24 @@ public static class CowTools
         int index = Random.Range(0, array.Length);
         return array[index];
     }
+
+    public static Vector3 ModifyAt(this Vector3 v, int position, float f)
+    {
+        switch(position)
+        {
+            case 0:
+                return new Vector3(f, v.y, v.z);
+            break;
+
+            case 1:
+                return new Vector3(v.x, f, v.z);
+            break;
+
+            case 2:
+                return new Vector3(v.x, v.y, f);
+            break;
+        }
+
+        return v;
+    }
 }

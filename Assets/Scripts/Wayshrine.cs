@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SentinelSwarm : MonoBehaviour
+public class Wayshrine : MonoBehaviour, IUsable
 {
 	[SerializeField]
 	Texture2D template;
 
 	[SerializeField]
 	GameObject sentinel_prefab;
+
+	[SerializeField]
+	float height;
 
 	Color[] colours;
 	int rows;
@@ -24,14 +27,19 @@ public class SentinelSwarm : MonoBehaviour
 	float timer;
 	bool active;
 
+	public void Use()
+	{
+		active = true;
+	}
+
 	void Awake()
 	{
 		colours = template.GetPixels();
 		rows = template.height;
 		cols = template.width;
 
-		origin = transform.position;
 		element_size = sentinel_prefab.transform.localScale.x;
+		origin = transform.position + new Vector3(-(element_size * cols / 2f), height, 0);
 
 		positions = new List<Vector3>();
 
@@ -53,15 +61,7 @@ public class SentinelSwarm : MonoBehaviour
 		for(int i = 0; i < positions.Count; i++)
 		{
 			sentinels[i] = Instantiate(sentinel_prefab, null);
-			sentinels[i].transform.position = origin;
-		}
-	}
-
-	void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.S))
-		{
-			active = true;
+			sentinels[i].transform.position = transform.position;
 		}
 	}
 
@@ -86,5 +86,11 @@ public class SentinelSwarm : MonoBehaviour
 
 			timer += Time.fixedDeltaTime;
 		}
+	}
+
+	void OnDrawGizmos()
+	{
+		Gizmos.color = Color.blue;
+		Gizmos.DrawWireSphere(transform.position + Vector3.up * height, 1);
 	}
 }

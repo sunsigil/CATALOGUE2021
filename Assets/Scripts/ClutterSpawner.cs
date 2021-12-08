@@ -15,17 +15,17 @@ public class ClutterSpawner : MonoBehaviour
 
     float ValidateX(Clutter instance)
     {
-        float x = instance.x;
+        Transform t = instance.transform;
 
         foreach(AntiClutterVolume volume in anti_clutter_volumes)
         {
             if(volume.IsViolating(instance))
             {
-                return volume.NextBestX(instance);
+                t.position = t.position.ModifyAt(0, volume.NextBestX(instance));
             }
         }
 
-        return x;
+        return t.position.x;
     }
 
     List<Clutter> DrawFromProfile(ClutterProfile profile)
@@ -95,8 +95,6 @@ public class ClutterSpawner : MonoBehaviour
                         last_x = x;
                         x = ValidateX(instance);
                     }
-
-                    instance.transform.position = new Vector3(x, profile.spawn_y, 0);
                 }
 
                 x += instance.width;

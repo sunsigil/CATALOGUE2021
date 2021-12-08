@@ -4,6 +4,5 @@ using UnityEngine;
 
 public interface IUsable
 {
-    bool AssessUsability();
     void Use();
 }

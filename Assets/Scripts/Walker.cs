@@ -24,6 +24,9 @@ public class Walker : Controller
     [SerializeField]
     float speed;
 
+    bool _walking;
+    public bool walking => _walking;
+
     Camera main_camera;
 
     Rigidbody2D rigidbody_2d;
@@ -71,7 +74,7 @@ public class Walker : Controller
                 {
                     IUsable usable = hit.transform.GetComponent<IUsable>();
 
-                    if(usable != null && usable.AssessUsability())
+                    if(usable != null)
                     {
                         usable.Use();
                         break;
@@ -102,7 +105,9 @@ public class Walker : Controller
 
         rigidbody_2d.MovePosition(destination);
 
-        if(!Mathf.Approximately(current_frame_speed, 0))
+        _walking = !Mathf.Approximately(current_frame_speed, 0);
+
+        if(_walking)
         {
             float direction = Mathf.Sign(current_frame_speed);
             float rotation = direction > 0 ? 0 : 180;

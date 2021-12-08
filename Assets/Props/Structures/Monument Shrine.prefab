@@ -144,6 +144,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6789812576769611123, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
+      propertyPath: enchantment
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6789812576769611123, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
       propertyPath: inner_dist_bound
       value: 0.25
       objectReference: {fileID: 0}

@@ -830,6 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b58748a25755ec2499b619682dbdc3e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tolerance: 0
 --- !u!1 &8926083450896458322
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,7 +944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
       propertyPath: m_LocalScale.y

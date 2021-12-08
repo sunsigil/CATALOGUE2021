@@ -23,10 +23,10 @@ public enum InputCode
 
 public enum Enchantment
 {
-    DIVISION,
-    SUNGLEAM,
-    WITHERED,
-    ENCH_3,
+    BOOTH,
+    ARCH,
+    EYE,
+    MONUMENT,
     ENCH_4,
     ENCH_5,
     ENCH_6,

@@ -23,7 +23,6 @@ public class ClutterProfile : ScriptableObject
 	int layer_ID;
 	[SerializeField]
     float _spawn_y; public float spawn_y => _spawn_y;
-	[SerializeField]
 	public float pad_width => mean_width;
 
 	public void Initialize()
