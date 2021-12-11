@@ -85,6 +85,13 @@ public class ClutterSpawner : MonoBehaviour
             if(piece != null)
             {
                 Clutter instance = Instantiate(piece.gameObject, clutter_holder.transform).GetComponent<Clutter>();
+
+                x += instance.width/2;
+                if(profile.ensure_spacing)
+                {
+                    x += Random.value * 0.15f + 0.05f;
+                }
+
                 instance.transform.position = new Vector3(x, profile.spawn_y, 0);
 
                 if(!profile.ignore_volumes)
@@ -97,7 +104,7 @@ public class ClutterSpawner : MonoBehaviour
                     }
                 }
 
-                x += instance.width;
+                x += instance.width/2;
             }
             else
             {

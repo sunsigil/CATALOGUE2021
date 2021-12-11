@@ -96,4 +96,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _weight: 0.5
-  overlap_tolerance: 0

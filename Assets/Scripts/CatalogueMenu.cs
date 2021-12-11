@@ -32,11 +32,6 @@ public class CatalogueMenu : Controller
     float collapse_duration = 0.25f;
     float collapse_timer;
 
-    public void Expose(int cover_index)
-    {
-        display_covers[cover_index].SetActive(false);
-    }
-
     void Awake()
     {
         camera = Camera.main;
@@ -46,7 +41,7 @@ public class CatalogueMenu : Controller
         for(int i = 0; i < display_object.transform.childCount; i++)
         {
             display_covers[i] = display_object.transform.GetChild(i).gameObject;
-            display_covers[i].SetActive(!catalogue.GetSuccess(i));
+            display_covers[i].SetActive(!catalogue.GetShrine(i));
         }
 
         float w = Screen.width;
@@ -76,7 +71,7 @@ public class CatalogueMenu : Controller
     {
         if
         (
-            Pressed(InputCode.MENU) ||
+            Pressed(InputCode.JOURNAL) ||
             Pressed(InputCode.CANCEL) &&
             !expanding
         )

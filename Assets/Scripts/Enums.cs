@@ -18,17 +18,30 @@ public enum InputCode
     DOWN,
     LEFT,
     RIGHT,
-    MENU
+    JOURNAL,
+    INVENTORY
 }
 
-public enum Enchantment
+public enum ShrineToken
 {
     BOOTH,
     ARCH,
     EYE,
     MONUMENT,
-    ENCH_4,
-    ENCH_5,
-    ENCH_6,
-    ENCH_7
+    SH_4,
+    SH_5,
+    SH_6,
+    SH_7
+}
+
+public enum WayshrineToken
+{
+    WSH_1,
+    WSH_2,
+    WSH_3,
+    WSH_4,
+    WSH_5,
+    WSH_6,
+    WSH_7,
+    WSH_8
 }

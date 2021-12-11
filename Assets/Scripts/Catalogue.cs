@@ -9,52 +9,57 @@ public class Catalogue : MonoBehaviour
     string save_path;
     string full_save_path;
 
-    bool[] successes;
+    int shrines;
+    int wayshrines;
+
     float x_position;
     float y_rotation;
     float furthest_x;
 
-    public void AddSuccess(Enchantment enchantment)
+    public void AddShrine(ShrineToken shrine)
     {
-        successes[(int)enchantment] = true;
+        shrines |= (1 << (int)shrine);
     }
 
-    public bool GetSuccess(Enchantment enchantment)
+    public bool GetShrine(ShrineToken shrine)
     {
-        return successes[(int)enchantment];
+        return (shrines & (1 << (int)shrine)) > 0;
     }
 
-    public bool GetSuccess(int index)
+    public bool GetShrine(int index)
     {
-        return successes[index];
+        return (shrines & (1 << index)) > 0;
+    }
+
+    public void AddWayshrine(WayshrineToken wayshrine)
+    {
+        wayshrines |= (1 << (int)wayshrine);
+    }
+
+    public bool GetWayshrine(WayshrineToken wayshrine)
+    {
+        return (wayshrines & (1 << (int)wayshrine)) > 0;
+    }
+
+    public bool GetWayshrine(int index)
+    {
+        return (wayshrines & (1 << index)) > 0;
     }
 
     public bool IsComplete()
     {
-        foreach(bool success in successes)
-        {
-            if(!success){return false;}
-        }
-
-        return true;
+        return (shrines == 0b11111111) && (wayshrines == 0b11111111);
     }
 
     public void Save()
     {
-        string success_string = "";
-
-        foreach(bool success in successes)
-        {
-            if(success){success_string += "1";}
-            else{success_string += "0";}
-        }
-
         x_position = transform.position.x;
         y_rotation = transform.rotation.eulerAngles.y;
         if(x_position > furthest_x){furthest_x = x_position;}
 
         StreamWriter writer = new StreamWriter(full_save_path);
-        writer.WriteLine(success_string);
+        writer.WriteLine(shrines.ToString());
+        writer.WriteLine(wayshrines.ToString());
         writer.WriteLine(x_position.ToString());
         writer.WriteLine(y_rotation.ToString());
         writer.WriteLine(furthest_x.ToString());
@@ -63,12 +68,11 @@ public class Catalogue : MonoBehaviour
 
     public void Load()
     {
-        string success_string = "";
-
         try
         {
             StreamReader reader = new StreamReader(full_save_path);
-            success_string = reader.ReadLine();
+            shrines = int.Parse(reader.ReadLine());
+            wayshrines = int.Parse(reader.ReadLine());
             x_position = float.Parse(reader.ReadLine());
             y_rotation = float.Parse(reader.ReadLine());
             furthest_x = float.Parse(reader.ReadLine());
@@ -77,14 +81,6 @@ public class Catalogue : MonoBehaviour
         catch
         {
             return;
-        }
-
-        if(!System.String.IsNullOrWhiteSpace(success_string))
-        {
-            for(int i = 0; i < success_string.Length; i++)
-            {
-                successes[i] = success_string[i] == '1';
-            }
         }
 
         Vector3 position = transform.position;
@@ -99,8 +95,6 @@ public class Catalogue : MonoBehaviour
     {
         full_save_path = $"{Application.persistentDataPath}\\{save_path}";
 
-        successes = new bool[CowTools.GetEnumLength<Enchantment>()];
-
         StreamWriter writer = new StreamWriter(full_save_path);
         writer.WriteLine("");
         writer.Close();
@@ -109,8 +103,6 @@ public class Catalogue : MonoBehaviour
     void Awake()
     {
         full_save_path = $"{Application.persistentDataPath}\\{save_path}";
-
-        successes = new bool[CowTools.GetEnumLength<Enchantment>()];
 
         Load();
     }

@@ -13,19 +13,20 @@ public class Wayshrine : MonoBehaviour, IUsable
 	[SerializeField]
 	float height;
 
+	LerpGroup lerp_group;
+
 	Color[] colours;
 	int rows;
 	int cols;
 
 	Vector3 origin;
 	float element_size;
+	List<GameObject> sentinels;
 
-	List<Vector3> positions;
-	GameObject[] sentinels;
-
-	float duration = 1;
-	float timer;
 	bool active;
+	float duration = 0.5f;
+	float timer;
+	float progress => timer / duration;
 
 	public void Use()
 	{
@@ -34,14 +35,14 @@ public class Wayshrine : MonoBehaviour, IUsable
 
 	void Awake()
 	{
+		lerp_group = new LerpGroup();
+
 		colours = template.GetPixels();
 		rows = template.height;
 		cols = template.width;
 
 		element_size = sentinel_prefab.transform.localScale.x;
 		origin = transform.position + new Vector3(-(element_size * cols / 2f), height, 0);
-
-		positions = new List<Vector3>();
 
 		for(int i = 0; i < rows; i++)
 		{
@@ -51,17 +52,13 @@ public class Wayshrine : MonoBehaviour, IUsable
 
 				if(colour == Color.black)
 				{
-					positions.Add(origin + new Vector3(j, i, 0) * element_size);
+					GameObject sentinel = Instantiate(sentinel_prefab, null);
+					sentinels.Add(sentinel);
+					sentinel.SetActive(false);
+
+					lerp_group.RegisterPosition(sentinel.transform, transform.position, origin + new Vector3(j, i, 0) * element_size);
 				}
 			}
-		}
-
-		sentinels = new GameObject[positions.Count];
-
-		for(int i = 0; i < positions.Count; i++)
-		{
-			sentinels[i] = Instantiate(sentinel_prefab, null);
-			sentinels[i].transform.position = transform.position;
 		}
 	}
 
@@ -69,20 +66,7 @@ public class Wayshrine : MonoBehaviour, IUsable
 	{
 		if(active)
 		{
-			if(timer >= duration)
-			{
-				active = false;
-			}
-
-			float progress = timer / duration;
-
-			for(int i = 0; i < sentinels.Length; i++)
-			{
-				Vector3 pos = sentinels[i].transform.position;
-				Vector3 dest = positions[i];
-
-				sentinels[i].transform.position = Vector3.Lerp(pos, dest, progress);
-			}
+			lerp_group.UpdateTransforms(progress);
 
 			timer += Time.fixedDeltaTime;
 		}

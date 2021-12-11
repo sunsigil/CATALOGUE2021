@@ -27,7 +27,11 @@
 		d
 	</right>
 
-	<menu>
+	<journal>
 		tab
-	</menu>
+	</journal>
+
+	<inventory>
+		i
+	</inventory>
 </scheme>

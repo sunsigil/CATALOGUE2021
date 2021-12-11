@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6789812576769611121
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6789812576769611120}
+  - component: {fileID: 6789812576769611123}
+  - component: {fileID: 6789812576769611122}
+  - component: {fileID: 5063604195181854565}
+  m_Layer: 3
+  m_Name: Shrine Arena Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6789812576769611120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6789812576769611121}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6789812576769611123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6789812576769611121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f080c8b889c89924eb75c4e25d7884c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arena_prefab: {fileID: 8990099927021841938, guid: 9f0bb3c28784144458e180f3d7539164, type: 3}
+  token: 0
+  arena_radius: 1.5
+  wreath_radius: 1.6
+  collider_count: 32
+  collider_prefab: {fileID: 7141609592499781551, guid: f31e60bb25d13764cb4c53854ad692cb, type: 3}
+  ornament_count: 32
+  ornament_prefabs:
+  - {fileID: 5626859443173390978, guid: ac11cc78f70c2e1468ed83e7ba8ee408, type: 3}
+  - {fileID: 7026000194608827510, guid: f0091663ce8b8174fa341ed5ee7d9d85, type: 3}
+  - {fileID: 7102257778133002680, guid: fd6f00a168df6544691741f506420dcb, type: 3}
+  inner_dist_bound: 0.25
+  outer_dist_bound: 4
+  rotation_speed: 0.25
+  shutdown_duration: 1
+--- !u!114 &6789812576769611122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6789812576769611121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fb852724cab474e8392d7b51ac57c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatant_scale_factor: 0.1
+  shooter_spawn_depth: 0.5
+  shooter_spawn_angle: 4.71
+  spawn_safe_zone: 1.57
+  shooter_prefab: {fileID: 2515228022098615890, guid: fe51e30816f2a034095f7eecabad8161, type: 3}
+  enemy_count: 3
+  max_aggroed: 1
+  enemy_prefab: {fileID: 3348866413341909406, guid: 09117c54cd156df41bfdb9ea530b13d2, type: 3}
+  enemy_depth_mod_range: 0.125
+--- !u!58 &5063604195181854565
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6789812576769611121}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1

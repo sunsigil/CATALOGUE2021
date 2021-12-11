@@ -17,6 +17,8 @@ public class ClutterProfile : ScriptableObject
 	[SerializeField]
 	bool _ignore_volumes; public bool ignore_volumes => _ignore_volumes;
 	[SerializeField]
+	bool _ensure_spacing; public bool ensure_spacing => _ensure_spacing;
+	[SerializeField]
 	string layer;
 	[SerializeField]
 	int sublayer;

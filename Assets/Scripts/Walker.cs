@@ -17,6 +17,8 @@ public class Walker : Controller
     GameObject start_menu_prefab;
     [SerializeField]
     GameObject catalogue_menu_prefab;
+    [SerializeField]
+    GameObject wayshrine_menu_prefab;
 
     [SerializeField]
     float walk_fps;
@@ -82,10 +84,15 @@ public class Walker : Controller
                 }
             }
         }
-        else if(Pressed(InputCode.MENU))
+        else if(Pressed(InputCode.JOURNAL))
         {
             FindObjectOfType<CameraFollow>().Snap();
             Instantiate(catalogue_menu_prefab);
+        }
+        else if(Pressed(InputCode.INVENTORY))
+        {
+            FindObjectOfType<CameraFollow>().Snap();
+            Instantiate(wayshrine_menu_prefab);
         }
         else if(Pressed(InputCode.CANCEL))
         {
