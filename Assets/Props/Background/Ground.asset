@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18fcff723667de2429961a5136e35253, type: 3}
+  m_Script: {fileID: 11500000, guid: 371befd1196226645a0fccc93cc67f79, type: 3}
   m_Name: Ground
   m_EditorClassIdentifier: 
-  _clutter:
-  - {fileID: 1650719611235951701, guid: 91ea2889c55977e43abfd8ee18c8cad8, type: 3}
-  _prevalence: 1
-  _ignore_volumes: 1
-  layer: Center
-  sublayer: 0
-  _spawn_y: 0
+  _props:
+  - {fileID: 4503064029265957422, guid: 91ea2889c55977e43abfd8ee18c8cad8, type: 3}
+  _saturation: 1
+  _override_sorting: 1
+  _layer: Background
+  _order: 0
+  _colour: {r: 0.21698111, g: 0.13682722, b: 0.09293342, a: 0}

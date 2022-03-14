@@ -34,7 +34,7 @@ public class Shooter : Controller
 
     int lives = 3;
 
-    float charge_duration = 1f;
+    float charge_duration = 0.75f;
     float charge_timer;
     float charge_progress => charge_timer / charge_duration;
 
@@ -54,12 +54,12 @@ public class Shooter : Controller
         mouse_point.z = transform.position.z;
         Vector3 mouse_line = mouse_point - transform.position;
         mouse_direction = mouse_line.normalized;
-        transform.rotation = CowTools.Vec2Rot(mouse_direction, -90);
+        transform.rotation = NumTools.XY_Rot(mouse_direction, -90);
     }
 
     void TurnToPath()
     {
-        transform.rotation = CowTools.Vec2Rot(path.normalized, -90);
+        transform.rotation = NumTools.XY_Rot(path.normalized, -90);
     }
 
     void ShowAimers()
@@ -91,9 +91,14 @@ public class Shooter : Controller
 
     public void ProcessHit()
     {
-        Destroy(life_orbs[lives-1]);
-
         lives--;
+
+        Vector3 orb_position = life_orbs[lives].transform.position;
+        Destroy(life_orbs[lives]);
+
+        GameObject hit_ring_object = Instantiate(death_ring_prefab);
+        hit_ring_object.transform.localScale = transform.localScale * 3;
+        hit_ring_object.transform.position = orb_position;
 
         if(lives <= 0)
         {
@@ -147,10 +152,7 @@ public class Shooter : Controller
 
             TurnToMouse();
 
-            // speed ramp function in form:
-            //  f(x) = (e^(kx) - 1) / (e^k - 1)
-            float k = 2.4f;
-            float progress = (Mathf.Exp(k * charge_progress) - 1) / (Mathf.Exp(k) - 1);
+            float progress = NumTools.Hillstep(charge_progress, 2.4f);
 
             Vector3 furthest_offset = mouse_direction * max_travel;
             Vector3 offset = Vector3.Lerp(Vector3.zero, furthest_offset, progress);

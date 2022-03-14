@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 70751644190566828}
   - component: {fileID: 70751644190566829}
-  - component: {fileID: -6720986786161464612}
+  - component: {fileID: 6030522960872690524}
   m_Layer: 0
   m_Name: Med Pot 1
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6720986786161464612
+--- !u!114 &6030522960872690524
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 70751644190566834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d0201d1d3e97d42b3e8aabf8ff0158, type: 3}
+  m_Script: {fileID: 11500000, guid: b11d924877263b54cb7a31cb82ead256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 5567d9ff0da1b3b49b61e531a18d0227, type: 3}
+  layer: Background
+  order: 0
   _weight: 0.1

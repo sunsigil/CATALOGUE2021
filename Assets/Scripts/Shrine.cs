@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shrine : MonoBehaviour, IUsable
+[RequireComponent(typeof(Usable))]
+[RequireComponent(typeof(Obscurable))]
+
+public class Shrine : MonoBehaviour
 {
     enum ShrineState
     {
@@ -17,7 +20,7 @@ public class Shrine : MonoBehaviour, IUsable
     GameObject arena_prefab;
 
     [SerializeField]
-    ShrineToken token;
+    ShrineFlag flag;
 
     [SerializeField]
     float arena_radius;
@@ -35,27 +38,19 @@ public class Shrine : MonoBehaviour, IUsable
     GameObject[] ornament_prefabs;
 
     [SerializeField]
-    [Range(0, 2)]
-    float inner_dist_bound;
-    [SerializeField]
-    [Range(2, 10)]
-    float outer_dist_bound;
-
-    [SerializeField]
     float rotation_speed;
 
     [SerializeField]
     float shutdown_duration;
     float shutdown_timer;
 
+    Usable usable;
+    Obscurable obscurable;
     Referee referee;
-    CircleCollider2D usable_collider;
 
     GameObject arena;
     GameObject wreath;
 
-    Walker walker;
-    float walker_dist;
     Catalogue catalogue;
 
     void GenerateBasics()
@@ -98,7 +93,6 @@ public class Shrine : MonoBehaviour, IUsable
             BoxCollider2D collider = collider_object.GetComponent<BoxCollider2D>();
             Vector3 original_size = collider.size;
             collider.size = new Vector3(collider_width * 1.1f, original_size.y, original_size.z);
-
 
             // Position the ornament on the wreath, which surrounds the arena
             float theta = collider_arc * i;
@@ -153,32 +147,30 @@ public class Shrine : MonoBehaviour, IUsable
         Destroy(wreath);
     }
 
-    public void Use()
+    void Use()
     {
         if(state == ShrineState.DORMANT){return;}
-        if(walker_dist > inner_dist_bound){return;}
+        if(referee.in_combat){return;}
 
-        if(!referee.in_combat)
-        {
-            referee.StartCombat(arena.transform.position, arena_radius);
+        referee.StartCombat(arena.transform.position, arena_radius);
 
-            state = ShrineState.ACTIVE;
-        }
+        state = ShrineState.ACTIVE;
     }
 
     void Awake()
     {
+        usable = GetComponent<Usable>();
+        obscurable = GetComponent<Obscurable>();
         referee = GetComponent<Referee>();
-        usable_collider = GetComponent<CircleCollider2D>();
-        usable_collider.radius = inner_dist_bound;
 
-        walker = FindObjectOfType<Walker>();
         catalogue = FindObjectOfType<Catalogue>();
     }
 
     void Start()
     {
-        if(catalogue.GetShrine(token))
+        usable.on_used.AddListener(Use);
+
+        if(catalogue.GetShrine(flag))
         {
             state = ShrineState.DORMANT;
         }
@@ -194,14 +186,21 @@ public class Shrine : MonoBehaviour, IUsable
 
     void Update()
     {
-        if(state == ShrineState.ACTIVE)
+        if(state == ShrineState.WATCHING)
+        {
+            if(usable.usability >= 1)
+            {
+                InputPrompter._.Draw(InputCode.CONFIRM, transform.position);
+            }
+        }
+        else if(state == ShrineState.ACTIVE)
         {
             // Assess win condition
             if(referee.AssessCombat() != 0)
             {
                 if(referee.AssessCombat() == 1)
                 {
-                    catalogue.AddShrine(token);
+                    catalogue.AddShrine(flag);
 
                     state = ShrineState.SHUTDOWN;
                 }
@@ -219,16 +218,11 @@ public class Shrine : MonoBehaviour, IUsable
     {
         if(state == ShrineState.WATCHING)
         {
-            walker_dist = Mathf.Abs(transform.position.x - walker.transform.position.x);
-            float dist_range = outer_dist_bound - inner_dist_bound;
-            float adjusted_dist = Mathf.Clamp(walker_dist - inner_dist_bound, 0, dist_range);
-            float progress = 1-(adjusted_dist / dist_range);
-
-            transform.localScale = new Vector3(progress, progress, 1);
+            transform.localScale = NumTools.XY_Scale(usable.usability);
         }
         else if(state == ShrineState.ACTIVE)
         {
-            wreath.transform.Rotate(Vector3.forward * Mathf.PI * rotation_speed * Mathf.Rad2Deg * Time.fixedDeltaTime);
+            wreath.transform.Rotate(NumTools.PinwheelVelocity(rotation_speed) * Time.fixedDeltaTime);
         }
         else if(state == ShrineState.SHUTDOWN)
         {
@@ -237,7 +231,7 @@ public class Shrine : MonoBehaviour, IUsable
 
             if(progress >= 1){Destroy(gameObject);}
 
-            transform.localScale = new Vector3(scalar, scalar, 1);
+            transform.localScale = NumTools.XY_Scale(scalar);
 
             shutdown_timer += Time.fixedDeltaTime;
         }
@@ -248,11 +242,5 @@ public class Shrine : MonoBehaviour, IUsable
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, arena_radius);
         Gizmos.DrawWireSphere(transform.position, wreath_radius);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position - transform.right * outer_dist_bound, transform.position + transform.right * outer_dist_bound);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position - transform.right * inner_dist_bound, transform.position + transform.right * inner_dist_bound);
     }
 }

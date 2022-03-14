@@ -61,13 +61,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24efeaffc9b4f944db8917db6c85a010, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  request_radius: 6
+  use_radius: 3
   bubble_prefab: {fileID: 5439652108726895971, guid: 12f11806fa64a0b458cab978e43e3075, type: 3}
+  obscured_font: {fileID: 11400000, guid: 739d9eddb6812744f83ee4467702d97a, type: 2}
+  unobscured_font: {fileID: 11400000, guid: bad8e8edd2e43ca4daee7d4de24630a9, type: 2}
   dialogue:
   - Hail, Catalogue.
   - There is an enchantment ahead.
   - Be cautious.
-  inner_dist_bound: 2
-  outer_dist_bound: 4
   triangle_area: 3
   max_altitude: 3
 --- !u!212 &7621142116352866488

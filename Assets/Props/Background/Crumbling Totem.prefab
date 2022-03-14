@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5631905211605447765}
   - component: {fileID: 5631905211605447770}
-  - component: {fileID: 5631905211605447764}
+  - component: {fileID: 1154166120601288840}
   m_Layer: 0
   m_Name: Crumbling Totem
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &5631905211605447764
+--- !u!114 &1154166120601288840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5631905211605447771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d0201d1d3e97d42b3e8aabf8ff0158, type: 3}
+  m_Script: {fileID: 11500000, guid: b11d924877263b54cb7a31cb82ead256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 670aee6acfbd6c043aa3f8b72be6d57a, type: 3}
+  layer: Background
+  order: 0
   _weight: 0.1

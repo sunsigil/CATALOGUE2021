@@ -16,52 +16,55 @@ public class Banner : MonoBehaviour
     LineRenderer line_renderer;
 
     [SerializeField]
-    [Range(0, 2)]
     float inner_dist_bound;
     [SerializeField]
-    [Range(2, 10)]
     float outer_dist_bound;
 
-    LerpGroup lerp_group;
-    Vector3 start_body_position;
-    Vector3 end_body_position;
-
-    float walker_dist;
-    float dist_range => outer_dist_bound - inner_dist_bound;
-    float offset_dist => Mathf.Clamp(walker_dist - inner_dist_bound, 0, dist_range);
-    float dist_progress => 1-(offset_dist / dist_range);
+    TransformSnapshot body_start;
+    TransformSnapshot body_end;
+    TransformSnapshot dot_start;
+    TransformSnapshot dot_end;
+    TransformSnapshot left_dot_start;
+    TransformSnapshot left_dot_end;
+    TransformSnapshot right_dot_start;
+    TransformSnapshot right_dot_end;
+    float line_width_target;
 
     Walker walker;
 
+    [SerializeField]
+    Distline distline;
+
     void Awake()
     {
-        lerp_group = new LerpGroup();
-        lerp_group.RegisterScale(dot, CowTools.ScaleXY(0), dot.localScale);
-        lerp_group.RegisterScale(left_dot, CowTools.ScaleXY(0), left_dot.localScale);
-        lerp_group.RegisterScale(right_dot, CowTools.ScaleXY(0), right_dot.localScale);
-        lerp_group.RegisterFloat("line_width", 0, line_renderer.widthCurve[0].value);
-        lerp_group.RegisterPosition(left_dot, dot.position, left_dot.position);
-        lerp_group.RegisterPosition(right_dot, dot.position, right_dot.position);
-        lerp_group.Offset(0.5f);
-
-        start_body_position = body.position + Vector3.up * 3.1f;
-        end_body_position = body.position;
-
         walker = FindObjectOfType<Walker>();
+        distline = new Distline(walker.transform, transform, inner_dist_bound, outer_dist_bound);
+
+        body_start = new TransformSnapshot(NumTools.XY_Scale(0), body.rotation, body.position);
+        body_end = new TransformSnapshot(body);
+        dot_start = new TransformSnapshot(NumTools.XY_Scale(0), dot.rotation, dot.position);
+        dot_end = new TransformSnapshot(dot);
+        left_dot_start = new TransformSnapshot(NumTools.XY_Scale(0), left_dot.rotation, dot.position);
+        left_dot_end = new TransformSnapshot(left_dot);
+        right_dot_start = new TransformSnapshot(NumTools.XY_Scale(0), right_dot.rotation, dot.position);
+        right_dot_end = new TransformSnapshot(right_dot);
+        float line_width_target = line_renderer.widthCurve[0].value;
+
+        line_renderer.SetWidth(0, 0);
+        line_renderer.SetPosition(0, dot.position);
+        line_renderer.SetPosition(1, dot.position);
     }
 
     void FixedUpdate()
     {
-        walker_dist = Mathf.Abs(transform.position.x - walker.transform.position.x);
+        TransformSnapshot.Interpolate(body_start, body_end, distline.progress).Write(body);
+        TransformSnapshot.Interpolate(dot_start, dot_end, distline.progress).Write(dot);
+        TransformSnapshot.Interpolate(left_dot_start, left_dot_end, distline.progress).Write(left_dot);
+        TransformSnapshot.Interpolate(right_dot_start, right_dot_end, distline.progress).Write(right_dot);
 
-        lerp_group.UpdateTransforms(dist_progress);
-
-        float line_width = lerp_group.UpdateFloat("line_width", dist_progress);
+        float line_width = Mathf.Lerp(0, line_width_target, distline.progress);
         line_renderer.SetWidth(line_width, line_width);
         line_renderer.SetPosition(0, left_dot.position);
         line_renderer.SetPosition(1, right_dot.position);
-
-        float half_progress = Mathf.Clamp(2 * dist_progress - 1, 0, 1);
-        body.position = Vector3.Lerp(start_body_position, end_body_position, half_progress);
     }
 }

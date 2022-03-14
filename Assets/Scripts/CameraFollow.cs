@@ -10,10 +10,14 @@ public class CameraFollow : MonoBehaviour
 
     Walker walker;
 
+    Vector3 pos;
+    Vector3 dest;
+
     public void Snap()
     {
-        Vector3 pos = transform.position;
-        Vector3 dest = walker.transform.position;
+        pos = transform.position;
+
+        dest = (walker != null) ? walker.transform.position : Vector3.zero;
         pos.x = dest.x;
 
         transform.position = pos;
@@ -24,12 +28,30 @@ public class CameraFollow : MonoBehaviour
         walker = FindObjectOfType<Walker>();
     }
 
+    void Update()
+    {
+        if(walker)
+        {
+            dest = walker.transform.position;
+        }
+        else
+        {
+            if(Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                dest += Vector3.right * 5;
+            }
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                dest -= Vector3.right * 5;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
-        Vector3 pos = transform.position;
-        Vector3 dest = walker.transform.position;
-
+        pos = transform.position;
         pos.x = Mathf.Lerp(pos.x, dest.x, Time.fixedDeltaTime * 3);
+
         transform.position = pos;
     }
 }

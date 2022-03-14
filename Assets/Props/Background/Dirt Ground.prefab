@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5187783909433306120}
   - component: {fileID: 5187783909433306121}
-  - component: {fileID: 1650719611235951701}
+  - component: {fileID: 4503064029265957422}
   m_Layer: 0
   m_Name: Dirt Ground
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &1650719611235951701
+--- !u!114 &4503064029265957422
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5187783909433306118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d0201d1d3e97d42b3e8aabf8ff0158, type: 3}
+  m_Script: {fileID: 11500000, guid: b11d924877263b54cb7a31cb82ead256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: b8627d2df295bf643aac4e34599f4674, type: 3}
+  layer: Center
+  order: 0
   _weight: 1

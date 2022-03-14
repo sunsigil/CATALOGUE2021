@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8610473008840379096}
   - component: {fileID: 8610473008840379095}
-  - component: {fileID: -4114623706718548404}
+  - component: {fileID: 1607816375510542779}
   m_Layer: 0
   m_Name: Foliage 5
   m_TagString: Untagged
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &-4114623706718548404
+--- !u!114 &1607816375510542779
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8610473008840379094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6d0201d1d3e97d42b3e8aabf8ff0158, type: 3}
+  m_Script: {fileID: 11500000, guid: b11d924877263b54cb7a31cb82ead256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: a2b71e0ca4d4a2948ab54aab07850bd7, type: 3}
+  layer: Background
+  order: 0
   _weight: 0.5

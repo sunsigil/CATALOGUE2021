@@ -29,7 +29,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6441459521603216787}
-  - {fileID: 2038090053637400406}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -84,80 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!1001 &531121148583649302
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 531121149041839178}
-    m_Modifications:
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 10.260577
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5.4882
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5075028165551482337, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_Name
-      value: Anti-Clutter Volume
-      objectReference: {fileID: 0}
-    - target: {fileID: 6573679822610956379, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: tolerance
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
---- !u!4 &2038090053637400406 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-  m_PrefabInstance: {fileID: 531121148583649302}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &531121148916838627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -216,6 +141,10 @@ PrefabInstance:
     - target: {fileID: 6789812576769611121, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
       propertyPath: m_Name
       value: Arena Generator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6789812576769611122, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
+      propertyPath: enemy_count
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6789812576769611123, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
       propertyPath: token

@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class NPC : MonoBehaviour, IUsable
+[RequireComponent(typeof(Usable))]
+[RequireComponent(typeof(Obscurable))]
+
+public class NPC : MonoBehaviour
 {
     [SerializeField]
     GameObject bubble_prefab;
+    [SerializeField]
+    TMP_FontAsset obscured_font;
+    [SerializeField]
+    TMP_FontAsset unobscured_font;
 
     [SerializeField]
     string[] dialogue;
-
-    [SerializeField]
-    float inner_dist_bound;
-    [SerializeField]
-    float outer_dist_bound;
 
     [SerializeField]
     float triangle_area;
     [SerializeField]
     float max_altitude;
 
-    Walker walker;
+    Usable usable;
+    Obscurable obscurable;
 
     GameObject bubble;
     TextMeshProUGUI text;
@@ -33,6 +36,7 @@ public class NPC : MonoBehaviour, IUsable
     {
         bubble = Instantiate(bubble_prefab);
         text = bubble.GetComponentInChildren<TextMeshProUGUI>();
+        text.font = obscurable.obscured ? obscured_font : unobscured_font;
         bubble.transform.position = transform.position + transform.up * 2;
         bubble_scale = bubble.transform.localScale;
 
@@ -66,48 +70,56 @@ public class NPC : MonoBehaviour, IUsable
 
     void Awake()
     {
-        walker = FindObjectOfType<Walker>();
+        usable = GetComponent<Usable>();
+        obscurable = GetComponent<Obscurable>();
+    }
+
+    void Start()
+    {
+        usable.on_used.AddListener(Use);
     }
 
     void Update()
     {
-        Vector3 y_corrected_pos = transform.position.ModifyAt(1, walker.transform.position.y);
-        Vector3 line = y_corrected_pos - walker.transform.position;
-        float walker_sign = Mathf.Sign(line.x);
-        float walker_dist = Mathf.Abs(line.x);
-
-        if(bubble == null){return;}
-
-        if(walker_dist > outer_dist_bound)
+        if(bubble == null)
         {
-            float grace_dist = 1.5f;
-            float grace_value = walker_dist - outer_dist_bound;
-
-            Debug.DrawLine(bubble.transform.position, walker.transform.position, Color.red);
-
-            bubble.transform.localScale = bubble_scale * (1-(grace_value/grace_dist));
-
-            if(grace_value >= grace_dist)
+            if(usable.usability >= 1)
             {
-                Cleanup();
+                Vector3 prompt_position = usable.user.position + (transform.position - usable.user.position) * 0.5f;
+                prompt_position += Vector3.up * 0.5f;
+                InputPrompter._.Draw(InputCode.CONFIRM, prompt_position);
+            }
+
+            return;
+        }
+
+        if(usable.usability > 0)
+        {
+            if(usable.usability < 1)
+            {
+                bubble.transform.localScale = bubble_scale * Mathf.SmoothStep(0, 1, usable.usability);
+            }
+            else
+            {
+                Vector3 y_corrected_pos = transform.position;
+                y_corrected_pos.y = usable.user.position.y;
+                Vector3 beeline = y_corrected_pos - usable.user.position;
+
+                // area = 0.5 * base * height
+                // height = 2 * area / base
+                float height = Mathf.Clamp(2 * triangle_area / usable.distline.distance, 0, max_altitude);
+
+                Vector3 origin = usable.user.position;
+                Vector3 midpoint = beeline * 0.5f;
+                Vector3 altitude = Vector3.Cross(midpoint, Vector3.forward).normalized * height;/* * -Mathf.Sign(usable.signed_user_distance);*/
+                Vector3 apex = origin + midpoint + altitude;
+
+                bubble.transform.position = apex;
             }
         }
         else
         {
-            // area = 0.5 * base * height
-            // height = 2 * area / base
-            float height = Mathf.Clamp(2 * triangle_area / walker_dist, 0, max_altitude);
-
-            Vector3 origin = walker.transform.position;
-            Vector3 midpoint = line * 0.5f;
-            Vector3 altitude = Vector3.Cross(midpoint, Vector3.forward).normalized * height * -walker_sign;
-            Vector3 apex = origin + midpoint + altitude;
-
-            Debug.DrawLine(origin, origin + line, Color.red);
-            Debug.DrawLine(origin, apex, Color.red);
-            Debug.DrawLine(y_corrected_pos, apex, Color.red);
-
-            bubble.transform.position = apex;
+            Cleanup();
         }
     }
 }

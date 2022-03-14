@@ -63,7 +63,7 @@ public class Enemy : MonoBehaviour
 
     void FaceTarget()
     {
-        transform.rotation = CowTools.Vec2Rot(path.normalized, -90);
+        transform.rotation = NumTools.XY_Rot(path.normalized, -90);
     }
 
     public void RecordSpawnValues()
@@ -150,16 +150,12 @@ public class Enemy : MonoBehaviour
     {
         if(collider.transform == shooter.transform)
         {
-            if(speed >= shooter.speed)
+            if(shooter.speed < speed)
             {
-                print("Hit!");
-
                 shooter.ProcessHit();
             }
             else
             {
-                print("Hurt...");
-
                 GameObject death_ring_object = Instantiate(death_ring_prefab);
                 death_ring_object.transform.localScale = transform.localScale * 10;
                 death_ring_object.transform.position = transform.position;

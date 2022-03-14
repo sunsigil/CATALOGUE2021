@@ -41,7 +41,7 @@ public class CatalogueMenu : Controller
         for(int i = 0; i < display_object.transform.childCount; i++)
         {
             display_covers[i] = display_object.transform.GetChild(i).gameObject;
-            display_covers[i].SetActive(!catalogue.GetShrine(i));
+            display_covers[i].SetActive(!catalogue.GetRune(i));
         }
 
         float w = Screen.width;

@@ -29,7 +29,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3723633691407494222}
-  - {fileID: 2906333260424683913}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -84,76 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &3693925270446859977
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 4158450806931365343}
-    m_Modifications:
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.95
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 4.6278
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.22
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5075028165551482337, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-      propertyPath: m_Name
-      value: Anti-Tree Volume
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
---- !u!4 &2906333260424683913 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1951795617400801088, guid: eb928dbf37683a24793717b474a15e9a, type: 3}
-  m_PrefabInstance: {fileID: 3693925270446859977}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7896854746966800702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -212,6 +141,10 @@ PrefabInstance:
     - target: {fileID: 6789812576769611121, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
       propertyPath: m_Name
       value: Arena Generator
+      objectReference: {fileID: 0}
+    - target: {fileID: 6789812576769611122, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
+      propertyPath: enemy_count
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6789812576769611123, guid: f11721994e4efad478d3b6d05eb6d3b3, type: 3}
       propertyPath: token

@@ -436,6 +436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8903841352463372154}
+  - component: {fileID: 8422585067563713814}
   - component: {fileID: 3377842433338465417}
   m_Layer: 0
   m_Name: Start Menu
@@ -462,6 +463,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8422585067563713814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903841352463372155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ae1f93676ecd648acbb8c238a137b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expand_time: 0
+  collapse_time: 1
 --- !u!114 &3377842433338465417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,8 +490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanaged: 0
-  _controlLayer: 1
-  background_object: {fileID: 3231374686325415804}
+  _control_layer: 0
   lock_object: {fileID: 4389035229249483259}
   key_start: {fileID: 3859099224474977192}
   key_end: {fileID: 5331057741748411079}

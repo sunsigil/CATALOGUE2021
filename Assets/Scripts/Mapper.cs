@@ -6,8 +6,11 @@ public class Mapper : MonoBehaviour
 {
     GameObject _start;
     public GameObject start => _start;
+    GameObject _spawn;
+    public GameObject spawn => _spawn;
     GameObject _end;
     public GameObject end => _end;
+
     List<GameObject> _beacons;
     public List<GameObject> beacons => _beacons;
 
@@ -21,6 +24,18 @@ public class Mapper : MonoBehaviour
         return  (element_x - _start_x) / span;
     }
 
+    public string[] GetBeaconNames()
+    {
+        string[] names = new string[_beacons.Count];
+
+        for(int i = 0; i < names.Length; i++)
+        {
+            names[i] = _beacons[i].name;
+        }
+
+        return names;
+    }
+
     void Awake()
     {
         _start = GameObject.FindWithTag("Map Start");
@@ -31,6 +46,7 @@ public class Mapper : MonoBehaviour
         {
             _beacons.Add(beacon);
         }
+        _beacons.Add(GameObject.FindWithTag("Player"));
     }
 
     void OnDrawGizmos()

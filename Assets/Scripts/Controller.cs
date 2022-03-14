@@ -9,8 +9,8 @@ public abstract class Controller : MonoBehaviour
     public bool unmanaged => _unmanaged;
 
     [SerializeField]
-    ControlLayer _controlLayer;
-    public ControlLayer controlLayer => _controlLayer;
+    ControlLayer _control_layer;
+    public ControlLayer control_layer => _control_layer;
 
     [SerializeField]
     protected ControlScheme _scheme;
@@ -20,40 +20,45 @@ public abstract class Controller : MonoBehaviour
         set => _scheme = value;
     }
 
-    protected bool _isRegistered;
-    public bool isRegistered
+    protected bool _is_registered;
+    public bool is_registered
     {
-        get => _isRegistered;
-        set => _isRegistered = value;
+        get => _is_registered;
+        set => _is_registered = value;
     }
 
-    protected bool _isCurrent;
-    public bool isCurrent
+    protected bool _is_current;
+    public bool is_current
     {
-        get => _isCurrent;
-        set => _isCurrent = value;
+        get => _is_current;
+        set => _is_current = value;
     }
 
-    bool isOperable => _unmanaged || (_isRegistered && _isCurrent) && _scheme != null;
+    bool is_operable => _unmanaged || (_is_registered && _is_current) && _scheme != null;
 
-    protected bool Pressed(InputCode code)
+    public bool Pressed(InputCode code)
     {
-        return isOperable && Input.GetKeyDown(scheme.Convert(code));
+        return is_operable && Input.GetKeyDown(scheme.GetKeyCode(code));
     }
 
-    protected bool Released(InputCode code)
+    public bool Released(InputCode code)
     {
-        return isOperable && Input.GetKeyUp(scheme.Convert(code));
+        return is_operable && Input.GetKeyUp(scheme.GetKeyCode(code));
     }
 
-    protected bool Held(InputCode code)
+    public bool Held(InputCode code)
     {
-        return isOperable && Input.GetKey(scheme.Convert(code));
+        return is_operable && Input.GetKey(scheme.GetKeyCode(code));
     }
 
-    protected float InputValue(string axis)
+    public bool Held(KeyCode code)
     {
-        return isOperable ? Input.GetAxis(axis) : 0;
+        return is_operable && Input.GetKey(code);
+    }
+
+    public float InputValue(string axis)
+    {
+        return is_operable ? Input.GetAxis(axis) : 0;
     }
 
     protected virtual void OnEnable()
@@ -71,7 +76,7 @@ public abstract class Controller : MonoBehaviour
 
         if(!ControllerRegistry._){return;}
 
-        if(_isRegistered)
+        if(_is_registered)
         {
             ControllerRegistry._.Deregister(this);
         }

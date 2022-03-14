@@ -96,7 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d911ce36fcef3ff4da1e7c144c6c7c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  template: {fileID: 2800000, guid: f4a0f5eb6692afb4eacff87e2b16e239, type: 3}
+  template: {fileID: 2800000, guid: 7889439f6da442c4d95dd8edc06ad5a5, type: 3}
+  token: 2
   sentinel_prefab: {fileID: 3348866413341909406, guid: c7214080e94c9b840963b29c6fd8ddb4, type: 3}
   height: 4.5
 --- !u!61 &7986254490600830219

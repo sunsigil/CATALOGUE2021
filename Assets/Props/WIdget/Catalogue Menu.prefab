@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc71bbbcb07afe54aa5dc6ef57b827a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beacon_prefab: {fileID: 4243107777734902448, guid: efd70378002397a4c91e8664939c08b5, type: 3}
+  icon_prefab: {fileID: 6157955104976883188, guid: 1529c7aca0c7c05408162c927f56335d, type: 3}
 --- !u!1 &4189939086708295852
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,7 +591,7 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: e924f52a077ac66479f9e8fcf2c09447, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

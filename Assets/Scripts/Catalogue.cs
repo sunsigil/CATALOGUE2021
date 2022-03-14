@@ -10,18 +10,17 @@ public class Catalogue : MonoBehaviour
     string full_save_path;
 
     int shrines;
-    int wayshrines;
+    int runes;
 
     float x_position;
     float y_rotation;
-    float furthest_x;
 
-    public void AddShrine(ShrineToken shrine)
+    public void AddShrine(ShrineFlag shrine)
     {
         shrines |= (1 << (int)shrine);
     }
 
-    public bool GetShrine(ShrineToken shrine)
+    public bool GetShrine(ShrineFlag shrine)
     {
         return (shrines & (1 << (int)shrine)) > 0;
     }
@@ -31,38 +30,31 @@ public class Catalogue : MonoBehaviour
         return (shrines & (1 << index)) > 0;
     }
 
-    public void AddWayshrine(WayshrineToken wayshrine)
+    public void AddRune(RuneFlag rune)
     {
-        wayshrines |= (1 << (int)wayshrine);
+        runes |= (1 << (int)rune);
     }
 
-    public bool GetWayshrine(WayshrineToken wayshrine)
+    public bool GetRune(RuneFlag rune)
     {
-        return (wayshrines & (1 << (int)wayshrine)) > 0;
+        return (runes & (1 << (int)rune)) > 0;
     }
 
-    public bool GetWayshrine(int index)
+    public bool GetRune(int index)
     {
-        return (wayshrines & (1 << index)) > 0;
-    }
-
-    public bool IsComplete()
-    {
-        return (shrines == 0b11111111) && (wayshrines == 0b11111111);
+        return (runes & (1 << index)) > 0;
     }
 
     public void Save()
     {
         x_position = transform.position.x;
         y_rotation = transform.rotation.eulerAngles.y;
-        if(x_position > furthest_x){furthest_x = x_position;}
 
         StreamWriter writer = new StreamWriter(full_save_path);
         writer.WriteLine(shrines.ToString());
-        writer.WriteLine(wayshrines.ToString());
+        writer.WriteLine(runes.ToString());
         writer.WriteLine(x_position.ToString());
         writer.WriteLine(y_rotation.ToString());
-        writer.WriteLine(furthest_x.ToString());
         writer.Close();
     }
 
@@ -72,15 +64,17 @@ public class Catalogue : MonoBehaviour
         {
             StreamReader reader = new StreamReader(full_save_path);
             shrines = int.Parse(reader.ReadLine());
-            wayshrines = int.Parse(reader.ReadLine());
+            runes = int.Parse(reader.ReadLine());
             x_position = float.Parse(reader.ReadLine());
             y_rotation = float.Parse(reader.ReadLine());
-            furthest_x = float.Parse(reader.ReadLine());
             reader.Close();
         }
         catch
         {
-            return;
+            shrines = 0;
+            runes = 0;
+            x_position = -9.5f;
+            y_rotation = 0;
         }
 
         Vector3 position = transform.position;

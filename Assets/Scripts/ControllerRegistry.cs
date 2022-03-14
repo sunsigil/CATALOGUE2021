@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Linq;
 using UnityEngine;
 
 public class ControllerRegistry : MonoBehaviour
@@ -9,9 +8,10 @@ public class ControllerRegistry : MonoBehaviour
     public static ControllerRegistry _ => instance;
 
     [SerializeField]
-    TextAsset schemeFile;
+    TextAsset scheme_file;
 
-    ControlScheme scheme;
+    ControlScheme _scheme;
+    public ControlScheme scheme => _scheme;
 
     List<Controller> controllers;
     int index;
@@ -22,8 +22,8 @@ public class ControllerRegistry : MonoBehaviour
         if(b == null){return 1;}
         if(a == null){return -1;}
 
-        if(a.controlLayer > b.controlLayer){return 1;}
-        if(a.controlLayer < b.controlLayer){return -1;}
+        if(a.control_layer > b.control_layer){return 1;}
+        if(a.control_layer < b.control_layer){return -1;}
 
         return 0;
     }
@@ -32,21 +32,21 @@ public class ControllerRegistry : MonoBehaviour
     {
         if(!controllers.Contains(controller))
         {
-            controller.scheme = scheme;
+            controller.scheme = _scheme;
 
             if(controllers.Count > 0)
             {
-                controllers[index].isCurrent = false;
+                controllers[index].is_current = false;
             }
 
             controllers.Add(controller);
             index++;
 
-            controller.isRegistered = true;
+            controller.is_registered = true;
 
             controllers.Sort(CompareByControlLayer);
 
-            controllers[index].isCurrent = true;
+            controllers[index].is_current = true;
         }
     }
 
@@ -58,7 +58,7 @@ public class ControllerRegistry : MonoBehaviour
             controllers[index] == controller
         )
         {
-            controller.isCurrent = false;
+            controller.is_current = false;
 
             while
             (
@@ -67,7 +67,7 @@ public class ControllerRegistry : MonoBehaviour
                 !controllers[index].gameObject.activeSelf)
             )
             {
-                controllers[index].isRegistered = false;
+                controllers[index].is_registered = false;
                 controllers.RemoveAt(index--);
             }
 
@@ -75,7 +75,7 @@ public class ControllerRegistry : MonoBehaviour
             {
                 controllers.Sort(CompareByControlLayer);
 
-                controllers[index].isCurrent = true;
+                controllers[index].is_current = true;
             }
         }
     }
@@ -85,7 +85,7 @@ public class ControllerRegistry : MonoBehaviour
         if(!instance){instance = this;}
         else{Destroy(this);}
 
-        scheme = new ControlScheme(XDocument.Parse(schemeFile.text));
+        _scheme = new ControlScheme(scheme_file);
 
         controllers = new List<Controller>();
         index = -1;

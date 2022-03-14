@@ -27,9 +27,9 @@ public class DeathRing : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
         float progress = timer / duration;
 
         float radius_scalar = Mathf.Pow(progress, 0.35f);

@@ -18,7 +18,7 @@ public class Walker : Controller
     [SerializeField]
     GameObject catalogue_menu_prefab;
     [SerializeField]
-    GameObject wayshrine_menu_prefab;
+    GameObject satchel_menu_prefab;
 
     [SerializeField]
     float walk_fps;
@@ -30,10 +30,12 @@ public class Walker : Controller
     public bool walking => _walking;
 
     Camera main_camera;
+    CameraFollow camera_follow;
 
     Rigidbody2D rigidbody_2d;
     SpriteRenderer body_renderer;
     Catalogue catalogue;
+    Satchel satchel;
 
     Vector3 hat_origin;
     Vector3 head_origin;
@@ -46,6 +48,7 @@ public class Walker : Controller
     void Awake()
     {
         main_camera = Camera.main;
+        camera_follow = FindObjectOfType<CameraFollow>();
 
         rigidbody_2d = GetComponent<Rigidbody2D>();
         body_renderer = body.GetComponent<SpriteRenderer>();
@@ -68,17 +71,17 @@ public class Walker : Controller
     {
         if(Pressed(InputCode.CONFIRM))
         {
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 2f, transform.right);
+            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 5f, transform.right);
 
             foreach (RaycastHit2D hit in hits)
             {
                 if(hit.transform != null)
                 {
-                    IUsable usable = hit.transform.GetComponent<IUsable>();
+                    Usable usable = hit.transform.GetComponent<Usable>();
 
                     if(usable != null)
                     {
-                        usable.Use();
+                        usable.RequestUse();
                         break;
                     }
                 }
@@ -86,18 +89,8 @@ public class Walker : Controller
         }
         else if(Pressed(InputCode.JOURNAL))
         {
-            FindObjectOfType<CameraFollow>().Snap();
+            camera_follow.Snap();
             Instantiate(catalogue_menu_prefab);
-        }
-        else if(Pressed(InputCode.INVENTORY))
-        {
-            FindObjectOfType<CameraFollow>().Snap();
-            Instantiate(wayshrine_menu_prefab);
-        }
-        else if(Pressed(InputCode.CANCEL))
-        {
-            FindObjectOfType<CameraFollow>().Snap();
-            Instantiate(start_menu_prefab);
         }
     }
 
