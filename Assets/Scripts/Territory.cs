@@ -7,6 +7,10 @@ public class Territory : MonoBehaviour
 	[SerializeField]
 	TerritoryProfile profile;
 
+	public float width => transform.localScale.x;
+	public Vector3 start => transform.position;
+	public Vector3 end => transform.position + Vector3.right * width;
+
 	float weight_sum;
 
 	Prop GetRandomProp()
@@ -35,10 +39,11 @@ public class Territory : MonoBehaviour
 			weight_sum += prop.weight;
 		}
 
-		float width = transform.localScale.x;
 		float usable_space = width * profile.saturation;
 		float used_space = 0;
 
+		Transform instance_holder = new GameObject($"{profile.name} Instances").transform;
+		instance_holder.transform.SetParent(transform.parent);
 		List<Prop> instances = new List<Prop>();
 		Prop last_prop = null;
 
@@ -56,6 +61,7 @@ public class Territory : MonoBehaviour
 			last_prop = prop;
 
 			Prop instance = Instantiate(prop).GetComponent<Prop>();
+			instance.transform.SetParent(instance_holder);
 
 			if((used_space + instance.width) <= usable_space)
 			{
@@ -72,8 +78,7 @@ public class Territory : MonoBehaviour
 		float remaining_space = width - used_space;
 		float padding = remaining_space / (instances.Count + 1);
 
-		Vector3 spawn_point = transform.position;
-		spawn_point +=  -Vector3.right * width/2;
+		Vector3 spawn_point = start;
 
 		foreach(Prop instance in instances)
 		{
@@ -90,7 +95,8 @@ public class Territory : MonoBehaviour
 
 	void OnDrawGizmos()
 	{
-		Vector3 grounded_position = transform.position + Vector3.up * transform.localScale.y/2;
+		Vector3 grounded_position = (start + end) * 0.5f;
+		grounded_position += Vector3.up * transform.localScale.y/2;
 
 		if(profile != null)
 		{

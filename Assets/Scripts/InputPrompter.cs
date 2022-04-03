@@ -7,23 +7,63 @@ public class InputPrompter : MonoBehaviour
 	static InputPrompter instance;
     public static InputPrompter _ => instance;
 
-	SpriteRenderer sprite_renderer;
+	[SerializeField]
+	GameObject prefab;
 
 	ControlScheme scheme;
     Dictionary<InputCode, Sprite> sprites;
 
-	bool visible;
-	int visible_frames;
+	Transform holder;
+ 	List<SpriteRenderer> renderers;
+	List<InputCode> codes;
+	List<Vector3> positions;
+	List<bool> log;
 
 	float pulse;
 
-	public void Draw(InputCode code, Vector3 position)
+	void Draw(int i)
 	{
-		sprite_renderer.sprite = sprites[code];
-		sprite_renderer.transform.position = position;
+		SpriteRenderer renderer = renderers[i];
+		InputCode code = codes[i];
+		Vector3 position = positions[i];
 
-		visible = true;
-		visible_frames = 0;
+		renderer.sprite = sprites[code];
+		renderer.transform.position = position;
+		log[i] = false;
+	}
+
+	void Discard(int i)
+	{
+		GameObject prompt = renderers[i].gameObject;
+
+		renderers.RemoveAt(i);
+		codes.RemoveAt(i);
+		positions.RemoveAt(i);
+		log.RemoveAt(i);
+
+		Destroy(prompt);
+	}
+
+	public void Request(InputCode code, Vector3 position)
+	{
+		for(int i = 0; i < renderers.Count; i++)
+		{
+			InputCode c = codes[i];
+			Vector3 p = positions[i];
+
+			if(Vector3.Distance(p, position) <= 0.1f)
+			{
+				codes[i] = code;
+				log[i] = true;
+				return;
+			}
+		}
+
+		SpriteRenderer renderer = Instantiate(prefab, holder).GetComponent<SpriteRenderer>();
+		renderers.Add(renderer);
+		codes.Add(code);
+		positions.Add(position);
+		log.Add(true);
 	}
 
 	void Awake()
@@ -31,8 +71,11 @@ public class InputPrompter : MonoBehaviour
 		if(!instance){instance = this;}
 		else{Destroy(this);}
 
-		sprite_renderer = new GameObject("Input Prompt").AddComponent<SpriteRenderer>();
-		sprite_renderer.sortingLayerID = SortingLayer.NameToID("Overlay");
+		holder = new GameObject("Input Prompts").transform;
+		renderers = new List<SpriteRenderer>();
+		codes = new List<InputCode>();
+		positions = new List<Vector3>();
+		log = new List<bool>();
 	}
 
 	void Start()
@@ -50,26 +93,17 @@ public class InputPrompter : MonoBehaviour
 
 	void Update()
 	{
-		if(visible)
+		for(int i = 0; i < renderers.Count; i++)
 		{
-			sprite_renderer.transform.localScale = NumTools.XY_Scale(NumTools.Throb(pulse, 1.5f));
-
-			visible_frames++;
-			pulse += Time.deltaTime;
-		}
-
-		if(visible_frames < 1)
-		{
-			sprite_renderer.enabled = true;
-		}
-		else
-		{
-			visible = false;
+			Draw(i);
 		}
 	}
 
 	void LateUpdate()
 	{
-		sprite_renderer.enabled = visible;
+		for(int i = 0; i < renderers.Count; i++)
+		{
+			if(!log[i]){ Discard(i); i -= 1; }
+		}
 	}
 }

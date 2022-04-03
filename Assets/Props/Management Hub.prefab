@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 273572920326098671}
   - component: {fileID: 273572920326098670}
-  - component: {fileID: 273572920326098669}
   - component: {fileID: 7241396689764451699}
   m_Layer: 0
   m_Name: Management Hub
@@ -46,18 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scheme_file: {fileID: 4900000, guid: 19df3ad736ff2e745bb8ac23f91ebe34, type: 3}
---- !u!114 &273572920326098669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 273572920326098656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e4fa210ad40ba64290c8928f9612a8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7241396689764451699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,3 +57,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2230d02ae57114ba1ab74a0c668b34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 3940002110704786640, guid: 7790417e5214fe6479ce2951431d52ed, type: 3}

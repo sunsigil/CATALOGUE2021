@@ -64,8 +64,6 @@ public class BubbleScreen : MonoBehaviour
             break;
 
             case StateSignal.EXIT:
-				FindObjectOfType<Catalogue>().Load();
-				FindObjectOfType<CameraFollow>().Snap();
                 Destroy(gameObject);
             break;
         }

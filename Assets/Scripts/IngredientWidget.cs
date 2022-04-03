@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IngredientWidget : Widget<Ingredient>
+public class IngredientWidget : MonoBehaviour, IBindable
 {
+	[SerializeField]
 	Image image;
 
-	public override void Bind(Ingredient data)
+	Ingredient ingredient;
+
+	public void Bind(object data)
 	{
-		base.Bind(data);
-		image.sprite = (data.icon != null) ? data.icon : ResourceTools.GetDefault<Sprite>();
+		ingredient = data as Ingredient;
+		image.sprite = (ingredient.icon != null) ? ingredient.icon : ResourceTools.GetDefault<Sprite>();
 	}
+
+	public bool IsBound(){ return ingredient != null; }
 }

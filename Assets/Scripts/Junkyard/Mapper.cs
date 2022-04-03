@@ -1,14 +1,14 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Mapper : MonoBehaviour
 {
-    GameObject _start;
+    Territory _start;
     public GameObject start => _start;
-    GameObject _spawn;
+    Transform _spawn;
     public GameObject spawn => _spawn;
-    GameObject _end;
+    Territory _end;
     public GameObject end => _end;
 
     List<GameObject> _beacons;
@@ -60,4 +60,4 @@ public class Mapper : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(_start.transform.position, _end.transform.position);
     }
-}
+}*/

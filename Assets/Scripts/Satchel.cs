@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class Satchel : MonoBehaviour
 {
+    [SerializeField]
+    int size;
+
     List<Ingredient> _contents;
     public List<Ingredient> contents => _contents;
 
@@ -15,15 +18,16 @@ public class Satchel : MonoBehaviour
 
     public void Add(Ingredient ingredient)
     {
-        if(_contents.Count == 5){ return; }
+        if(_contents.Count == size){ return; }
 
+        print(ingredient.name);
         _contents.Add(ingredient);
         _on_add.Invoke();
     }
 
     public void Remove(Ingredient ingredient)
     {
-        if(_contents.Count < 1){ return; }
+        if(_contents.Count == 0){ return; }
 
         _contents.Remove(ingredient);
         _on_remove.Invoke();

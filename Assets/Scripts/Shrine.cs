@@ -190,7 +190,7 @@ public class Shrine : MonoBehaviour
         {
             if(usable.usability >= 1)
             {
-                InputPrompter._.Draw(InputCode.CONFIRM, transform.position);
+                InputPrompter._.Request(InputCode.CONFIRM, transform.position);
             }
         }
         else if(state == ShrineState.ACTIVE)

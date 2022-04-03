@@ -33,12 +33,41 @@ public static class ArrayTools
 	{
 		T[] copy = CopyArray(arr);
 
-		for(int i = copy.Length; i >= 1; i--)
+		for(int i = copy.Length-1; i >= 1; i--)
 		{
 			int j = Random.Range(0, i);
+			Debug.Log(i);
+			Debug.Log(j);
 			Swap(copy, i, j);
 		}
 
         return copy;
+	}
+
+	public static int Find<T>(T[] arr, T item)
+	where T : class
+	{
+		for(int i = 0; i < arr.Length; i++)
+		{
+			if(arr[i] == item)
+			{
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	public static int FindEq<T>(T[] arr, T item)
+	{
+		for(int i = 0; i < arr.Length; i++)
+		{
+			if(arr[i].Equals(item))
+			{
+				return i;
+			}
+		}
+
+		return -1;
 	}
 }

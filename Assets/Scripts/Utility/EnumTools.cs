@@ -19,4 +19,13 @@ public static class EnumTools
 
 	public static string[] StringArray<E>() where E : Enum
 	{ return Enum.GetNames(typeof(E)); }
+
+	public static int Flag(int flags, Enum flag)
+	{ return flags | (1 << Convert.ToInt32(flag)); }
+
+	public static int Unflag(int flags, Enum flag)
+	{ return flags & ~(1 << Convert.ToInt32(flag)); }
+
+	public static bool IsFlagged(int flags, Enum flag)
+	{ return (flags & (1 << Convert.ToInt32(flag))) > 0; }
 }

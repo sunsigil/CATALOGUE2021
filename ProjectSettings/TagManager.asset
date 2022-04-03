@@ -6,9 +6,6 @@ TagManager:
   tags:
   - Shooter
   - Enemy
-  - Map Start
-  - Map End
-  - Map Beacon
   layers:
   - Default
   - TransparentFX

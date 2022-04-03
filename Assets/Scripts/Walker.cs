@@ -18,7 +18,7 @@ public class Walker : Controller
     [SerializeField]
     GameObject catalogue_menu_prefab;
     [SerializeField]
-    GameObject satchel_menu_prefab;
+    GameObject card_menu_prefab;
 
     [SerializeField]
     float walk_fps;
@@ -44,6 +44,9 @@ public class Walker : Controller
     float walk_frequency;
     float walk_timer;
     int walk_sprite_index;
+
+    [SerializeField]
+    Dungeon dungeon;
 
     void Awake()
     {
@@ -71,26 +74,42 @@ public class Walker : Controller
     {
         if(Pressed(InputCode.CONFIRM))
         {
-            RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, 5f, transform.right);
+            float max_grab_dist = 4;
+            Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, max_grab_dist);
 
-            foreach (RaycastHit2D hit in hits)
+            Usable best_usable = null;
+            float best_grab_dist = max_grab_dist;
+
+            foreach (Collider2D col in cols)
             {
-                if(hit.transform != null)
-                {
-                    Usable usable = hit.transform.GetComponent<Usable>();
+                Usable usable = col.transform.GetComponent<Usable>();
 
-                    if(usable != null)
+                if(usable != null)
+                {
+                    float grab_dist = Mathf.Abs(usable.transform.position.x - transform.position.x);
+
+                    if(grab_dist < best_grab_dist)
                     {
-                        usable.RequestUse();
-                        break;
+                        best_usable = usable;
+                        best_grab_dist = grab_dist;
                     }
                 }
+            }
+
+            if(best_usable != null)
+            {
+                best_usable.RequestUse();
             }
         }
         else if(Pressed(InputCode.JOURNAL))
         {
             camera_follow.Snap();
-            Instantiate(catalogue_menu_prefab);
+            //Instantiate(catalogue_menu_prefab);
+            catalogue.AddCard(CardFlag.STARVING_DOG);
+            catalogue.AddCard(CardFlag.BREAKING_FORM);
+            catalogue.AddCard(CardFlag.REBIRTH);
+            catalogue.AddCard(CardFlag.CYCLOPS_MONK);
+            Instantiate(card_menu_prefab).GetComponent<CardMenu>().dungeon = dungeon;
         }
     }
 

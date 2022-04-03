@@ -93,4 +93,10 @@ public class StartMenu : Controller
         float shaft_width = initial_shaft_width * (transform.localScale.x / 8);
         shaft_renderer.SetWidth(shaft_width, shaft_width);
     }
+
+    void OnDestroy()
+    {
+        FindObjectOfType<Catalogue>().Load();
+        FindObjectOfType<CameraFollow>().Snap();
+    }
 }

@@ -3,33 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WidgetGroup<W, D> : MonoBehaviour
-where W : Widget<D>
-where D : class
+public abstract class WidgetGroup : MonoBehaviour
 {
 	[SerializeField]
-	W widget_prefab;
+	GameObject widget_prefab;
 
-	protected List<W> _subordinates;
-	public List<W> subordinates => _subordinates;
+	protected List<GameObject> _subordinates;
+	public List<GameObject> subordinates => _subordinates;
 
-	protected void Assign(W subordinate, D data)
+	protected void Assign<T>(GameObject subordinate, T data)
 	{
-		subordinate.Bind(data);
-		_subordinates.Add(subordinate);
+		IBindable bindable = subordinate.GetComponent<IBindable>();
+		bindable.Bind((object)data);
 	}
 
-	protected void Add(D data)
+	protected void Add<T>(T data)
 	{
-		W subordinate = Instantiate(widget_prefab);
+		GameObject subordinate = Instantiate(widget_prefab);
 		subordinate.transform.SetParent(transform);
+		_subordinates.Add(subordinate);
 
-		Assign(subordinate, data);
+		IBindable bindable = subordinate.GetComponent<IBindable>();
+		bindable.Bind((object)data);
+
+		Assign<T>(subordinate, data);
 	}
 
 	protected abstract void Reform();
 
-	public void Fill(List<D> data)
+	public void Fill<T>(List<T> data)
 	{
 		int index = 0;
 
@@ -53,21 +55,20 @@ where D : class
 			while(index < data.Count)
 			{
 				Add(data[index]);
+				index += 1;
 			}
 		}
-
+		
 		Reform();
 	}
 
 	protected virtual void Awake()
 	{
-		_subordinates = new List<W>();
+		_subordinates = new List<GameObject>();
 
-		W[] children = GetComponentsInChildren<W>();
-
-		foreach(W child in children)
+		for(int i = 0; i < transform.childCount; i++)
 		{
-			Assign(child, child.IsBound() ? child.data : null);
+			_subordinates.Add(transform.GetChild(i).gameObject);
 		}
 
 		Reform();

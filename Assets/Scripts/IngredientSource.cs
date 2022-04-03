@@ -7,14 +7,27 @@ using UnityEngine;
 public class IngredientSource : MonoBehaviour
 {
     [SerializeField]
-    Ingredient ingredient;
+    Ingredient[] inputs;
+    [SerializeField]
+    Ingredient output;
 
     Usable usable;
 
     void Use()
     {
         Satchel satchel = usable.user.GetComponent<Satchel>();
-        if(!satchel.Contains(ingredient)){ satchel.Add(ingredient); }
+
+        foreach(Ingredient input in inputs)
+        {
+            if(!satchel.Contains(input)){ return; }
+        }
+        if(satchel.Contains(output)){ return; }
+
+        foreach(Ingredient input in inputs)
+        {
+            satchel.Remove(input);
+        }
+        satchel.Add(output);
     }
 
     void Awake()
@@ -29,11 +42,6 @@ public class IngredientSource : MonoBehaviour
 
     void Update()
     {
-        if(usable.usability >= 1)
-        {
-            Vector3 prompt_position = (transform.position + usable.user.position) * 0.5f;
-            prompt_position += Vector3.up * 0.5f;
-            InputPrompter._.Draw(InputCode.CONFIRM, prompt_position);
-        }
+        usable.show_prompt = true;
     }
 }

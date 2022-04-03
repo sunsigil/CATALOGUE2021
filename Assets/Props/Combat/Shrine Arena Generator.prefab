@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6789812576769611123}
   - component: {fileID: 6789812576769611122}
   - component: {fileID: 5063604195181854565}
+  - component: {fileID: 5118106080016528879}
+  - component: {fileID: 3440619337089873164}
   m_Layer: 3
   m_Name: Shrine Arena Generator
   m_TagString: Untagged
@@ -45,10 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f080c8b889c89924eb75c4e25d7884c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  request_radius: 5
-  use_radius: 1
   arena_prefab: {fileID: 8990099927021841938, guid: 9f0bb3c28784144458e180f3d7539164, type: 3}
-  token: 0
+  flag: 0
   arena_radius: 1.5
   wreath_radius: 1.6
   collider_count: 32
@@ -97,3 +97,31 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1
+--- !u!114 &5118106080016528879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6789812576769611121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6da214a2ef39c428a6960840fa2f0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  request_radius: 0
+  use_radius: 1
+  prompt_offset: {x: 0, y: -2.5, z: 0}
+  prompt_radius: 0
+--- !u!114 &3440619337089873164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6789812576769611121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78307fc517eb8564aa752f6cd033f692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

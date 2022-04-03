@@ -1,0 +1,112 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class CardMenu : Controller
+{
+    [SerializeField]
+    CardWidget[] card_widgets;
+
+    BubbleScreen bubble;
+    Timeline timeline;
+
+    Catalogue catalogue;
+
+    Dungeon _dungeon;
+    public Dungeon dungeon
+    {
+        get => _dungeon;
+        set => _dungeon = value;
+    }
+
+    CardWidget selected_widget;
+
+    public void OnSelect(CardWidget widget)
+    {
+        if(selected_widget == null)
+        {
+            selected_widget = widget;
+            selected_widget.ToggleMark(true);
+
+            return;
+        }
+
+        int a_index = ArrayTools.Find(card_widgets, selected_widget);
+        int b_index = ArrayTools.Find(card_widgets, widget);
+        ArrayTools.Swap(card_widgets, a_index, b_index);
+
+        NumTools.BoogieWoogie(selected_widget.transform, widget.transform);
+
+        selected_widget.ToggleMark(false);
+        selected_widget = null;
+
+        for(int i = 0; i < card_widgets.Length; i++)
+        {
+            if(card_widgets[i].card != dungeon.cards[i])
+            {
+                return;
+            }
+        }
+
+        bubble.Detach();
+    }
+
+    void Main(StateSignal signal)
+    {
+        switch(signal)
+        {
+            case StateSignal.ENTER:
+                timeline = new Timeline(1);
+            break;
+
+            case StateSignal.TICK:
+                if
+                (
+                    Pressed(InputCode.JOURNAL) ||
+                    Pressed(InputCode.CANCEL)
+                )
+                {
+                    bubble.Detach();
+                }
+            break;
+        }
+    }
+
+    void Awake()
+    {
+        bubble = GetComponent<BubbleScreen>();
+        catalogue = FindObjectOfType<Catalogue>();
+
+        bubble.Attach(Main);
+    }
+
+    void Start()
+    {
+        print(dungeon);
+        
+        int[] scramble = ArrayTools.ShuffleArray(new int[]{0, 1, 2, 3});
+        int widget_index = 0;
+
+        for(int i = 0; i < 4; i++)
+        {
+            int index = scramble[i];
+            Card card = dungeon.cards[index];
+
+            if(catalogue.GetCard(card.flag))
+            {
+                card_widgets[widget_index].Bind(card);
+                widget_index++;
+            }
+        }
+        for(int i = widget_index; i < 4; i++)
+        {
+            card_widgets[i].gameObject.SetActive(false);
+        }
+    }
+
+    void OnDestroy()
+    {
+        FindObjectOfType<CameraFollow>().Snap();
+    }
+}

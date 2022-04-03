@@ -83,15 +83,10 @@ public class NPC : MonoBehaviour
     {
         if(bubble == null)
         {
-            if(usable.usability >= 1)
-            {
-                Vector3 prompt_position = usable.user.position + (transform.position - usable.user.position) * 0.5f;
-                prompt_position += Vector3.up * 0.5f;
-                InputPrompter._.Draw(InputCode.CONFIRM, prompt_position);
-            }
-
+            usable.show_prompt = true;
             return;
         }
+        usable.show_prompt = false;
 
         if(usable.usability > 0)
         {

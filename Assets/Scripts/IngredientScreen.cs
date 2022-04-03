@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class IngredientScreen : MonoBehaviour
 {
-	ArcGroup<IngredientWidget, Ingredient> group;
+	ArcGroup group;
 	Satchel satchel;
 
 	void Awake()
 	{
-		group = GetComponent<ArcGroup<IngredientWidget, Ingredient>>();
-		satchel = GetComponent<Satchel>();
+		group = GetComponent<ArcGroup>();
+		satchel = FindObjectOfType<Satchel>();
 	}
 
 	void Start()

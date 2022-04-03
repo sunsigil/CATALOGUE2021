@@ -48,3 +48,23 @@ public enum StateSignal
     TICK,
     EXIT
 }
+
+public enum CardFlag
+{
+    STARVING_DOG,
+    BREAKING_FORM,
+    REBIRTH,
+    CYCLOPS_MONK,
+    CARD_B1,
+    CARD_B2,
+    CARD_B3,
+    CARD_B4,
+    CARD_C1,
+    CARD_C2,
+    CARD_C3,
+    CARD_C4,
+    CARD_D1,
+    CARD_D2,
+    CARD_D3,
+    CARD_D4
+}

@@ -9,41 +9,27 @@ public class Catalogue : MonoBehaviour
     string save_path;
     string full_save_path;
 
+    [SerializeField]
+    bool save;
+
     int shrines;
     int runes;
+    int cards;
 
     float x_position;
     float y_rotation;
 
-    public void AddShrine(ShrineFlag shrine)
-    {
-        shrines |= (1 << (int)shrine);
-    }
+    public void AddShrine(ShrineFlag shrine){ shrines = EnumTools.Flag(shrines, shrine); }
+    public bool GetShrine(ShrineFlag shrine){ return EnumTools.IsFlagged(shrines, shrine); }
+    public bool GetShrine(int index){ return (shrines & (1 << index)) > 0; }
 
-    public bool GetShrine(ShrineFlag shrine)
-    {
-        return (shrines & (1 << (int)shrine)) > 0;
-    }
+    public void AddRune(RuneFlag rune){ runes = EnumTools.Flag(runes, rune); }
+    public bool GetRune(RuneFlag rune){ return EnumTools.IsFlagged(runes, rune); }
+    public bool GetRune(int index){ return (runes & (1 << index)) > 0; }
 
-    public bool GetShrine(int index)
-    {
-        return (shrines & (1 << index)) > 0;
-    }
-
-    public void AddRune(RuneFlag rune)
-    {
-        runes |= (1 << (int)rune);
-    }
-
-    public bool GetRune(RuneFlag rune)
-    {
-        return (runes & (1 << (int)rune)) > 0;
-    }
-
-    public bool GetRune(int index)
-    {
-        return (runes & (1 << index)) > 0;
-    }
+    public void AddCard(CardFlag card){ cards = EnumTools.Flag(cards, card); }
+    public bool GetCard(CardFlag card){ return EnumTools.IsFlagged(cards, card); }
+    public bool GetCard(int index){ return (cards & (1 << index)) > 0; }
 
     public void Save()
     {
@@ -65,6 +51,7 @@ public class Catalogue : MonoBehaviour
             StreamReader reader = new StreamReader(full_save_path);
             shrines = int.Parse(reader.ReadLine());
             runes = int.Parse(reader.ReadLine());
+            cards = int.Parse(reader.ReadLine());
             x_position = float.Parse(reader.ReadLine());
             y_rotation = float.Parse(reader.ReadLine());
             reader.Close();
@@ -73,7 +60,8 @@ public class Catalogue : MonoBehaviour
         {
             shrines = 0;
             runes = 0;
-            x_position = -9.5f;
+            cards = 0;
+            x_position = 0;
             y_rotation = 0;
         }
 
@@ -103,11 +91,15 @@ public class Catalogue : MonoBehaviour
 
     void OnDestroy()
     {
+        if(!save){ return; }
+
         Save();
     }
 
     void OnApplicationQuit()
     {
+        if(!save){ return; }
+
         Save();
     }
 }

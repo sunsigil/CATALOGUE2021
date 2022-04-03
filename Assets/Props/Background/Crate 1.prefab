@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 6526072493533138954}
   - component: {fileID: 2764202423479588165}
   - component: {fileID: 2923280089538907674}
-  - component: {fileID: 7236112831672642266}
-  - component: {fileID: -2474851753457377332}
   m_Layer: 0
   m_Name: Crate 1
   m_TagString: Untagged
@@ -118,30 +116,3 @@ MonoBehaviour:
   layer: Background
   order: 0
   _weight: 0.1
---- !u!114 &7236112831672642266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6526072493533138953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d6da214a2ef39c428a6960840fa2f0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  request_radius: 2
-  use_radius: 1
---- !u!114 &-2474851753457377332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6526072493533138953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c5d9906335ac1c499733d6c70449773, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ingredient: {fileID: 11400000, guid: 4b98b03bf77d466458904755b72812be, type: 2}

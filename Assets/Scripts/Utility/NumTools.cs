@@ -56,4 +56,12 @@ public static class NumTools
         float value = Mathf.Pow(t, k);
         return reverse ? (1-value) : value;
     }
+
+    public static void BoogieWoogie(Transform a, Transform b)
+    {
+        // *clap*
+        Vector3 intermediate = a.position;
+        a.position = b.position;
+        b.position = intermediate;
+    }
 }
