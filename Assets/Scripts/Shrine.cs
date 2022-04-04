@@ -51,7 +51,7 @@ public class Shrine : MonoBehaviour
     GameObject arena;
     GameObject wreath;
 
-    Catalogue catalogue;
+    Logger logger;
 
     void GenerateBasics()
     {
@@ -163,14 +163,14 @@ public class Shrine : MonoBehaviour
         obscurable = GetComponent<Obscurable>();
         referee = GetComponent<Referee>();
 
-        catalogue = FindObjectOfType<Catalogue>();
+        logger = FindObjectOfType<Logger>();
     }
 
     void Start()
     {
         usable.on_used.AddListener(Use);
 
-        if(catalogue.GetShrine(flag))
+        if(logger.GetShrine(flag))
         {
             state = ShrineState.DORMANT;
         }
@@ -200,7 +200,7 @@ public class Shrine : MonoBehaviour
             {
                 if(referee.AssessCombat() == 1)
                 {
-                    catalogue.AddShrine(flag);
+                    logger.AddShrine(flag);
 
                     state = ShrineState.SHUTDOWN;
                 }

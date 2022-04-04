@@ -99,6 +99,7 @@ public class NPC : MonoBehaviour
                 Vector3 y_corrected_pos = transform.position;
                 y_corrected_pos.y = usable.user.position.y;
                 Vector3 beeline = y_corrected_pos - usable.user.position;
+                float dist_sign = Mathf.Sign(beeline.x);
 
                 // area = 0.5 * base * height
                 // height = 2 * area / base
@@ -106,7 +107,7 @@ public class NPC : MonoBehaviour
 
                 Vector3 origin = usable.user.position;
                 Vector3 midpoint = beeline * 0.5f;
-                Vector3 altitude = Vector3.Cross(midpoint, Vector3.forward).normalized * height;/* * -Mathf.Sign(usable.signed_user_distance);*/
+                Vector3 altitude = Vector3.Cross(midpoint, Vector3.forward).normalized * height * -dist_sign;
                 Vector3 apex = origin + midpoint + altitude;
 
                 bubble.transform.position = apex;

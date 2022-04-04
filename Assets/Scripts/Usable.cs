@@ -47,7 +47,7 @@ public class Usable : MonoBehaviour
 
         _on_used = new UnityEvent();
 
-        _user = GameObject.FindWithTag("Player").transform;
+        _user = GameObject.FindObjectOfType<User>().transform;
         _distline  = new Distline(_user, transform, use_radius, 3);
     }
 

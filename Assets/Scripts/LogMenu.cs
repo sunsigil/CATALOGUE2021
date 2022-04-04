@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CatalogueMenu : Controller
+public class LogMenu : Controller
 {
     [SerializeField]
     GameObject display_object;
@@ -12,7 +12,7 @@ public class CatalogueMenu : Controller
     BubbleScreen bubble;
     Timeline timeline;
 
-    Catalogue catalogue;
+    Logger logger;
 
     void Main(StateSignal signal)
     {
@@ -40,7 +40,7 @@ public class CatalogueMenu : Controller
     void Awake()
     {
         bubble = GetComponent<BubbleScreen>();
-        catalogue = FindObjectOfType<Catalogue>();
+        logger = FindObjectOfType<Logger>();
 
         bubble.Attach(Main);
 
@@ -48,7 +48,7 @@ public class CatalogueMenu : Controller
         for(int i = 0; i < display_object.transform.childCount; i++)
         {
             display_covers[i] = display_object.transform.GetChild(i).gameObject;
-            display_covers[i].SetActive(!catalogue.GetRune(i));
+            display_covers[i].SetActive(!logger.GetRune(i));
         }
     }
 

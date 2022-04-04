@@ -11,7 +11,7 @@ public class CardMenu : Controller
     BubbleScreen bubble;
     Timeline timeline;
 
-    Catalogue catalogue;
+    Logger logger;
 
     Dungeon _dungeon;
     public Dungeon dungeon
@@ -76,7 +76,7 @@ public class CardMenu : Controller
     void Awake()
     {
         bubble = GetComponent<BubbleScreen>();
-        catalogue = FindObjectOfType<Catalogue>();
+        logger = FindObjectOfType<Logger>();
 
         bubble.Attach(Main);
     }
@@ -84,7 +84,7 @@ public class CardMenu : Controller
     void Start()
     {
         print(dungeon);
-        
+
         int[] scramble = ArrayTools.ShuffleArray(new int[]{0, 1, 2, 3});
         int widget_index = 0;
 
@@ -93,7 +93,7 @@ public class CardMenu : Controller
             int index = scramble[i];
             Card card = dungeon.cards[index];
 
-            if(catalogue.GetCard(card.flag))
+            if(logger.GetCard(card.flag))
             {
                 card_widgets[widget_index].Bind(card);
                 widget_index++;

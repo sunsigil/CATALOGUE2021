@@ -256,9 +256,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4708744309521678305}
   - component: {fileID: 4708744309521678307}
-  - component: {fileID: 2331134560318824392}
   - component: {fileID: 1231684309372764578}
+  - component: {fileID: 2331134560318824392}
   - component: {fileID: 4708744309521678306}
+  - component: {fileID: 8881733379567625102}
   m_Layer: 0
   m_Name: Catalogue
   m_TagString: Player
@@ -305,6 +306,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 6
+--- !u!114 &1231684309372764578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708744309521678301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5660979fa4ea6104e919bf223266aab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 5
 --- !u!114 &2331134560318824392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,19 +333,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   save_path: catalogue.txt
   save: 0
---- !u!114 &1231684309372764578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4708744309521678301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5660979fa4ea6104e919bf223266aab8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 5
 --- !u!114 &4708744309521678306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,20 +345,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bbf4b44569003745aa8e531e577d2a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _unmanaged: 0
-  _control_layer: 0
   hat: {fileID: 4212619114161855425}
   head: {fileID: 2937803530825660569}
   body: {fileID: 3094996504966965821}
   walk_sprites:
   - {fileID: 21300000, guid: e579b9809b2977441b51e4dd0c562088, type: 3}
   - {fileID: 21300000, guid: 605d5be5e0b2f094da8ed51dc3e08289, type: 3}
-  start_menu_prefab: {fileID: 8903841352463372155, guid: 5b625246fb6752c43b0254e399906616, type: 3}
-  catalogue_menu_prefab: {fileID: 8903841352463372155, guid: 04096ee0452ab824987f3cc8b9a1eb00, type: 3}
-  card_menu_prefab: {fileID: 4073940930258850335, guid: bd517e457500f2549b6e1b614458d3a1, type: 3}
   walk_fps: 3
   speed: 5
-  dungeon: {fileID: 0}
+--- !u!114 &8881733379567625102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4708744309521678301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f8b2ff69f976d843b2daa65ba4369a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unmanaged: 0
+  _control_layer: 0
+  start_menu_prefab: {fileID: 8903841352463372155, guid: 5b625246fb6752c43b0254e399906616, type: 3}
+  log_menu_prefab: {fileID: 8903841352463372155, guid: 04096ee0452ab824987f3cc8b9a1eb00, type: 3}
 --- !u!1 &8921247456363599695
 GameObject:
   m_ObjectHideFlags: 0

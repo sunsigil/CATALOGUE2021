@@ -885,10 +885,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8903841352463372155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 123786b65837ee841a99800d738d45b4, type: 3}
+  m_Script: {fileID: 11500000, guid: f3e295bf55159f14c95c4de5f2dd6a35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanaged: 0
-  _control_layer: 0
-  display_object: {fileID: 4389035229249483259}
-  map_ring: {fileID: 0}
+  _control_layer: 1
+  display_object: {fileID: 3231374686325415804}

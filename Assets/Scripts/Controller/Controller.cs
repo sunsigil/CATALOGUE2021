@@ -51,14 +51,14 @@ public abstract class Controller : MonoBehaviour
         return is_operable && Input.GetKey(scheme.GetKeyCode(code));
     }
 
-    public bool Held(KeyCode code)
-    {
-        return is_operable && Input.GetKey(code);
-    }
-
     public float InputValue(string axis)
     {
         return is_operable ? Input.GetAxis(axis) : 0;
+    }
+
+    public void Commandeer(Subcontroller subcontroller)
+    {
+        subcontroller.Obey(this);
     }
 
     protected virtual void OnEnable()

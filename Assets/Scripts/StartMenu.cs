@@ -96,7 +96,7 @@ public class StartMenu : Controller
 
     void OnDestroy()
     {
-        FindObjectOfType<Catalogue>().Load();
+        FindObjectOfType<Logger>().Load();
         FindObjectOfType<CameraFollow>().Snap();
     }
 }

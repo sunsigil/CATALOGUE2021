@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class Catalogue : MonoBehaviour
+public class Logger : MonoBehaviour
 {
     [SerializeField]
     string save_path;
