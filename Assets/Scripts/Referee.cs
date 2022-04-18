@@ -5,108 +5,63 @@ using UnityEngine;
 public class Referee : MonoBehaviour
 {
     [SerializeField]
-    [Range(0, 0.5f)]
-    float combatant_scale_factor;
+    GameObject player_prefab;
+    [SerializeField]
+    Enemy[] enemy_prefabs;
 
+    [Range(0, 6.2831f)]
+    float player_angle;
     [SerializeField]
     [Range(0, 1f)]
-    float shooter_spawn_depth;
-    [SerializeField]
-    [Range(0, 6.2831f)]
-    float shooter_spawn_angle;
-    [SerializeField]
-    [Range(0, 1.5707f)]
-    float spawn_safe_zone;
-    [SerializeField]
-    GameObject shooter_prefab;
+    float player_depth;
 
-    [SerializeField]
-    int enemy_count;
     [SerializeField]
     int max_aggroed;
-    [SerializeField]
-    GameObject enemy_prefab;
-    [SerializeField]
-    [Range(0, 0.5f)]
-    float enemy_depth_mod_range;
+    [Range(0, 1.5707f)]
+    float safe_arc;
 
-    GameObject roster;
-    Shooter shooter;
+    GameObject player;
     Enemy[] enemies;
 
-    bool _in_combat;
-    public bool in_combat => _in_combat;
+    bool in_combat;
 
-    void SpawnShooter(Vector3 arena_center, float arena_radius)
+    void SpawnPlayer(Arena arena)
     {
-        // Clean up existing shooter
-        if(shooter != null){Destroy(shooter.gameObject);}
+        if(player != null){ Destroy(player); }
 
-        // Spawn, group, record
-        GameObject shooter_object = Instantiate(shooter_prefab);
-        shooter = shooter_object.GetComponent<Shooter>();
-        shooter.transform.SetParent(roster.transform);
-
-
-        // Size character relative to the arena
-        float diameter = arena_radius * 2 * combatant_scale_factor;
-        shooter.transform.localScale = new Vector3(diameter, diameter, 1);
-        shooter.SetLimits(arena_center, arena_radius);
-
-        // Position the character along a radial line according to angle value and depth value
-        Vector3 offset = new Vector3(Mathf.Cos(shooter_spawn_angle), Mathf.Sin(shooter_spawn_angle)) * arena_radius * shooter_spawn_depth;
-        shooter.transform.position = arena_center + offset;
+        player = arena.Add(player_prefab, player_angle, player_depth);
     }
 
-    void SpawnEnemies(Vector3 arena_center, float arena_radius)
+    void SpawnEnemies(Arena arena)
     {
         // Address possibility of unitinitialized enemy array
-        if(enemies == null){enemies = new Enemy[enemy_count];}
+        if(enemies == null){enemies = new Enemy[enemy_prefabs.Length];}
 
-        for(int i = 0; i < enemy_count; i++)
+        for(int i = 0; i < enemies.Length; i++)
         {
-            // Clean up existing enemies
             if(enemies[i] != null){Destroy(enemies[i].gameObject);}
 
-            // Spawn, group, record
-            GameObject enemy_object = Instantiate(enemy_prefab);
-            enemies[i] = enemy_object.GetComponent<Enemy>();
-            enemies[i].transform.SetParent(roster.transform);
+            float arc = (((2 * Mathf.PI) - (2 * safe_arc))) / enemies.Length;
+            float angle = player_angle + safe_arc + arc * (i + 0.5f);
+            float depth = 0.5f + Random.Range(-0.1f, 0.1f);
 
-            // Size character relative to the arena
-            float diameter = arena_radius * 2 * combatant_scale_factor;
-            enemies[i].transform.localScale = new Vector3(diameter, diameter, 1);
-
-            // Position the character along a radial line according to slice arc and depth value
-            // theta is offset by one half slice size to put each character in the middle of a slice
-            float arc = (((2 * Mathf.PI) - (2 * spawn_safe_zone))) / enemy_count;
-            float theta = shooter_spawn_angle + spawn_safe_zone + arc * (i + 0.5f);
-            float depth = 0.5f + Random.Range(-enemy_depth_mod_range, enemy_depth_mod_range);
-            Vector3 offset = new Vector3(Mathf.Cos(theta), Mathf.Sin(theta)) * arena_radius * depth;
-            enemies[i].transform.position = arena_center + offset;
-
-            enemies[i].RecordSpawnValues();
+            enemies[i] = arena.Add(enemy_prefabs[i].gameObject, angle, depth).GetComponent<Enemy>();
         }
     }
 
-    public void StartCombat(Vector3 arena_center, float arena_radius)
+    public void StartCombat(Arena arena)
     {
-        if(roster != null){Destroy(roster);}
+        SpawnPlayer(arena);
+        SpawnEnemies(arena);
 
-        roster = new GameObject("Roster");
-        roster.transform.SetParent(transform);
-
-        SpawnShooter(arena_center, arena_radius);
-        SpawnEnemies(arena_center, arena_radius);
-
-        _in_combat = true;
+        in_combat = true;
     }
 
-    public int AssessCombat()
+    public int EvaluateCombat()
     {
-        if(!_in_combat){return 0;}
+        if(!in_combat){return 0;}
 
-        if(!shooter){return -1;}
+        if(player == null){return -1;}
 
         foreach(Enemy enemy in enemies)
         {
@@ -119,22 +74,14 @@ public class Referee : MonoBehaviour
         return 1;
     }
 
-    public void EndCombat()
-    {
-        if(roster != null){Destroy(roster);}
-
-        _in_combat = false;
-    }
-
     void Update()
     {
-        if(!_in_combat){return;}
+        if(!in_combat){ return; }
 
         for(int i = 0; i < enemies.Length; i++)
         {
             if(enemies[i] != null && enemies[i].IsAggroed())
             {
-                // Not yet time to pick another round of attackers
                 return;
             }
         }
@@ -161,6 +108,7 @@ public class Referee : MonoBehaviour
                 }
             }
 
+            print(random_index);
             enemies[random_index].Aggro();
             aggro_indices[i] = random_index;
         }

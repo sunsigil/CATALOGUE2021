@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class Usable : MonoBehaviour
 {
     [SerializeField]
-    [Range(1, 3)]
+    [Range(0.5f, 3)]
     float use_radius;
     [SerializeField]
     Vector3 prompt_offset;

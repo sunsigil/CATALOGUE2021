@@ -38,7 +38,7 @@ public class MapRing : MonoBehaviour
 
             float radius = 0.65f;
             float angle = mapper.NormalizePosition(beacon) * 2 * Mathf.PI;
-            Vector3 position = radius * NumTools.XY_Circle(angle);
+            Vector3 position = radius * NumTools.XY_Polar(angle);
             Vector3 orientation = new Vector3(0, 0, angle * Mathf.Rad2Deg - 90);
             icon_objects[i].transform.localPosition = position;
             icon_objects[i].transform.rotation = Quaternion.Euler(orientation);

@@ -26,6 +26,7 @@ public class Logger : MonoBehaviour
     public void AddRune(RuneFlag rune){ runes = EnumTools.Flag(runes, rune); }
     public bool GetRune(RuneFlag rune){ return EnumTools.IsFlagged(runes, rune); }
     public bool GetRune(int index){ return (runes & (1 << index)) > 0; }
+    public void ViewRunes(){ print(EnumTools.FlagView<RuneFlag>(runes)); }
 
     public void AddCard(CardFlag card){ cards = EnumTools.Flag(cards, card); }
     public bool GetCard(CardFlag card){ return EnumTools.IsFlagged(cards, card); }

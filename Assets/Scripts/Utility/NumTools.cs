@@ -19,14 +19,19 @@ public static class NumTools
         return new Vector3(scale, scale, 1);
     }
 
-    public static Vector3 XY_Circle(float theta)
+    public static Vector3 XY_Polar(float theta, float radius)
     {
-        return new Vector3(Mathf.Cos(theta), Mathf.Sin(theta), 0);
+        return new Vector3(Mathf.Cos(theta), Mathf.Sin(theta), 0) * radius;
     }
 
     public static Vector3 PinwheelVelocity(float rps)
     {
         return Vector3.forward * 2 * Mathf.PI * rps;
+    }
+
+    public static Quaternion PinwheelRot(float theta)
+    {
+        return Quaternion.Euler(new Vector3(0, 0, theta * Mathf.Rad2Deg));
     }
 
     public static float Blink(float t)
@@ -37,6 +42,11 @@ public static class NumTools
     public static float Throb(float t, float a)
     {
         return (a-1) * Blink(t) + a;
+    }
+
+    public static float Flash(float t, float a, float b, float c, float d)
+    {
+        return a * t * Mathf.Sin(b * t - c) + d;
     }
 
     public static float Hillstep(float t, float k, bool reverse = false)

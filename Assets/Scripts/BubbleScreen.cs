@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Machine))]
+
 public class BubbleScreen : MonoBehaviour
 {
 	[SerializeField]
@@ -11,13 +13,14 @@ public class BubbleScreen : MonoBehaviour
 
     Camera camera;
 
+	Machine machine;
+
     Vector2 screen_center;
     Vector3 world_anchor;
 
     float start_radius;
     float end_radius;
 
-    Machine machine;
 	Machine.MachineState attach_point;
     Timeline timeline;
 
@@ -30,7 +33,7 @@ public class BubbleScreen : MonoBehaviour
             break;
 
             case StateSignal.TICK:
-				timeline.Tick(Time.fixedDeltaTime);
+				timeline.Tick(Time.deltaTime);
 
 				float radius = Mathf.Lerp(start_radius, end_radius, NumTools.Powstep(timeline.progress, 5));
                 transform.localScale = NumTools.XY_Scale(radius * 2);
@@ -52,7 +55,7 @@ public class BubbleScreen : MonoBehaviour
             break;
 
             case StateSignal.TICK:
-                timeline.Tick(Time.fixedDeltaTime);
+                timeline.Tick(Time.deltaTime);
 
                 float radius = Mathf.Lerp(end_radius, start_radius, NumTools.Powstep(timeline.progress, 5));
                 transform.localScale = NumTools.XY_Scale(radius * 2);
@@ -71,32 +74,27 @@ public class BubbleScreen : MonoBehaviour
 
 	public void Attach(Machine.MachineState attach_point)
 	{
-		if(machine == null)
+		if(this.attach_point == null)
 		{
 			this.attach_point = attach_point;
-			machine = new Machine(Expanding);
 		}
 	}
 
 	public void Chain(Machine.MachineState link_point)
 	{
-		if(machine != null)
-		{
-			machine.Transition(link_point);
-		}
+		machine.Transition(link_point);
 	}
 
 	public void Detach()
 	{
-		if(machine != null)
-		{
-			machine.Transition(Collapsing);
-		}
+		machine.Transition(Collapsing);
 	}
 
     void Awake()
     {
         camera = Camera.main;
+
+		machine = GetComponent<Machine>();
 
         Vector3 screen_corner = new Vector3(Screen.width, Screen.height, 1);
         screen_center = new Vector3(Screen.width/2, Screen.height/2, 1);
@@ -122,12 +120,7 @@ public class BubbleScreen : MonoBehaviour
 		}
 		else
 		{
-			machine = new Machine(Expanding);
+			machine.Transition(Expanding);
 		}
 	}
-
-    void FixedUpdate()
-    {
-        if(machine != null){ machine.Tick(); }
-    }
 }

@@ -9,10 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4073940930258850334}
+  - component: {fileID: 7311410060890650318}
   - component: {fileID: 1282990360068403201}
   - component: {fileID: 4073940930258850320}
   m_Layer: 0
-  m_Name: Card Menu
+  m_Name: Dungeon Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,6 +38,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7311410060890650318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073940930258850335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f5fdc8232ac034091f3aa845748b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1282990360068403201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,16 +73,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4073940930258850335}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e8d8eee232c34846a47eafab7ad992e, type: 3}
+  m_Script: {fileID: 11500000, guid: 0307883e0630d7d4e8f6a62a034beada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanaged: 0
-  _control_layer: 1
-  card_widgets:
-  - {fileID: 2269758031835310220}
-  - {fileID: 2269758031014906513}
-  - {fileID: 2269758030300000284}
-  - {fileID: 2269758031744378238}
+  _control_layer: 0
+  card_widgets: []
 --- !u!1 &8052824330274210328
 GameObject:
   m_ObjectHideFlags: 0

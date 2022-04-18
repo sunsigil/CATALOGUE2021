@@ -33,7 +33,7 @@ public class ArcGroup : WidgetGroup
         {
             Vector3 scale = NumTools.XY_Scale(width_per);
             scale.z = transform.localScale.z;
-            Vector3 pos = radius * NumTools.XY_Circle(arc_offset + arc_per * i);
+            Vector3 pos = NumTools.XY_Polar(arc_offset + arc_per * i, radius);
 
             _subordinates[i].transform.localScale = scale;
             _subordinates[i].transform.localPosition = pos;

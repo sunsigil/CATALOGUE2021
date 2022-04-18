@@ -30,11 +30,11 @@ public class StartMenu : Controller
             case StateSignal.TICK:
                 if(Pressed(InputCode.ACTION) || Held(InputCode.ACTION))
                 {
-                    timeline.Tick(Time.fixedDeltaTime);
+                    timeline.Tick(Time.deltaTime);
                 }
                 else
                 {
-                    timeline.Tick(-Time.fixedDeltaTime);
+                    timeline.Tick(-Time.deltaTime);
                 }
 
                 float progress = NumTools.Hillstep(timeline.progress, -3);
@@ -59,7 +59,7 @@ public class StartMenu : Controller
             break;
 
             case StateSignal.TICK:
-                timeline.Tick(Time.fixedDeltaTime);
+                timeline.Tick(Time.deltaTime);
 
                 Vector3 key_position = Vector3.Lerp(key_start.transform.position, key_end.transform.position, timeline.progress);
                 key_start.transform.position = key_position;
@@ -78,9 +78,9 @@ public class StartMenu : Controller
         bubble = GetComponent<BubbleScreen>();
         shaft_renderer = key_start.GetComponent<LineRenderer>();
 
-        bubble.Attach(Charging);
-
         initial_shaft_width = shaft_renderer.widthCurve[0].value;
+
+        bubble.Attach(Charging);
     }
 
     void FixedUpdate()

@@ -42,14 +42,14 @@ public class LogMenu : Controller
         bubble = GetComponent<BubbleScreen>();
         logger = FindObjectOfType<Logger>();
 
-        bubble.Attach(Main);
-
         display_covers = new GameObject[display_object.transform.childCount];
         for(int i = 0; i < display_object.transform.childCount; i++)
         {
             display_covers[i] = display_object.transform.GetChild(i).gameObject;
             display_covers[i].SetActive(!logger.GetRune(i));
         }
+
+        bubble.Attach(Main);
     }
 
     void OnDestroy()

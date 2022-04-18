@@ -12,6 +12,8 @@ public class Timeline
 	public void Tick(float dt){ timer = Mathf.Clamp(timer + dt, 0, duration); }
 	public bool Evaluate(){ return progress >= 1; }
 
+	public string ToString() { return $"{progress} : {timer} / {duration}"; }
+
 	public Timeline(float duration)
 	{
 		this.duration = duration;

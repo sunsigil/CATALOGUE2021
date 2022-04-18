@@ -46,6 +46,7 @@ public enum StateSignal
 {
     ENTER,
     TICK,
+    FIXED_TICK,
     EXIT
 }
 
@@ -67,4 +68,10 @@ public enum CardFlag
     CARD_D2,
     CARD_D3,
     CARD_D4
+}
+
+public enum Faction
+{
+    CATALOGUE,
+    DEITY
 }

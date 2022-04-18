@@ -20,7 +20,6 @@ public class Satchel : MonoBehaviour
     {
         if(_contents.Count == size){ return; }
 
-        print(ingredient.name);
         _contents.Add(ingredient);
         _on_add.Invoke();
     }

@@ -837,10 +837,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8903841352463372154}
+  - component: {fileID: 7490078625114396468}
   - component: {fileID: 5969345209201536357}
   - component: {fileID: -409009031779185648}
   m_Layer: 0
-  m_Name: Catalogue Menu
+  m_Name: Log Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,6 +863,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7490078625114396468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903841352463372155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f5fdc8232ac034091f3aa845748b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5969345209201536357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,4 +903,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unmanaged: 0
   _control_layer: 1
-  display_object: {fileID: 3231374686325415804}
+  display_object: {fileID: 4389035229249483259}

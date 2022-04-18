@@ -3,15 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class CardMenu : Controller
+public class DungeonMenu : Controller
 {
     [SerializeField]
     CardWidget[] card_widgets;
-
-    BubbleScreen bubble;
-    Timeline timeline;
-
-    Logger logger;
 
     Dungeon _dungeon;
     public Dungeon dungeon
@@ -19,6 +14,11 @@ public class CardMenu : Controller
         get => _dungeon;
         set => _dungeon = value;
     }
+
+    BubbleScreen bubble;
+    Timeline timeline;
+
+    Logger logger;
 
     CardWidget selected_widget;
 
@@ -61,11 +61,7 @@ public class CardMenu : Controller
             break;
 
             case StateSignal.TICK:
-                if
-                (
-                    Pressed(InputCode.JOURNAL) ||
-                    Pressed(InputCode.CANCEL)
-                )
+                if(Pressed(InputCode.CANCEL))
                 {
                     bubble.Detach();
                 }
@@ -83,8 +79,6 @@ public class CardMenu : Controller
 
     void Start()
     {
-        print(dungeon);
-
         int[] scramble = ArrayTools.ShuffleArray(new int[]{0, 1, 2, 3});
         int widget_index = 0;
 

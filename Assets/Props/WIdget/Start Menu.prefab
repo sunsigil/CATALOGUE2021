@@ -256,7 +256,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 1
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
@@ -436,6 +436,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8903841352463372154}
+  - component: {fileID: 5469456647443793829}
   - component: {fileID: 8422585067563713814}
   - component: {fileID: 3377842433338465417}
   m_Layer: 0
@@ -463,6 +464,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5469456647443793829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8903841352463372155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f5fdc8232ac034091f3aa845748b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8422585067563713814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,7 +503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanaged: 0
-  _control_layer: 0
+  _control_layer: 1
   lock_object: {fileID: 4389035229249483259}
   key_start: {fileID: 3859099224474977192}
   key_end: {fileID: 5331057741748411079}

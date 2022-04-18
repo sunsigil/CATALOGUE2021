@@ -28,4 +28,20 @@ public static class EnumTools
 
 	public static bool IsFlagged(int flags, Enum flag)
 	{ return (flags & (1 << Convert.ToInt32(flag))) > 0; }
+
+	public static string FlagView<E>(int flags) where E: Enum
+	{
+		string view = "";
+
+		foreach(E val in EnumArray<E>())
+		{
+			if(IsFlagged(flags, val))
+			{
+				view += ToString(val);
+				view += " ";
+			}
+		}
+
+		return view;
+	}
 }

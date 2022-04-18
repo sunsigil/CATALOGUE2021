@@ -12,10 +12,12 @@ GameObject:
   - component: {fileID: 3348866413341909407}
   - component: {fileID: 695613267932622655}
   - component: {fileID: 4137613759322591999}
-  - component: {fileID: -4244905406096967507}
   - component: {fileID: 4742779823164261080}
+  - component: {fileID: 8385326241677096076}
+  - component: {fileID: 2417022719596139594}
+  - component: {fileID: -4244905406096967507}
   m_Layer: 3
-  m_Name: Enemy
+  m_Name: Shrine Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,20 +125,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
---- !u!114 &-4244905406096967507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3348866413341909406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63b0b35be2c06c5428b9cb857054e3f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  death_ring_prefab: {fileID: 2965668099856816860, guid: 68b9c73e86b8feb40b67afdff31875aa, type: 3}
-  max_lives: 1
 --- !u!120 &4742779823164261080
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -228,10 +216,55 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 1
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &8385326241677096076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348866413341909406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f5fdc8232ac034091f3aa845748b22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2417022719596139594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348866413341909406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4df208daf7c3e949b072955e08a7d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _faction: 1
+  max_lives: 1
+  damage_cooldown: 0
+  talkative: 1
+--- !u!114 &-4244905406096967507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348866413341909406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b0b35be2c06c5428b9cb857054e3f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  death_ring_prefab: {fileID: 2965668099856816860, guid: 68b9c73e86b8feb40b67afdff31875aa, type: 3}
+  max_lives: 1
+  travel_time: 0.5
+  strike_offset: {x: 0, y: 0, z: 0}
+  strike_radius: 0.2

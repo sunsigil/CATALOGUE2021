@@ -14,9 +14,25 @@ public class NPC : MonoBehaviour
     TMP_FontAsset obscured_font;
     [SerializeField]
     TMP_FontAsset unobscured_font;
+    [SerializeField]
+    GameObject card_get_prefab;
+    [SerializeField]
+    GameObject rune_get_prefab;
 
     [SerializeField]
-    string[] dialogue;
+    string[] standard_dialogue;
+
+    [SerializeField]
+    string[] card_dialogue;
+    [SerializeField]
+    Card card;
+
+    [SerializeField]
+    string[] essence_dialogue;
+    [SerializeField]
+    Ingredient input;
+    [SerializeField]
+    Rune output;
 
     [SerializeField]
     float triangle_area;
@@ -25,11 +41,16 @@ public class NPC : MonoBehaviour
 
     Usable usable;
     Obscurable obscurable;
+    SpawnQueue spawn_queue;
+
+    Logger logger;
+    Satchel satchel;
 
     GameObject bubble;
     TextMeshProUGUI text;
     Vector3 bubble_scale;
 
+    string[] dialogue;
     int index;
 
     void Setup()
@@ -40,6 +61,19 @@ public class NPC : MonoBehaviour
         bubble.transform.position = transform.position + transform.up * 2;
         bubble_scale = bubble.transform.localScale;
 
+        if(card && !logger.GetCard(card.flag))
+        {
+            dialogue = card_dialogue;
+        }
+        else if(input && satchel.Contains(input) && !logger.GetRune(output.flag))
+        {
+            dialogue = essence_dialogue;
+        }
+        else
+        {
+            dialogue = standard_dialogue;
+        }
+
         index = 0;
     }
 
@@ -47,6 +81,21 @@ public class NPC : MonoBehaviour
     {
         Destroy(bubble);
         text = null;
+
+        if(dialogue == card_dialogue)
+        {
+            logger.AddCard(card.flag);
+            card_get_prefab.GetComponent<CardGet>().card = card;
+            spawn_queue.Add(card_get_prefab);
+        }
+
+        if(dialogue == essence_dialogue)
+        {
+            satchel.Remove(input);
+            logger.AddRune(output.flag);
+            rune_get_prefab.GetComponent<RuneGet>().rune = output;
+            spawn_queue.Add(rune_get_prefab);
+        }
     }
 
     public void Use()
@@ -72,6 +121,10 @@ public class NPC : MonoBehaviour
     {
         usable = GetComponent<Usable>();
         obscurable = GetComponent<Obscurable>();
+        spawn_queue = GetComponent<SpawnQueue>();
+
+        logger = FindObjectOfType<Logger>();
+        satchel = FindObjectOfType<Satchel>();
     }
 
     void Start()
