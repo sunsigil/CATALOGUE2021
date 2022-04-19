@@ -10,9 +10,13 @@ public class Attack
 	int _damage;
 	public int damage => _damage;
 
-	public Attack(Combatant sender, int damage)
+	Vector3 _velocity;
+	public Vector3 velocity => _velocity;
+
+	public Attack(Combatant sender, Vector3 velocity, int damage)
 	{
 		_sender = sender;
+		_velocity = velocity;
 		_damage = damage;
 	}
 }

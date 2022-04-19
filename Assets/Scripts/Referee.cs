@@ -61,8 +61,6 @@ public class Referee : MonoBehaviour
     {
         if(!in_combat){return 0;}
 
-        if(player == null){return -1;}
-
         foreach(Enemy enemy in enemies)
         {
             if(enemy != null)
@@ -71,7 +69,12 @@ public class Referee : MonoBehaviour
             }
         }
 
-        return 1;
+        in_combat = false;
+
+        if(player == null)
+        { return -1; }
+        else
+        { return 1; }
     }
 
     void Update()
@@ -91,10 +94,9 @@ public class Referee : MonoBehaviour
         for(int i = 0; i < max_aggroed; i++)
         {
             int random_index = -1;
-            bool already_picked = true;
+            bool already_picked = false;
 
-            while(already_picked)
-            {
+            do {
                 random_index = Random.Range(0, enemies.Length);
                 already_picked = false;
 
@@ -106,9 +108,8 @@ public class Referee : MonoBehaviour
                         break;
                     }
                 }
-            }
+            } while(already_picked);
 
-            print(random_index);
             enemies[random_index].Aggro();
             aggro_indices[i] = random_index;
         }

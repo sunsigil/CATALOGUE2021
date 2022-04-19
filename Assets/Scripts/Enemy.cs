@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
 
             if(target != null)
             {
-                target.EnqueueAttack(new Attack(combatant, 1));
+                target.EnqueueAttack(new Attack(combatant, transform.up, 1));
             }
         }
     }
@@ -76,7 +76,6 @@ public class Enemy : MonoBehaviour
                 if(aggroed)
                 {
                     machine.Transition(Aim);
-                    aggroed = false;
                 }
             break;
         }
@@ -131,6 +130,7 @@ public class Enemy : MonoBehaviour
             break;
 
             case StateSignal.EXIT:
+                aggroed = false;
                 transform.localScale = Vector3.one;
             break;
         }
@@ -155,10 +155,6 @@ public class Enemy : MonoBehaviour
                 {
                     machine.Transition(Idle);
                 }
-            break;
-
-            case StateSignal.EXIT:
-                RingStrike();
             break;
         }
     }
