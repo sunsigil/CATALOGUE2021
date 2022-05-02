@@ -4,10 +4,10 @@ using UnityEngine;
 
 [RequireComponent(typeof(Usable))]
 
-public class Furnace : MonoBehaviour
+public class Kiln : MonoBehaviour
 {
-	[SerializeField]
-	GameObject rune_get_prefab;
+    [SerializeField]
+    GameObject rune_get_prefab;
 
     [SerializeField]
     Ingredient input;
@@ -16,22 +16,27 @@ public class Furnace : MonoBehaviour
 
     Usable usable;
 
+    Satchel satchel;
+    Logger logger;
+
     void Use()
     {
-        Satchel satchel = usable.user.GetComponent<Satchel>();
-		Logger logger = usable.user.GetComponent<Logger>();
-
         if(!satchel.Contains(input)){ return; }
+        if(logger.GetRune(output.flag)){ return; }
 
-		satchel.Remove(input);
-		logger.AddRune(output.flag);
-		rune_get_prefab.GetComponent<RuneGet>().rune = output;
-		Instantiate(rune_get_prefab);
+        satchel.Remove(input);
+        logger.AddRune(output.flag);
+
+        rune_get_prefab.GetComponent<RuneGet>().rune = output;
+        Instantiate(rune_get_prefab);
     }
 
     void Awake()
     {
         usable = GetComponent<Usable>();
+
+        satchel = FindObjectOfType<Satchel>();
+        logger = FindObjectOfType<Logger>();
     }
 
     void Start()

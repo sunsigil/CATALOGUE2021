@@ -29,7 +29,6 @@ public class User : Controller
     // Start is called before the first frame update
     void Start()
     {
-        camera_follow.Snap();
         Instantiate(start_menu_prefab);
     }
 
@@ -67,8 +66,13 @@ public class User : Controller
         }
         else if(Pressed(InputCode.JOURNAL))
         {
-            camera_follow.Snap();
             Instantiate(log_menu_prefab);
+        }
+
+        if(Input.GetKeyDown(KeyCode.Minus))
+        {
+            logger.Save();
+            Application.Quit();
         }
     }
 }

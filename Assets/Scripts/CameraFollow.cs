@@ -7,6 +7,9 @@ public class CameraFollow : MonoBehaviour
     [SerializeField]
     [Range(0, 1)]
     float smoothing;
+    float normal_size;
+
+    Camera camera;
 
     Walker walker;
 
@@ -23,8 +26,16 @@ public class CameraFollow : MonoBehaviour
         transform.position = pos;
     }
 
+    public void Zoom(float size, float t)
+    {
+        camera.orthographicSize = Mathf.Lerp(normal_size, size, NumTools.Perlinstep(t));
+    }
+
     void Awake()
     {
+        camera = GetComponent<Camera>();
+        normal_size = camera.orthographicSize;
+
         walker = FindObjectOfType<Walker>();
     }
 
@@ -51,6 +62,7 @@ public class CameraFollow : MonoBehaviour
     {
         pos = transform.position;
         pos.x = Mathf.Lerp(pos.x, dest.x, Time.fixedDeltaTime * 3);
+        pos.y = camera.orthographicSize - 0.5f;
 
         transform.position = pos;
     }

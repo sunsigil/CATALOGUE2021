@@ -51,9 +51,9 @@ public abstract class Controller : MonoBehaviour
         return is_operable && Input.GetKey(scheme.GetKeyCode(code));
     }
 
-    public float InputValue(string axis)
+    public float InputValue(string axis, bool raw=false)
     {
-        return is_operable ? Input.GetAxis(axis) : 0;
+        return is_operable ? (raw ? Input.GetAxisRaw(axis) : Input.GetAxis(axis)) : 0;
     }
 
     public void Commandeer(Subcontroller subcontroller)

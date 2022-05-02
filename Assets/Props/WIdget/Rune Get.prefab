@@ -165,9 +165,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4073940930258850334}
     m_Modifications:
+    - target: {fileID: 9153355427605503245, guid: 3d41db0d5f73c5c48a99f634b63d3571, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9153355428069122192, guid: 3d41db0d5f73c5c48a99f634b63d3571, type: 3}
       propertyPath: m_Name
       value: Rune Widget
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153355428069122193, guid: 3d41db0d5f73c5c48a99f634b63d3571, type: 3}
+      propertyPath: m_Size.x
+      value: 1.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153355428069122193, guid: 3d41db0d5f73c5c48a99f634b63d3571, type: 3}
+      propertyPath: m_Size.y
+      value: 3.7033334
+      objectReference: {fileID: 0}
+    - target: {fileID: 9153355428069122193, guid: 3d41db0d5f73c5c48a99f634b63d3571, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9153355428069122194, guid: 3d41db0d5f73c5c48a99f634b63d3571, type: 3}
       propertyPath: m_RootOrder

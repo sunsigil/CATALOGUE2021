@@ -7,29 +7,44 @@ using UnityEngine;
 public class DungeonSpawner : MonoBehaviour
 {
 	[SerializeField]
-	GameObject dungeon_menu;
+	GameObject dungeon_menu_prefab;
 
 	[SerializeField]
 	Dungeon dungeon;
+	[SerializeField]
+	float zoom_size;
+	[SerializeField]
+	float zoom_radius;
 
 	Usable usable;
-	SpawnQueue spawn_queue;
+
+	CameraFollow camera_follow;
+	Distline zoomline;
 
 	void Use()
 	{
-		spawn_queue.Add(dungeon_menu);
+		Instantiate(dungeon_menu_prefab);
 	}
 
 	void Awake()
 	{
 		usable = GetComponent<Usable>();
-		spawn_queue = GetComponent<SpawnQueue>();
 
-		dungeon_menu.GetComponent<DungeonMenu>().dungeon = dungeon;
+		camera_follow = FindObjectOfType<CameraFollow>();
 	}
 
 	void Start()
 	{
 		usable.on_used.AddListener(Use);
+
+		zoomline = new Distline(usable.user, transform, 0, zoom_radius);
+	}
+
+	void Update()
+	{
+		if(zoomline.progress > 0)
+		{
+			camera_follow.Zoom(zoom_size, zoomline.progress);
+		}
 	}
 }

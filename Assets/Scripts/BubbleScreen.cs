@@ -12,6 +12,7 @@ public class BubbleScreen : MonoBehaviour
 	float collapse_time;
 
     Camera camera;
+	CameraFollow camera_follow;
 
 	Machine machine;
 
@@ -93,9 +94,11 @@ public class BubbleScreen : MonoBehaviour
     void Awake()
     {
         camera = Camera.main;
+		camera_follow = camera.GetComponent<CameraFollow>();
 
 		machine = GetComponent<Machine>();
 
+		camera_follow.Snap();
         Vector3 screen_corner = new Vector3(Screen.width, Screen.height, 1);
         screen_center = new Vector3(Screen.width/2, Screen.height/2, 1);
         Vector3 corner_anchor = camera.ScreenToWorldPoint(screen_corner);

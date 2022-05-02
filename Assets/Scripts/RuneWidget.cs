@@ -11,6 +11,7 @@ public class RuneWidget : MonoBehaviour
 	[SerializeField]
 	Image ornament;
 
+	[SerializeField]
 	Rune _rune;
 	public Rune rune => _rune;
 
@@ -24,6 +25,6 @@ public class RuneWidget : MonoBehaviour
 
 	void Update()
 	{
-		ornament.transform.rotation = NumTools.PinwheelRot(Time.time);
+		//ornament.transform.rotation = NumTools.PinwheelRot(Time.time);
 	}
 }

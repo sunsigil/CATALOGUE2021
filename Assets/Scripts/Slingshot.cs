@@ -92,18 +92,17 @@ public class Slingshot : Subcontroller
                 timeline = new Timeline(travel_time);
             break;
 
-            case StateSignal.TICK:
-                timeline.Tick(Time.deltaTime);
-
-                if(timeline.Evaluate())
-                {
-                    machine.Transition(Anticipation);
-                }
-            break;
-
             case StateSignal.FIXED_TICK:
+
+				timeline.Tick(Time.fixedDeltaTime);
+
                 Vector3 velocity = (end - start) / travel_time;
                 rigidbody.MovePosition(transform.position + velocity * Time.fixedDeltaTime);
+
+				if(timeline.Evaluate())
+				{
+					machine.Transition(Anticipation);
+				}
             break;
 
             case StateSignal.EXIT:
@@ -112,7 +111,7 @@ public class Slingshot : Subcontroller
         }
     }
 
-    public void Awake()
+    void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         line_renderer = GetComponent<LineRenderer>();

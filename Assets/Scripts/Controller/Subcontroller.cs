@@ -14,5 +14,5 @@ public abstract class Subcontroller : MonoBehaviour
 
     public bool Held(InputCode code){ return commander.Held(code); }
 
-    public float InputValue(string axis){ return commander.InputValue(axis); }
+    public float InputValue(string axis, bool raw=false){ return commander.InputValue(axis, raw); }
 }

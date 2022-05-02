@@ -11,6 +11,8 @@ public class Shooter : Controller
     GameObject death_ring_prefab;
     [SerializeField]
     GameObject[] life_orbs;
+    [SerializeField]
+    CancelRing cancel_ring;
 
     Machine machine;
     Combatant combatant;
@@ -62,6 +64,7 @@ public class Shooter : Controller
     {
         if(Pressed(InputCode.CONFIRM))
         {
+            cancel_ring.Activate(0.5f, 2);
             mode_index = (mode_index+1) % modes.Length;
             machine.Transition(modes[mode_index]);
         }

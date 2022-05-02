@@ -51,8 +51,8 @@ public class Banner : MonoBehaviour
         float line_width_target = line_renderer.widthCurve[0].value;
 
         line_renderer.SetWidth(0, 0);
-        line_renderer.SetPosition(0, dot.position);
-        line_renderer.SetPosition(1, dot.position);
+        line_renderer.SetPosition(0, dot.localPosition);
+        line_renderer.SetPosition(1, dot.localPosition);
     }
 
     void FixedUpdate()
@@ -64,7 +64,7 @@ public class Banner : MonoBehaviour
 
         float line_width = Mathf.Lerp(0, line_width_target, distline.progress);
         line_renderer.SetWidth(line_width, line_width);
-        line_renderer.SetPosition(0, left_dot.position);
-        line_renderer.SetPosition(1, right_dot.position);
+        line_renderer.SetPosition(0, left_dot.localPosition);
+        line_renderer.SetPosition(1, right_dot.localPosition);
     }
 }

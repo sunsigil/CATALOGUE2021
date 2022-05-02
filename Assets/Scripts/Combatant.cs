@@ -18,7 +18,8 @@ public class Combatant : MonoBehaviour
 
 	[SerializeField]
 	protected float hurt_cooldown;
-	protected Timeline hurt_timeline;
+	protected Timeline nohurt_timeline;
+	protected bool invincible;
 
 	[Header("Dealing Damage")]
 
@@ -41,12 +42,18 @@ public class Combatant : MonoBehaviour
 		}
 	}
 
+	public void ToggleInvincible(bool toggle){ invincible = toggle; }
+
 	public bool EnqueueAttack(Attack attack)
 	{
+		if(invincible){ return false; }
+		if(!nohurt_timeline.Evaluate()){ return false; }
+
 		if(attack.sender == this){ return false; }
 		if(attack.sender.faction == _faction){ return false; }
 
 		incoming.Enqueue(attack);
+		nohurt_timeline = new Timeline(hurt_cooldown);
 		return true;
 	}
 
@@ -74,7 +81,7 @@ public class Combatant : MonoBehaviour
 	{
 		lives = max_lives;
 
-		hurt_timeline = new Timeline(hurt_cooldown);
+		nohurt_timeline = new Timeline(hurt_cooldown);
 
 		incoming = new Queue<Attack>();
 		_on_hit = new UnityEvent();
@@ -83,16 +90,9 @@ public class Combatant : MonoBehaviour
 
 	protected void Update()
 	{
-		hurt_timeline.Tick(Time.deltaTime);
+		nohurt_timeline.Tick(Time.deltaTime);
 
 		if(incoming.Count > 0)
-		{
-			if(hurt_timeline.Evaluate())
-			{
-				ProcessAttack(incoming.Dequeue());
-				hurt_timeline = new Timeline(hurt_cooldown);
-			}
-			else{ incoming.Dequeue(); }
-		}
+		{ ProcessAttack(incoming.Dequeue()); }
 	}
 }

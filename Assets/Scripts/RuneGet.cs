@@ -7,6 +7,7 @@ public class RuneGet : Controller
     [SerializeField]
     RuneWidget rune_widget;
 
+    [SerializeField]
     Rune _rune;
     public Rune rune
     {
@@ -75,13 +76,9 @@ public class RuneGet : Controller
 
         rune_widget.transform.localScale = NumTools.XY_Scale(scale_i);
         rune_widget.transform.rotation = NumTools.PinwheelRot(theta_i);
+        rune_widget.Bind(_rune);
 
         bubble.Attach(Intro);
-    }
-
-    void Start()
-    {
-        rune_widget.Bind(_rune);
     }
 
     void OnDestroy()

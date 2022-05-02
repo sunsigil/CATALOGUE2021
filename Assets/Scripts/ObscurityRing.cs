@@ -53,4 +53,10 @@ public class ObscurityRing : MonoBehaviour
     {
         transform.Rotate(Vector3.forward * angular_velocity * Time.fixedDeltaTime);
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
 }

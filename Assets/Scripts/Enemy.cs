@@ -26,13 +26,13 @@ public class Enemy : MonoBehaviour
     Machine machine;
     Combatant combatant;
 
-    Timeline timeline;
-
     Shooter shooter;
-    Vector3 start;
-    Vector3 end;
     bool aggroed;
     int lives;
+
+    Timeline timeline;
+    Vector3 start;
+    Vector3 end;
 
     float line_width;
 
@@ -87,9 +87,6 @@ public class Enemy : MonoBehaviour
         {
             case StateSignal.ENTER:
                 timeline = new Timeline(0.5f);
-
-                shooter = FindObjectOfType<Shooter>();
-                if(shooter == null){ machine.Transition(Idle); }
 
                 start = transform.position;
                 end = shooter.transform.position;
@@ -147,8 +144,8 @@ public class Enemy : MonoBehaviour
             case StateSignal.FIXED_TICK:
                 timeline.Tick(Time.fixedDeltaTime);
 
-                Vector3 offset = (end-start) * Time.fixedDeltaTime;
-                rigidbody.MovePosition(transform.position + offset);
+                Vector3 velocity = (end - start) / travel_time;
+                rigidbody.MovePosition(transform.position + velocity * Time.fixedDeltaTime);
                 RingStrike();
 
                 if(timeline.Evaluate())
@@ -168,13 +165,17 @@ public class Enemy : MonoBehaviour
 
         combatant.on_die.AddListener(DeathEffects);
 
-        machine.Transition(Idle);
+        shooter = FindObjectOfType<Shooter>();
 
         float line_width = line_renderer.widthCurve[0].value * transform.localScale.x;
+
+        machine.Transition(Idle);
     }
 
     void Update()
     {
+        if(shooter == null){Destroy(gameObject);}
+        
         float scale = transform.localScale.x;
         line_renderer.SetWidth(line_width*scale, line_width*scale);
 

@@ -77,13 +77,9 @@ public class CardGet : Controller
 
         card_widget.transform.localScale = NumTools.XY_Scale(scale_i);
         card_widget.transform.rotation = NumTools.PinwheelRot(theta_i);
+        card_widget.Bind(_card);
 
         bubble.Attach(Intro);
-    }
-
-    void Start()
-    {
-        card_widget.Bind(_card);
     }
 
     void OnDestroy()
