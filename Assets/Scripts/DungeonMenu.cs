@@ -8,6 +8,7 @@ public class DungeonMenu : Controller
     [SerializeField]
     CardWidget[] card_widgets;
 
+    [SerializeField]
     Dungeon _dungeon;
     public Dungeon dungeon
     {
@@ -85,7 +86,7 @@ public class DungeonMenu : Controller
         for(int i = 0; i < 4; i++)
         {
             int index = scramble[i];
-            Card card = dungeon.cards[index];
+            Card card = _dungeon.cards[index];
 
             if(logger.GetCard(card.flag))
             {

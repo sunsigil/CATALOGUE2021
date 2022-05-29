@@ -36,8 +36,6 @@ public static class ArrayTools
 		for(int i = copy.Length-1; i >= 1; i--)
 		{
 			int j = Random.Range(0, i);
-			Debug.Log(i);
-			Debug.Log(j);
 			Swap(copy, i, j);
 		}
 

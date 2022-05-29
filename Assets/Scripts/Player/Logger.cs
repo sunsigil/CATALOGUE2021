@@ -53,7 +53,7 @@ public class Logger : MonoBehaviour
             shrines = int.Parse(reader.ReadLine());
             runes = int.Parse(reader.ReadLine());
             cards = int.Parse(reader.ReadLine());
-            // x_position = float.Parse(reader.ReadLine());
+            x_position = float.Parse(reader.ReadLine());
             y_rotation = float.Parse(reader.ReadLine());
             reader.Close();
         }
@@ -62,12 +62,12 @@ public class Logger : MonoBehaviour
             shrines = 0;
             runes = 0;
             cards = 0;
-            // x_position = 0;
+            x_position = 0;
             y_rotation = 0;
         }
 
         Vector3 position = transform.position;
-        transform.position = new Vector3(x_position, position.y, position.z);
+        //transform.position = new Vector3(x_position, position.y, position.z);
 
         Vector3 rotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(0, y_rotation, 0);

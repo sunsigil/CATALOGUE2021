@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Usable))]
-[RequireComponent(typeof(Obscurable))]
 [RequireComponent(typeof(Machine))]
 
 public class Shrine : MonoBehaviour
@@ -12,7 +11,6 @@ public class Shrine : MonoBehaviour
     ShrineFlag flag;
 
     Usable usable;
-    Obscurable obscurable;
     Machine machine;
     Arena arena;
     Referee referee;
@@ -46,11 +44,6 @@ public class Shrine : MonoBehaviour
 
     		case StateSignal.TICK:
                 arena.transform.localScale = NumTools.XY_Scale(usable.usability);
-
-                if(usable.usability >= 1)
-                {
-                    InputPrompter._.Request(InputCode.CONFIRM, transform.position);
-                }
     		break;
     	}
     }
@@ -107,7 +100,6 @@ public class Shrine : MonoBehaviour
     void Awake()
     {
         usable = GetComponentInChildren<Usable>();
-        obscurable = GetComponentInChildren<Obscurable>();
         machine = GetComponentInChildren<Machine>();
         arena = GetComponentInChildren<Arena>();
         referee = GetComponentInChildren<Referee>();

@@ -66,8 +66,10 @@ Shader "Unlit/Ring"
                 float2 spoke = i.uv - center;
                 float dist = length(spoke);
 
-                col.a *= dist >= _Inner_Radius;
-                col.a *= dist <= _Outer_Radius;
+                // distance from center to edge is 0.5, we want a "unit ring"
+                // therefore normalize radii to 0.5 = 1
+                col.a *= (dist * 2) >= _Inner_Radius;
+                col.a *= (dist * 2) <= _Outer_Radius;
 
                 return col;
             }

@@ -29,7 +29,7 @@ public class User : Controller
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(start_menu_prefab);
+        //Instantiate(start_menu_prefab);
     }
 
     // Update is called once per frame

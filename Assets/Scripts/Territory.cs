@@ -101,7 +101,7 @@ public class Territory : MonoBehaviour
 		if(profile != null)
 		{
 			Color colour = profile.colour;
-			colour.a = 0.5f;
+			colour.a = 0.25f;
 			Gizmos.color = colour;
 			Gizmos.DrawCube(grounded_position, transform.localScale);
 		}

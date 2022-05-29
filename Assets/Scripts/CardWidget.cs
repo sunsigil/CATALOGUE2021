@@ -24,7 +24,7 @@ public class CardWidget : MonoBehaviour, IBindable
 	public void Bind(object data)
 	{
 		_card = data as Card;
-		image.sprite = (_card != null) ? _card.icon : ResourceTools.GetDefault<Sprite>();
+		image.sprite = (_card != null) ? _card.icon : AssetTools.DefaultResource<Sprite>();
 		text.text = (_card != null) ? _card.name : "Null";
 	}
 

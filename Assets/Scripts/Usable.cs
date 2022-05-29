@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor;
+using TMPro;
 
 [RequireComponent(typeof(CircleCollider2D))]
 
@@ -10,10 +12,13 @@ public class Usable : MonoBehaviour
     [SerializeField]
     [Range(0.5f, 3)]
     float use_radius;
+
+    GameObject input_prompt_prefab;
+    PopupBubble failure_bubble_prefab;
     [SerializeField]
-    Vector3 prompt_offset;
+    Transform prompt_anchor;
     [SerializeField]
-    float prompt_radius;
+    Transform popup_anchor;
 
     CircleCollider2D collider;
 
@@ -33,6 +38,30 @@ public class Usable : MonoBehaviour
         set => _show_prompt = value;
     }
 
+    GameObject input_prompt;
+
+    bool ValidateAnchors()
+    {
+        bool changes = false;
+
+        if(prompt_anchor == null)
+        {
+            prompt_anchor = new GameObject("Prompt Anchor").transform;
+            prompt_anchor.SetParent(transform);
+            prompt_anchor.position = transform.position;
+            changes = true;
+        }
+        if(popup_anchor == null)
+        {
+            popup_anchor = new GameObject("Popup Anchor").transform;
+            popup_anchor.SetParent(transform);
+            popup_anchor.position = transform.position;
+            changes = true;
+        }
+
+        return changes;
+    }
+
     public void RequestUse()
     {
         if(usability >= 1)
@@ -41,8 +70,18 @@ public class Usable : MonoBehaviour
         }
     }
 
+    public void Fail(string message)
+    {
+        PopupBubble failure_bubble = AssetTools.SpawnComponent(failure_bubble_prefab);
+        failure_bubble.message = message;
+        failure_bubble.transform.position = popup_anchor.position;
+    }
+
     void Awake()
     {
+        input_prompt_prefab = Resources.Load<GameObject>("Input Prompt");
+        failure_bubble_prefab = Resources.Load<PopupBubble>("Popup Bubble");
+
         collider = GetComponent<CircleCollider2D>();
 
         _on_used = new UnityEvent();
@@ -55,22 +94,30 @@ public class Usable : MonoBehaviour
     {
         if(show_prompt && usability >= 1)
         {
-            Vector3 prompt_center = transform.position + NumTools.XY_Pos(collider.offset) + prompt_offset;
-            Vector3 dir = NumTools.XY_Pos(_user.position - prompt_center).normalized;
-            Vector3 arm = dir * prompt_radius;
-            Vector3 pos = prompt_center + arm;
-            InputPrompter._.Request(InputCode.CONFIRM, pos);
+            if(input_prompt == null){ input_prompt = Instantiate(input_prompt_prefab); }
+
+            Vector3 pos = (_user.position + prompt_anchor.position) * 0.5f;
+            input_prompt.transform.position = pos;
+        }
+        else
+        {
+            if(input_prompt != null){ Destroy(input_prompt); }
         }
     }
 
     void OnDrawGizmos()
     {
+        if(ValidateAnchors())
+        {
+            EditorUtility.SetDirty(gameObject);
+        }
+
         collider = GetComponent<CircleCollider2D>();
 
-        Vector3 center = transform.position + NumTools.XY_Pos(collider.offset);
+        Vector3 center = popup_anchor.position;
         Vector3 use_arm = Vector3.right * use_radius;
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(center - use_arm, center + use_arm);
+        Gizmos.DrawWireSphere(popup_anchor.position, use_radius);
     }
 }

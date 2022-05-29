@@ -14,16 +14,34 @@ public class DungeonSpawner : MonoBehaviour
 	[SerializeField]
 	float zoom_size;
 	[SerializeField]
-	float zoom_radius;
+	float zoom_inner_radius;
+	[SerializeField]
+	float zoom_outer_radius;
 
 	Usable usable;
 
 	CameraFollow camera_follow;
 	Distline zoomline;
 
+	Logger logger;
+
 	void Use()
 	{
-		Instantiate(dungeon_menu_prefab);
+		bool playable = false;
+		for(int i = 0; i < dungeon.cards.Length; i++)
+		{
+			if(logger.GetCard(dungeon.cards[i].flag)){ playable = true; }
+		}
+
+		if(playable)
+		{
+			dungeon_menu_prefab.GetComponent<DungeonMenu>().dungeon = dungeon;
+			Instantiate(dungeon_menu_prefab);
+		}
+		else
+		{
+			usable.Fail("No requisite cards in inventory");
+		}
 	}
 
 	void Awake()
@@ -31,13 +49,14 @@ public class DungeonSpawner : MonoBehaviour
 		usable = GetComponent<Usable>();
 
 		camera_follow = FindObjectOfType<CameraFollow>();
+		logger = FindObjectOfType<Logger>();
 	}
 
 	void Start()
 	{
 		usable.on_used.AddListener(Use);
 
-		zoomline = new Distline(usable.user, transform, 0, zoom_radius);
+		zoomline = new Distline(usable.user, transform, zoom_inner_radius, zoom_outer_radius);
 	}
 
 	void Update()

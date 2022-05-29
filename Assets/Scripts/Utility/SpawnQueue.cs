@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class SpawnQueue : MonoBehaviour
 {
-    [SerializeField]
-    GameObject[] initials;
-
     Queue<GameObject> queue;
     GameObject last;
 
@@ -18,11 +15,6 @@ public class SpawnQueue : MonoBehaviour
     void Awake()
     {
         queue = new Queue<GameObject>();
-
-        foreach(GameObject initial in initials)
-        {
-            Add(initial);
-        }
     }
 
     void Update()

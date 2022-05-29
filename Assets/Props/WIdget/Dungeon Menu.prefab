@@ -77,8 +77,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unmanaged: 0
-  _control_layer: 0
-  card_widgets: []
+  _control_layer: 1
+  card_widgets:
+  - {fileID: 2269758031835310220}
+  - {fileID: 2269758031014906513}
+  - {fileID: 2269758030300000284}
+  - {fileID: 2269758031744378238}
+  _dungeon: {fileID: 0}
 --- !u!1 &8052824330274210328
 GameObject:
   m_ObjectHideFlags: 0

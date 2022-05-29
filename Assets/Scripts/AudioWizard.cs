@@ -51,7 +51,7 @@ public class AudioWizard : MonoBehaviour
 		if(!instance){instance = this;}
 		else{Destroy(gameObject);}
 
-		clip_map = ResourceTools.MapResources<AudioClip>("Clips");
+		clip_map = AssetTools.MapResources<AudioClip>("Clips");
 
 		music_source = new GameObject("Music Source").AddComponent<AudioSource>();
 		music_source.spatialize = false;

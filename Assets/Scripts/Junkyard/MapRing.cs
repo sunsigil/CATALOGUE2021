@@ -21,7 +21,7 @@ public class MapRing : MonoBehaviour
         }
 
         icon_objects = new GameObject[mapper.beacons.Count];
-        icons = ResourceTools.MapResources<Sprite>(mapper.GetBeaconNames(), "Map Icons");
+        icons = AssetTools.MapResources<Sprite>(mapper.GetBeaconNames(), "Map Icons");
 
         for(int i = 0; i < mapper.beacons.Count; i++)
         {

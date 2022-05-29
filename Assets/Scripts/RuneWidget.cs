@@ -18,7 +18,7 @@ public class RuneWidget : MonoBehaviour
 	public void Bind(Rune data)
 	{
 		_rune = data;
-		image.sprite = (_rune != null) ? _rune.icon : ResourceTools.GetDefault<Sprite>();
+		image.sprite = (_rune != null) ? _rune.icon : AssetTools.DefaultResource<Sprite>();
 	}
 
 	public bool IsBound(){ return _rune != null; }
