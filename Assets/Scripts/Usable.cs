@@ -9,12 +9,14 @@ using TMPro;
 
 public class Usable : MonoBehaviour
 {
+    GameObject input_prompt_prefab;
+    PopupBubble failure_bubble_prefab;
+    PopupBar popup_bar_prefab;
+
     [SerializeField]
     [Range(0.5f, 3)]
     float use_radius;
 
-    GameObject input_prompt_prefab;
-    PopupBubble failure_bubble_prefab;
     [SerializeField]
     Transform prompt_anchor;
     [SerializeField]
@@ -72,15 +74,15 @@ public class Usable : MonoBehaviour
 
     public void Fail(string message)
     {
-        PopupBubble failure_bubble = AssetTools.SpawnComponent(failure_bubble_prefab);
-        failure_bubble.message = message;
-        failure_bubble.transform.position = popup_anchor.position;
+        PopupBar popup_bar = AssetTools.SpawnComponent(popup_bar_prefab);
+        popup_bar.message = message;
     }
 
     void Awake()
     {
         input_prompt_prefab = Resources.Load<GameObject>("Input Prompt");
         failure_bubble_prefab = Resources.Load<PopupBubble>("Popup Bubble");
+        popup_bar_prefab = Resources.Load<PopupBar>("Popup Bar");
 
         collider = GetComponent<CircleCollider2D>();
 

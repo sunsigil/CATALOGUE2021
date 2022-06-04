@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(LineRenderer))]
 
 public class Slingshot : CombatMode
 {
-	ProgressRing progress_ring;
+    [SerializeField]
+	LineRenderer attack_line;
+	[SerializeField]
+	ProgressRing attack_ring;
 
     [SerializeField]
     float travel_time;
@@ -18,12 +20,10 @@ public class Slingshot : CombatMode
     float strike_radius;
 
     Rigidbody2D rigidbody;
-    LineRenderer line_renderer;
 
     Timeline timeline;
     Vector3 start;
     Vector3 end;
-	ProgressRing damage_ring;
 
     Vector3 MouseDirection()
     {
@@ -47,6 +47,14 @@ public class Slingshot : CombatMode
         return Vector3.zero;
     }
 
+    public override void Entry(StateSignal signal)
+    {
+        if(signal == StateSignal.ENTER)
+        {
+            machine.Transition(Anticipation);
+        }
+    }
+
     public void Anticipation(StateSignal signal)
     {
         switch(signal)
@@ -54,6 +62,9 @@ public class Slingshot : CombatMode
             case StateSignal.ENTER:
 				start = transform.position;
                 end = start;
+
+				attack_line.gameObject.SetActive(false);
+				attack_ring.gameObject.SetActive(false);
             break;
 
             case StateSignal.TICK:
@@ -65,12 +76,20 @@ public class Slingshot : CombatMode
 					Vector3 back_ray = RayToWall(-MouseDirection());
 					start = transform.position + back_ray;
 					end = transform.position + front_ray;
+
+					attack_line.gameObject.SetActive(true);
+					attack_line.SetPosition(0, start);
+			        attack_line.SetPosition(1, end);
 				}
 				else if(Released(InputCode.ACTION))
 				{
 					machine.Transition(Resolution);
 				}
             break;
+
+			case StateSignal.EXIT:
+				attack_ring.gameObject.SetActive(true);
+			break;
         }
     }
 
@@ -80,14 +99,9 @@ public class Slingshot : CombatMode
         {
             case StateSignal.ENTER:
                 timeline = new Timeline(travel_time);
-
-				damage_ring = AssetTools.SpawnComponent(progress_ring);
-				damage_ring.transform.SetParent(transform);
-				damage_ring.Lock(Color.red, 0.1f, strike_radius);
             break;
 
             case StateSignal.FIXED_TICK:
-
 				timeline.Tick(Time.fixedDeltaTime);
 
                 Vector3 velocity = (end - start) / travel_time;
@@ -98,33 +112,37 @@ public class Slingshot : CombatMode
 					machine.Transition(Anticipation);
 				}
 
-				combatant.RingStrike(strike_offset, strike_radius, new Attack(combatant, Vector3.zero, 1));
-				damage_ring.transform.localPosition = strike_offset;
-            break;
-
-            case StateSignal.EXIT:
-				Destroy(damage_ring.gameObject);
+				combatant.RingStrike(strike_offset, strike_radius, new Attack(combatant, Vector3.zero, 1, false));
+				attack_ring.transform.localPosition = strike_offset;
             break;
         }
     }
 
-    void Awake()
+	public override bool Jump(CombatMode mode)
+	{
+		if(machine.InState(Anticipation))
+		{
+			attack_line.gameObject.SetActive(false);
+			attack_ring.gameObject.SetActive(false);
+
+			machine.Transition(mode.Entry);
+			return true;
+		}
+
+		return false;
+	}
+
+    protected override void Awake()
     {
-		progress_ring = Resources.Load<ProgressRing>("Progress Ring");
+		base.Awake();
 
         rigidbody = GetComponent<Rigidbody2D>();
-        line_renderer = GetComponent<LineRenderer>();
-        machine = GetComponent<Machine>();
-        combatant = GetComponent<Combatant>();
 
-        float line_width = line_renderer.widthCurve[0].value * transform.lossyScale.x;
-        line_renderer.SetWidth(line_width, line_width);
-    }
+        float line_width = attack_line.widthCurve[0].value * combatant.arena_scale;
+        attack_line.SetWidth(line_width, line_width);
 
-    void Update()
-    {
-        line_renderer.SetPosition(0, start);
-        line_renderer.SetPosition(1, end);
+		attack_ring.transform.localScale = NumTools.XY_Scale(strike_radius * 2);
+		attack_ring.transform.localPosition = strike_offset;
     }
 
     void OnDrawGizmos()

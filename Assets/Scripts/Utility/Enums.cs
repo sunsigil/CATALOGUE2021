@@ -75,3 +75,17 @@ public enum Faction
     CATALOGUE,
     DEITY
 }
+
+public enum EnemyMotionMode
+{
+    POINT,
+    LINE,
+    CIRCLE
+}
+
+public enum EnemyFireMode
+{
+    BEAM,
+    RING,
+    SPIRAL
+}

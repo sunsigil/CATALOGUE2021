@@ -11,10 +11,10 @@ public class BubbleScreen : MonoBehaviour
 	[SerializeField]
 	float collapse_time;
 
-    Camera camera;
-	CameraFollow camera_follow;
-
 	Machine machine;
+
+	Camera camera;
+	CameraFollow camera_follow;
 
     Vector2 screen_center;
     Vector3 world_anchor;
@@ -93,25 +93,25 @@ public class BubbleScreen : MonoBehaviour
 
     void Awake()
     {
-        camera = Camera.main;
-		camera_follow = camera.GetComponent<CameraFollow>();
-
 		machine = GetComponent<Machine>();
 
+		camera = Camera.main;
+		camera_follow = camera.GetComponent<CameraFollow>();
 		camera_follow.Snap();
-        Vector3 screen_corner = new Vector3(Screen.width, Screen.height, 1);
-        screen_center = new Vector3(Screen.width/2, Screen.height/2, 1);
-        Vector3 corner_anchor = camera.ScreenToWorldPoint(screen_corner);
-        corner_anchor.z = 0;
 
-        world_anchor = camera.ScreenToWorldPoint(screen_center);
-        world_anchor.z = 0;
+        Vector3 view_corner = new Vector3(1, 1, camera.nearClipPlane);
+        Vector3 view_center = new Vector3(0.5f, 0.5f, camera.nearClipPlane);
 
-        float screen_span = (corner_anchor - world_anchor).magnitude;
-        start_radius = transform.localScale.x / 2;
-        end_radius = screen_span * 1.15f;
+        Vector3 world_corner = camera.ViewportToWorldPoint(view_corner);
+        world_corner.z = 0;
+        Vector3 world_center = camera.ViewportToWorldPoint(view_center);
+        world_center.z = 0;
 
-        transform.position = world_anchor;
+        float screen_span = 2 * (world_corner - world_center).magnitude;
+        start_radius = transform.localScale.x * 0.5f;
+        end_radius = screen_span * 0.5f;
+
+        transform.position = world_center;
         transform.localScale = new Vector3(start_radius * 2, start_radius * 2, 1);
     }
 

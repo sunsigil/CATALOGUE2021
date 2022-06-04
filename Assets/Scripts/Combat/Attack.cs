@@ -13,10 +13,14 @@ public class Attack
 	Vector3 _velocity;
 	public Vector3 velocity => _velocity;
 
-	public Attack(Combatant sender, Vector3 velocity, int damage)
+	bool _lethal;
+	public bool lethal => _lethal;
+
+	public Attack(Combatant sender, Vector3 velocity, int damage, bool lethal)
 	{
 		_sender = sender;
 		_velocity = velocity;
 		_damage = damage;
+		_lethal = lethal;
 	}
 }

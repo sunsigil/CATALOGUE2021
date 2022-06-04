@@ -13,10 +13,8 @@ public class Shooter : Controller
 
     Machine machine;
     Combatant combatant;
-    Slingshot slingshot;
-    Cannon cannon;
 
-    Machine.MachineState[] modes;
+    CombatMode[] modes;
     int mode_index;
 
     float real_scale => transform.lossyScale.x;
@@ -47,18 +45,19 @@ public class Shooter : Controller
 
         machine = GetComponent<Machine>();
         combatant = GetComponent<Combatant>();
-        slingshot = GetComponent<Slingshot>();
-        cannon = GetComponent<Cannon>();
 
         combatant.on_hit.AddListener(HitEffects);
+        combatant.on_deplete.AddListener(DeathEffects);
         combatant.on_die.AddListener(DeathEffects);
+    }
 
-        Commandeer(slingshot);
-        Commandeer(cannon);
+    void Start()
+    {
+        modes = GetComponentsInChildren<CombatMode>();
+        foreach(CombatMode mode in modes){ Commandeer(mode); }
 
-        modes = new Machine.MachineState[]{slingshot.Anticipation, cannon.Anticipation};
         mode_index = 0;
-        machine.Transition(modes[mode_index]);
+        machine.Transition(modes[0].Entry);
     }
 
     void Update()
@@ -69,8 +68,9 @@ public class Shooter : Controller
             cancel_ring.Initialize(Color.black, 0.33f, real_scale * 2.5f, 0.25f);
             cancel_ring.transform.position = transform.position;
 
+            CombatMode current_mode = modes[mode_index];
             mode_index = (mode_index+1) % modes.Length;
-            machine.Transition(modes[mode_index]);
+            current_mode.Jump(modes[mode_index]);
         }
     }
 }

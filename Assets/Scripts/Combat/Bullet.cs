@@ -32,7 +32,16 @@ public class Bullet : Combatant
 	{
 		transform.Rotate(NumTools.PinwheelVelocity(2));
 		rigidbody.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
-		if(RingStrike(collider.offset, collider.radius, new Attack(this, _velocity, damage)))
-		{ Destroy(gameObject); }
+	}
+
+	void OnTriggerEnter2D(Collider2D col)
+	{
+		Combatant other = col.GetComponent<Combatant>();
+
+		if(other == null || other.faction != faction)
+		{
+			RingStrike(collider.offset, collider.radius, new Attack(this, _velocity, damage, true));
+			Destroy(gameObject);
+		}
 	}
 }

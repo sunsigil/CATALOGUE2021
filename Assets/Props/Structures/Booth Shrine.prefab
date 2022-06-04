@@ -40,7 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1802178782645444165}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9fb852724cab474e8392d7b51ac57c3, type: 3}
+  m_Script: {fileID: 11500000, guid: 0aa364e50d24fba458f23b47777cdd4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player_prefab: {fileID: 2515228022098615890, guid: fe51e30816f2a034095f7eecabad8161, type: 3}
@@ -49,8 +49,8 @@ MonoBehaviour:
   - {fileID: -4244905406096967507, guid: 09117c54cd156df41bfdb9ea530b13d2, type: 3}
   - {fileID: -4244905406096967507, guid: 09117c54cd156df41bfdb9ea530b13d2, type: 3}
   - {fileID: -4244905406096967507, guid: 09117c54cd156df41bfdb9ea530b13d2, type: 3}
-  player_depth: 0.3
-  max_aggroed: 1
+  player_depth: 0.35
+  max_aggroed: 2
 --- !u!1 &2754890145957499796
 GameObject:
   m_ObjectHideFlags: 0

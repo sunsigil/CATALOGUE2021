@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class User : Controller
 {
+    PopupBar popup_bar_prefab;
+
     [SerializeField]
     GameObject start_menu_prefab;
     [SerializeField]
@@ -17,6 +19,8 @@ public class User : Controller
 
     void Awake()
     {
+        popup_bar_prefab = Resources.Load<PopupBar>("Popup Bar");
+
         camera_follow = FindObjectOfType<CameraFollow>();
 
         satchel = GetComponent<Satchel>();
@@ -30,6 +34,10 @@ public class User : Controller
     void Start()
     {
         //Instantiate(start_menu_prefab);
+        camera_follow.Snap();
+
+        PopupBar popup_bar = AssetTools.SpawnComponent(popup_bar_prefab);
+        popup_bar.message = "Game Start!";
     }
 
     // Update is called once per frame

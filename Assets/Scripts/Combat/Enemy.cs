@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(Combatant))]
 [RequireComponent(typeof(Machine))]
 
 public class Enemy : MonoBehaviour
@@ -11,36 +11,87 @@ public class Enemy : MonoBehaviour
     ProgressRing progress_ring;
 
     [SerializeField]
+    Bullet bullet_prefab;
+
+    [SerializeField]
+    SpriteRenderer deathblow_dot;
+
+    [SerializeField]
+    EnemyMotionMode motion_mode;
+    [SerializeField]
+    EnemyFireMode fire_mode;
+    [SerializeField]
+    float fire_cooldown;
+
+    [SerializeField]
     int max_lives;
     [SerializeField]
-    [Range(0.01f, 0.99f)]
-    float travel_time;
-    [SerializeField]
-    Vector3 strike_offset;
+    float strike_shift;
+    Vector3 strike_offset => transform.up * strike_shift;
     [SerializeField]
     float strike_radius;
 
     Rigidbody2D rigidbody;
-    LineRenderer line_renderer;
     Machine machine;
     Combatant combatant;
 
     Shooter shooter;
     bool aggroed;
-    int lives;
 
     Timeline timeline;
-    Vector3 start;
-    Vector3 end;
 
-    float line_width;
+    Vector3 GetVelocity()
+    {
+        switch(motion_mode)
+        {
+            case EnemyMotionMode.LINE:
+                return (shooter.transform.position - transform.position).normalized;
+            break;
 
-    float real_scale => transform.lossyScale.x;
+            case EnemyMotionMode.CIRCLE:
+                if(transform.localPosition.magnitude < 3){ print("adjusting"); return transform.localPosition.normalized; }
+                else{ return Vector3.Cross(-transform.localPosition, Vector3.forward).normalized; }
+            break;
+
+            default:
+                return Vector3.zero;
+            break;
+        }
+    }
+
+    void Fire()
+    {
+        switch(fire_mode)
+        {
+            case EnemyFireMode.BEAM:
+                Bullet bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
+                bullet.transform.position = transform.position + transform.forward;
+                bullet.velocity = (shooter.transform.position - transform.position).normalized;
+            break;
+
+            case EnemyFireMode.RING:
+                for(int i = 0; i < 8; i++)
+                {
+                    float t = Mathf.PI * 0.25f * i;
+                    float r = 1.5f * combatant.arena_scale;
+
+                    bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
+                    bullet.transform.position = transform.position + NumTools.XY_Polar(t, r);
+                    bullet.velocity = NumTools.XY_Polar(t, r);
+                }
+            break;
+        }
+    }
+
+    public void PrepareDeathblow()
+    {
+        machine.Transition(Depleted);
+    }
 
     public void DeathEffects()
     {
         ProgressRing death_ring = AssetTools.SpawnComponent(progress_ring);
-        death_ring.Initialize(Color.black, 0.1f, real_scale * 5, 1);
+        death_ring.Initialize(Color.black, 0.1f, combatant.arena_scale * 5, 1);
         death_ring.transform.position = transform.position;
 
         Destroy(gameObject);
@@ -53,91 +104,69 @@ public class Enemy : MonoBehaviour
     {
         switch(signal)
         {
-            case StateSignal.ENTER:
-                start = transform.position;
-                end = start;
-            break;
-
             case StateSignal.TICK:
                 if(aggroed)
                 {
-                    machine.Transition(Aim);
+                    machine.Transition(Active);
                 }
             break;
         }
     }
 
-    void Aim(StateSignal signal)
+    void Active(StateSignal signal)
     {
         switch(signal)
         {
-            case StateSignal.ENTER:
-                timeline = new Timeline(0.5f);
+            case StateSignal.TICK:
+                if(timeline == null || timeline.Evaluate())
+                {
+                    Fire();
+                    timeline = new Timeline(fire_cooldown);
+                }
+                else
+                {
+                    timeline.Tick(Time.deltaTime);
+                }
 
-                start = transform.position;
-                end = shooter.transform.position;
-                Vector3 path = end - start;
-
-                transform.rotation = NumTools.XY_Rot(path.normalized, -90);
+                if(!aggroed)
+                {
+                    machine.Transition(Idle);
+                }
             break;
 
-            case StateSignal.TICK:
-                timeline.Tick(Time.deltaTime);
-
-                if(timeline.Evaluate())
-                {
-                    machine.Transition(Charge);
-                }
+            case StateSignal.FIXED_TICK:
+                transform.rotation = NumTools.XY_Rot(GetVelocity());
+                rigidbody.MovePosition(transform.position + GetVelocity() * Time.fixedDeltaTime);
             break;
         }
     }
 
-    void Charge(StateSignal signal)
+    void Depleted(StateSignal signal)
     {
         switch(signal)
         {
             case StateSignal.ENTER:
-                timeline = new Timeline(1 - travel_time);
+                deathblow_dot.enabled = true;
+                timeline = new Timeline(3);
             break;
 
             case StateSignal.TICK:
-                timeline.Tick(Time.deltaTime);
+                float alpha = NumTools.Throb(1-timeline.progress, 0.5f) + 0.5f;
+                Color col = deathblow_dot.color;
+                col.a = alpha;
+                deathblow_dot.color = col;
 
-                float scale = NumTools.Flash(timeline.progress, 0.14f, -17.6f, -0.2f, 0.12f);
-                transform.localScale = NumTools.XY_Scale(scale);
+                timeline.Tick(Time.deltaTime);
 
                 if(timeline.Evaluate())
                 {
-                    machine.Transition(Travel);
+                    combatant.Heal(1);
+                    machine.Transition(Idle);
                 }
             break;
 
             case StateSignal.EXIT:
-                aggroed = false;
-                transform.localScale = Vector3.one;
-            break;
-        }
-    }
-
-    void Travel(StateSignal signal)
-    {
-        switch(signal)
-        {
-            case StateSignal.ENTER:
-                timeline = new Timeline(travel_time);
-            break;
-
-            case StateSignal.FIXED_TICK:
-                timeline.Tick(Time.fixedDeltaTime);
-
-                Vector3 velocity = (end - start) / travel_time;
-                rigidbody.MovePosition(transform.position + velocity * Time.fixedDeltaTime);
-                combatant.RingStrike(strike_offset, strike_radius, new Attack(combatant, Vector3.zero, 1));
-
-                if(timeline.Evaluate())
-                {
-                    machine.Transition(Idle);
-                }
+                deathblow_dot.enabled = false;
             break;
         }
     }
@@ -147,15 +176,13 @@ public class Enemy : MonoBehaviour
         progress_ring = Resources.Load<ProgressRing>("Progress Ring");
 
         rigidbody = GetComponent<Rigidbody2D>();
-        line_renderer = GetComponent<LineRenderer>();
         machine = GetComponent<Machine>();
         combatant = GetComponent<Combatant>();
 
+        combatant.on_deplete.AddListener(PrepareDeathblow);
         combatant.on_die.AddListener(DeathEffects);
 
         shooter = FindObjectOfType<Shooter>();
-
-        float line_width = line_renderer.widthCurve[0].value * transform.localScale.x;
 
         machine.Transition(Idle);
     }
@@ -163,12 +190,6 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if(shooter == null){Destroy(gameObject);}
-
-        float scale = transform.localScale.x;
-        line_renderer.SetWidth(line_width*scale, line_width*scale);
-
-        line_renderer.SetPosition(0, start);
-        line_renderer.SetPosition(1, start+end);
     }
 
     void OnDrawGizmos()

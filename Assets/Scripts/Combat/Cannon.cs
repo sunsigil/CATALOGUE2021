@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
-public class Cannon : Subcontroller
+public class Cannon : CombatMode
 {
 	[SerializeField]
     GameObject bullet_prefab;
@@ -73,6 +73,14 @@ public class Cannon : Subcontroller
         moving = v.magnitude > 0.1f;
     }
 
+	public override void Entry(StateSignal signal)
+	{
+		if(signal == StateSignal.ENTER)
+		{
+			machine.Transition(Anticipation);
+		}
+	}
+
 	public void Anticipation(StateSignal signal)
     {
         switch(signal)
@@ -87,7 +95,7 @@ public class Cannon : Subcontroller
 				if(Pressed(InputCode.ACTION))
 				{
 					Bullet bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
-					bullet.transform.position = transform.position + transform.forward * 10;
+					bullet.transform.position = transform.position + transform.forward;
 					bullet.velocity = transform.up * 5;
 				}
             break;
@@ -99,8 +107,21 @@ public class Cannon : Subcontroller
         }
     }
 
-	void Awake()
+	public override bool Jump(CombatMode mode)
 	{
+		if(machine.InState(Anticipation))
+		{
+			machine.Transition(mode.Entry);
+			return true;
+		}
+
+		return false;
+	}
+
+	protected override void Awake()
+	{
+		base.Awake();
+
 		rigidbody = GetComponent<Rigidbody2D>();
 
 		x  = transform.position;

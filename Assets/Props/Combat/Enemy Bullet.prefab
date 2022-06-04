@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3173055655578325177}
   - component: {fileID: 3173055655578325178}
   - component: {fileID: 3173055655578325180}
-  m_Layer: 0
-  m_Name: Bullet
+  m_Layer: 3
+  m_Name: Enemy Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2042b75321c6254e821268cbc997d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _faction: 0
+  _faction: 1
   max_lives: 1
   hurt_cooldown: 0
   damage: 1

@@ -650,18 +650,6 @@ MonoBehaviour:
   output: {fileID: 0}
   triangle_area: 3
   max_altitude: 3
---- !u!114 &244206818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244206816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78307fc517eb8564aa752f6cd033f692, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &244206819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2545,6 +2533,22 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: -4244905406096967507, guid: f7adf5a097590d247b14cb3aacb4cd69, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: -4244905406096967507, guid: f7adf5a097590d247b14cb3aacb4cd69, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: -4244905406096967507, guid: 542fe812ff6d3634cb9589c1a3012839, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: -4244905406096967507, guid: 5f7abdef0e3a03b41a1fe768fe90cc32, type: 3}
     - target: {fileID: 6827199363237416909, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: m_RootOrder
       value: 2

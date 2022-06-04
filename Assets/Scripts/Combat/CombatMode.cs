@@ -11,10 +11,8 @@ public abstract class CombatMode : Subcontroller
 	protected Machine machine;
 	protected Machine.MachineState next;
 
-	public void Jump(Machine.MachineState state)
-	{
-		next = state;
-	}
+	public abstract void Entry(StateSignal signal);
+	public abstract bool Jump(CombatMode mode);
 
 	protected virtual void Awake()
 	{

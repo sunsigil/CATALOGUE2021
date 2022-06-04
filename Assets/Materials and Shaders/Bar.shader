@@ -1,9 +1,10 @@
-Shader "Unlit/Whiteout"
+Shader "Unlit/Bar"
 {
     Properties
     {
         [HideInInspector] _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
+        _Progress ("Progress", Float) = 1
     }
     SubShader
     {
@@ -38,6 +39,7 @@ Shader "Unlit/Whiteout"
             float4 _MainTex_ST;
 			float4 _MainTex_TexelSize;
             float4 _Color;
+            float _Progress;
 
             v2f vert (appdata v)
             {
@@ -50,7 +52,12 @@ Shader "Unlit/Whiteout"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = _Color;
+                fixed4 col = tex2D(_MainTex, i.uv);
+                col *= i.col;
+                col *= _Color;
+
+                float adjusted_x = abs(i.uv.x - 0.5);
+                col *= (adjusted_x * 2) < _Progress;
                 return col;
             }
             ENDCG

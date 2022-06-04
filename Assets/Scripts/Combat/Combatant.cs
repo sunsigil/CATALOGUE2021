@@ -15,6 +15,7 @@ public class Combatant : MonoBehaviour
 	protected int max_lives;
 	protected int lives;
 	public float life => (float)lives / (float)max_lives;
+	public string life_string => $"{lives} / {max_lives} = {life}";
 
 	[SerializeField]
 	protected float hurt_cooldown;
@@ -26,6 +27,8 @@ public class Combatant : MonoBehaviour
 	protected Queue<Attack> incoming;
 	protected UnityEvent _on_hit;
 	public UnityEvent on_hit => _on_hit;
+	protected UnityEvent _on_deplete;
+	public UnityEvent on_deplete => _on_deplete;
 	protected UnityEvent _on_die;
 	public UnityEvent on_die => _on_die;
 
@@ -33,14 +36,21 @@ public class Combatant : MonoBehaviour
 
 	protected void ProcessAttack(Attack attack)
 	{
-		lives -= attack.damage;
-		lives = Mathf.Clamp(lives, 0, max_lives);
+		int old_lives = lives;
+		lives = Mathf.Clamp(lives - attack.damage, 0, max_lives);
 
 		_on_hit.Invoke();
 
-		if(life <= 0)
+		if(lives == 0)
 		{
-			_on_die.Invoke();
+			if(old_lives != 0)
+			{
+				_on_deplete.Invoke();
+			}
+			else if(attack.lethal)
+			{
+				_on_die.Invoke();
+			}
 		}
 	}
 
@@ -79,6 +89,11 @@ public class Combatant : MonoBehaviour
 		return false;
     }
 
+	public void Heal(int quant)
+	{
+		lives = Mathf.Clamp(lives + quant, 0, max_lives);
+	}
+
 	protected void Awake()
 	{
 		lives = max_lives;
@@ -87,6 +102,7 @@ public class Combatant : MonoBehaviour
 
 		incoming = new Queue<Attack>();
 		_on_hit = new UnityEvent();
+		_on_deplete = new UnityEvent();
 		_on_die = new UnityEvent();
 	}
 

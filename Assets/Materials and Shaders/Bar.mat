@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ring
-  m_Shader: {fileID: 4800000, guid: f5be55d0dcb17324a89b42cb71f05e75, type: 3}
+  m_Name: Bar
+  m_Shader: {fileID: 4800000, guid: 85a511ac3b8ba2c42a09a53e49694a46, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
