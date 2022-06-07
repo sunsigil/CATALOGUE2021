@@ -96,6 +96,10 @@ public class ControllerRegistry : MonoBehaviour
             {
                 Register(controller);
             }
+            else
+            {
+                controller.scheme = _scheme;
+            }
         }
     }
 }

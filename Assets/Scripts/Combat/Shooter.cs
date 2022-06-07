@@ -15,7 +15,7 @@ public class Shooter : Controller
     Combatant combatant;
 
     CombatMode[] modes;
-    int mode_index;
+    int mode_shift;
 
     float real_scale => transform.lossyScale.x;
 
@@ -54,23 +54,34 @@ public class Shooter : Controller
     void Start()
     {
         modes = GetComponentsInChildren<CombatMode>();
-        foreach(CombatMode mode in modes){ Commandeer(mode); }
 
-        mode_index = 0;
+        foreach(CombatMode mode in modes)
+        {
+            Commandeer(mode);
+            mode.BindDefault(modes[0]);
+        }
+
+        mode_shift = 0;
         machine.Transition(modes[0].Entry);
     }
 
     void Update()
     {
+        int mode_flux = 0;
+
+        if(Pressed(InputCode.BACK)){ mode_flux = -1; }
+        else if(Pressed(InputCode.FORTH)){ mode_flux = 1; }
+
+        if(mode_flux != 0)
+        {
+            mode_shift = (mode_shift + mode_flux) % (modes.Length-1);
+        }
+
+        print(mode_shift);
+
         if(Pressed(InputCode.CONFIRM))
         {
-            ProgressRing cancel_ring = AssetTools.SpawnComponent(progress_ring);
-            cancel_ring.Initialize(Color.black, 0.33f, real_scale * 2.5f, 0.25f);
-            cancel_ring.transform.position = transform.position;
-
-            CombatMode current_mode = modes[mode_index];
-            mode_index = (mode_index+1) % modes.Length;
-            current_mode.Jump(modes[mode_index]);
+            machine.Transition(modes[1 + mode_shift].Entry);
         }
     }
 }

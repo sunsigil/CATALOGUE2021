@@ -129,8 +129,8 @@ GameObject:
   - component: {fileID: 3764083480367305771}
   - component: {fileID: 2435156633096006502}
   - component: {fileID: 4232791279838036129}
-  - component: {fileID: 4078412596870422368}
   - component: {fileID: 7767595128901129838}
+  - component: {fileID: 4078412596870422368}
   m_Layer: 3
   m_Name: Shooter
   m_TagString: Shooter
@@ -299,24 +299,6 @@ MonoBehaviour:
   - {fileID: 4803759958945558672}
   - {fileID: 2069313932665251194}
   - {fileID: 6651688656236198675}
---- !u!114 &4078412596870422368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2515228022098615890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ca12468b0239bc4085c5cefbf98ac71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attack_line: {fileID: 2049484162033835144}
-  attack_ring: {fileID: 7688609029733087172}
-  icon: {fileID: 0}
-  travel_time: 0.75
-  strike_shift: 0.15
-  strike_radius: 0.9
 --- !u!114 &7767595128901129838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,8 +311,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32df6554540244b438d592e4617d5ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rune_ability: 0
+  rune_idx: 0
   bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
   speed: 3
+--- !u!114 &4078412596870422368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515228022098615890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ca12468b0239bc4085c5cefbf98ac71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune_ability: 1
+  rune_idx: 1
+  attack_line: {fileID: 2049484162033835144}
+  attack_ring: {fileID: 7688609029733087172}
+  travel_time: 0.75
+  strike_shift: 0.15
+  strike_radius: 0.9
 --- !u!1 &2773781368029392682
 GameObject:
   m_ObjectHideFlags: 0

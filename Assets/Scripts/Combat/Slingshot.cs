@@ -99,6 +99,7 @@ public class Slingshot : CombatMode
         {
             case StateSignal.ENTER:
                 timeline = new Timeline(travel_time);
+                combatant.ToggleInvincible(true);
             break;
 
             case StateSignal.FIXED_TICK:
@@ -114,6 +115,10 @@ public class Slingshot : CombatMode
 
 				combatant.RingStrike(strike_offset, strike_radius, new Attack(combatant, Vector3.zero, 1, false));
 				attack_ring.transform.localPosition = strike_offset;
+            break;
+
+            case StateSignal.EXIT:
+                combatant.ToggleInvincible(false);
             break;
         }
     }

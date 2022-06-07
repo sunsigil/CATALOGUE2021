@@ -20,17 +20,22 @@ public class Logger : MonoBehaviour
     float y_rotation;
 
     public void AddShrine(ShrineFlag shrine){ shrines = EnumTools.Flag(shrines, shrine); }
+    public void AddShrine(int index){ shrines |= (1 << index); }
     public bool GetShrine(ShrineFlag shrine){ return EnumTools.IsFlagged(shrines, shrine); }
     public bool GetShrine(int index){ return (shrines & (1 << index)) > 0; }
+    public string ShrineDump(){ return EnumTools.FlagView<ShrineFlag>(shrines); }
 
     public void AddRune(RuneFlag rune){ runes = EnumTools.Flag(runes, rune); }
+    public void AddRune(int index){ runes |= (1 << index); }
     public bool GetRune(RuneFlag rune){ return EnumTools.IsFlagged(runes, rune); }
     public bool GetRune(int index){ return (runes & (1 << index)) > 0; }
-    public void ViewRunes(){ print(EnumTools.FlagView<RuneFlag>(runes)); }
+    public string RuneDump(){ return EnumTools.FlagView<RuneFlag>(runes); }
 
     public void AddCard(CardFlag card){ cards = EnumTools.Flag(cards, card); }
+    public void AddCard(int index){ cards |= (1 << index); }
     public bool GetCard(CardFlag card){ return EnumTools.IsFlagged(cards, card); }
     public bool GetCard(int index){ return (cards & (1 << index)) > 0; }
+    public string CardDump(){ return EnumTools.FlagView<CardFlag>(cards); }
 
     public void Save()
     {

@@ -34,4 +34,16 @@
 	<inventory>
 		i
 	</inventory>
+
+	<back>
+		q
+	</back>
+
+	<forth>
+		e
+	</forth>
+
+	<console>
+		backquote
+	</console>
 </scheme>

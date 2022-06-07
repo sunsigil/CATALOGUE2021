@@ -19,7 +19,10 @@ public enum InputCode
     LEFT,
     RIGHT,
     JOURNAL,
-    INVENTORY
+    INVENTORY,
+    BACK,
+    FORTH,
+    CONSOLE
 }
 
 public enum ShrineFlag
