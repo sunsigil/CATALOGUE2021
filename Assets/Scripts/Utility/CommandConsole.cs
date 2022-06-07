@@ -14,6 +14,12 @@ public class CommandConsole : Controller
     Stack<string> command_stack;
 
 #region OP_FUNCS
+    void ClearLog()
+    {
+        log_string = "";
+        log.text = log_string;
+    }
+
     void GiveCard(Stack<string> arg_stack)
     {
         string idx_str = "";
@@ -68,10 +74,20 @@ public class CommandConsole : Controller
         Log(logger.ShrineDump());
     }
 
-    void ClearLog()
+    void GiveIngredient(Stack<string> arg_stack)
     {
-        log_string = "";
-        log.text = log_string;
+        string ing_str = "";
+        try{ ing_str = arg_stack.Pop(); }
+        catch{ Log("Operation give_ingredient requires one argument"); return; }
+
+        Ingredient ing = null;
+        try{ ing = Resources.Load<Ingredient>(ing_str); }
+        catch{ Log($"Error: ingredient {ing_str} not found"); return; }
+
+        Satchel satchel = FindObjectOfType<Satchel>();
+        if(satchel == null){ Log("Error: satchel not found"); return; }
+
+        satchel.Add(ing);
     }
 #endregion
 
@@ -100,6 +116,9 @@ public class CommandConsole : Controller
                 break;
             case "give_shrine":
                 GiveShrine(command_stack);
+                break;
+            case "give_ingredient":
+                GiveIngredient(command_stack);
                 break;
             case "clear":
                 ClearLog();

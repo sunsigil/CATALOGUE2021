@@ -2536,7 +2536,8 @@ PrefabInstance:
       propertyPath: enforced_sizing_count
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1231684309372764578, guid: fe706315d0057cb42ba013edae042195, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: fe706315d0057cb42ba013edae042195, type: 3}
 --- !u!1001 &8044656317580104490
 PrefabInstance:
