@@ -8,24 +8,27 @@ using UnityEngine;
 public abstract class CombatMode : Subcontroller
 {
 	[SerializeField]
-	bool rune_ability;
-
+	protected bool rune_ability;
 	[SerializeField]
 	[Range(0, 3)]
-	int rune_idx;
+	protected int rune_idx;
+
+	[SerializeField]
+	protected float cooldown;
+
+	protected Logger logger;
 
 	protected Combatant combatant;
 	protected Machine machine;
 	protected Machine.MachineState default_state;
-
-	protected Logger logger;
+	protected Timeline cooldown_timeline;
 
 	public bool unlocked => logger.GetRune(rune_idx * 2) || !rune_ability;
 	public bool powered => logger.GetRune(rune_idx * 2 + 1) && rune_ability;
+	public bool ready => cooldown_timeline.Evaluate();
 
 	public void BindDefault(CombatMode mode){ default_state = mode.Entry; }
 	public abstract void Entry(StateSignal signal);
-	public abstract bool Jump(CombatMode mode);
 
 	protected virtual void Awake()
 	{
@@ -33,5 +36,6 @@ public abstract class CombatMode : Subcontroller
 		machine = GetComponent<Machine>();
 
 		logger = FindObjectOfType<Logger>();
+		cooldown_timeline = new Timeline(0);
 	}
 }

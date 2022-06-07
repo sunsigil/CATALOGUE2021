@@ -62,15 +62,12 @@ public class Slingshot : CombatMode
             case StateSignal.ENTER:
 				start = transform.position;
                 end = start;
-
-				attack_line.gameObject.SetActive(false);
-				attack_ring.gameObject.SetActive(false);
             break;
 
             case StateSignal.TICK:
                 transform.rotation = NumTools.XY_Rot(MouseDirection(), -90);
 
-				if(Pressed(InputCode.ACTION) || Held(InputCode.ACTION))
+				if(Pressed(InputCode.CONFIRM) || Held(InputCode.CONFIRM))
 				{
 					Vector3 front_ray = RayToWall(MouseDirection());
 					Vector3 back_ray = RayToWall(-MouseDirection());
@@ -81,7 +78,7 @@ public class Slingshot : CombatMode
 					attack_line.SetPosition(0, start);
 			        attack_line.SetPosition(1, end);
 				}
-				else if(Released(InputCode.ACTION))
+				else if(Released(InputCode.CONFIRM))
 				{
 					machine.Transition(Resolution);
 				}
@@ -108,34 +105,23 @@ public class Slingshot : CombatMode
                 Vector3 velocity = (end - start) / travel_time;
                 rigidbody.MovePosition(transform.position + velocity * Time.fixedDeltaTime);
 
-				if(timeline.Evaluate())
-				{
-					machine.Transition(Anticipation);
-				}
-
 				combatant.RingStrike(strike_offset, strike_radius, new Attack(combatant, Vector3.zero, 1, false));
 				attack_ring.transform.localPosition = strike_offset;
+
+                if(timeline.Evaluate())
+				{
+					machine.Transition(default_state);
+				}
             break;
 
             case StateSignal.EXIT:
+                cooldown_timeline = new Timeline(cooldown);
                 combatant.ToggleInvincible(false);
+                attack_line.gameObject.SetActive(false);
+    			attack_ring.gameObject.SetActive(false);
             break;
         }
     }
-
-	public override bool Jump(CombatMode mode)
-	{
-		if(machine.InState(Anticipation))
-		{
-			attack_line.gameObject.SetActive(false);
-			attack_ring.gameObject.SetActive(false);
-
-			machine.Transition(mode.Entry);
-			return true;
-		}
-
-		return false;
-	}
 
     protected override void Awake()
     {
@@ -145,9 +131,16 @@ public class Slingshot : CombatMode
 
         float line_width = attack_line.widthCurve[0].value * combatant.arena_scale;
         attack_line.SetWidth(line_width, line_width);
+        attack_line.gameObject.SetActive(false);
 
 		attack_ring.transform.localScale = NumTools.XY_Scale(strike_radius * 2);
 		attack_ring.transform.localPosition = strike_offset;
+        attack_line.gameObject.SetActive(false);
+    }
+
+    void Update()
+    {
+        cooldown_timeline.Tick(Time.deltaTime);
     }
 
     void OnDrawGizmos()

@@ -107,17 +107,6 @@ public class Cannon : CombatMode
         }
     }
 
-	public override bool Jump(CombatMode mode)
-	{
-		if(machine.InState(Anticipation))
-		{
-			machine.Transition(mode.Entry);
-			return true;
-		}
-
-		return false;
-	}
-
 	protected override void Awake()
 	{
 		base.Awake();

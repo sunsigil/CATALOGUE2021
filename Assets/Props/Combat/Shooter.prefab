@@ -313,6 +313,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rune_ability: 0
   rune_idx: 0
+  cooldown: 0
   bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
   speed: 3
 --- !u!114 &4078412596870422368
@@ -329,6 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rune_ability: 1
   rune_idx: 1
+  cooldown: 5
   attack_line: {fileID: 2049484162033835144}
   attack_ring: {fileID: 7688609029733087172}
   travel_time: 0.75

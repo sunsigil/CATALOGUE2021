@@ -109,10 +109,12 @@ public class Usable : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        if(ValidateAnchors())
-        {
-            EditorUtility.SetDirty(gameObject);
-        }
+        #if UNITY_EDITOR
+            if(ValidateAnchors())
+            {
+                EditorUtility.SetDirty(gameObject);
+            }
+        #endif
 
         collider = GetComponent<CircleCollider2D>();
 

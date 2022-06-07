@@ -15,6 +15,7 @@ public class Shooter : Controller
     Combatant combatant;
 
     CombatMode[] modes;
+    Timeline[] mode_cooldowns;
     int mode_shift;
 
     float real_scale => transform.lossyScale.x;
@@ -77,11 +78,11 @@ public class Shooter : Controller
             mode_shift = (mode_shift + mode_flux) % (modes.Length-1);
         }
 
-        print(mode_shift);
+        CombatMode ability = modes[1 + mode_shift];
 
-        if(Pressed(InputCode.CONFIRM))
+        if(Pressed(InputCode.CONFIRM) && ability.unlocked && ability.ready)
         {
-            machine.Transition(modes[1 + mode_shift].Entry);
+            machine.Transition(ability.Entry);
         }
     }
 }
