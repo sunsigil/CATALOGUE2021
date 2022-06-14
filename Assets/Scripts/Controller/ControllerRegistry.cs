@@ -63,8 +63,9 @@ public class ControllerRegistry : MonoBehaviour
             while
             (
                 controllers.Count > 0 &&
-                (controllers[index] == controller ||
-                !controllers[index].gameObject.activeSelf)
+                (controllers[index] == null ||
+                !controllers[index].gameObject.activeSelf ||
+                controllers[index] == controller)
             )
             {
                 controllers[index].is_registered = false;

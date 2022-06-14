@@ -102,6 +102,14 @@ public class Arena : MonoBehaviour
 		return instance;
 	}
 
+	public GameObject Add(GameObject prefab, Vector3 pos)
+	{
+		GameObject instance = Instantiate(prefab, grounds.transform);
+		instance.transform.localPosition = pos;
+
+		return instance;
+	}
+
 	public void Clear()
 	{
 		if(grounds != null){ Destroy(grounds); }

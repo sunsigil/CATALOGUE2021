@@ -20,12 +20,27 @@ public class Bullet : Combatant
 		set => _velocity = value;
 	}
 
+	bool _lethal;
+	public bool lethal
+	{
+		get => _lethal;
+		set => _lethal = value;
+	}
+
+	void Die()
+	{
+		Destroy(gameObject);
+	}
+
 	void Awake()
 	{
 		base.Awake();
 
 		rigidbody = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CircleCollider2D>();
+
+		on_deplete.AddListener(Die);
+		on_die.AddListener(Die);
 	}
 
 	void FixedUpdate()
@@ -40,8 +55,8 @@ public class Bullet : Combatant
 
 		if(other == null || other.faction != faction)
 		{
-			RingStrike(collider.offset, collider.radius, new Attack(this, _velocity, damage, true));
-			Destroy(gameObject);
+			RingStrike(collider.radius, new Attack(this, _velocity, damage, _lethal));
+			Die();
 		}
 	}
 }

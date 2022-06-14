@@ -17,8 +17,7 @@ public class Shooter : Controller
     CombatMode[] modes;
     Timeline[] mode_cooldowns;
     int mode_shift;
-
-    float real_scale => transform.lossyScale.x;
+    CombatMode ability => modes[1 + mode_shift];
 
     void HitEffects()
     {
@@ -27,14 +26,14 @@ public class Shooter : Controller
         Destroy(life_orbs[life_index]);
 
         ProgressRing hit_ring = AssetTools.SpawnComponent(progress_ring);
-        hit_ring.Initialize(Color.red, 0.05f, real_scale * 5, 0.75f);
+        hit_ring.Initialize(Color.red, 0.1f, combatant.arena_scale * 2.5f, 0.75f);
         hit_ring.transform.position = orb_position;
     }
 
     void DeathEffects()
     {
         ProgressRing death_ring = AssetTools.SpawnComponent(progress_ring);
-        death_ring.Initialize(Color.red, 0.1f, real_scale * 10, 1.5f);
+        death_ring.Initialize(Color.red, 0.05f, combatant.arena_scale * 5, 1.5f);
         death_ring.transform.position = transform.position;
 
         Destroy(gameObject);
@@ -47,8 +46,7 @@ public class Shooter : Controller
         machine = GetComponent<Machine>();
         combatant = GetComponent<Combatant>();
 
-        combatant.on_hit.AddListener(HitEffects);
-        combatant.on_deplete.AddListener(DeathEffects);
+        combatant.on_hurt.AddListener(HitEffects);
         combatant.on_die.AddListener(DeathEffects);
     }
 
@@ -62,7 +60,11 @@ public class Shooter : Controller
             mode.BindDefault(modes[0]);
         }
 
-        mode_shift = 0;
+        for(int i = 1; i < modes.Length; i++)
+        {
+            if(modes[i].unlocked){ mode_shift = i-1; }
+        }
+
         machine.Transition(modes[0].Entry);
     }
 
@@ -70,15 +72,18 @@ public class Shooter : Controller
     {
         int mode_flux = 0;
 
-        if(Pressed(InputCode.BACK)){ mode_flux = -1; }
+        if(Pressed(InputCode.BACK)){ mode_flux = modes.Length-2; }
         else if(Pressed(InputCode.FORTH)){ mode_flux = 1; }
 
         if(mode_flux != 0)
         {
-            mode_shift = (mode_shift + mode_flux) % (modes.Length-1);
+            int old_shift = mode_shift;
+            do
+            {
+                mode_shift = (mode_shift + mode_flux) % (modes.Length-1);
+            }
+            while(!ability.unlocked && mode_shift != old_shift);
         }
-
-        CombatMode ability = modes[1 + mode_shift];
 
         if(Pressed(InputCode.CONFIRM) && ability.unlocked && ability.ready)
         {

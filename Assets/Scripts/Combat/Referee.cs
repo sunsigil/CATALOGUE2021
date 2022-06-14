@@ -37,7 +37,7 @@ public class Referee : MonoBehaviour
         // Address possibility of unitinitialized enemy array
         if(enemies == null){enemies = new Enemy[enemy_prefabs.Length];}
 
-        for(int i = 0; i < enemies.Length; i++)
+        /*for(int i = 0; i < enemies.Length; i++)
         {
             if(enemies[i] != null){Destroy(enemies[i].gameObject);}
 
@@ -46,6 +46,19 @@ public class Referee : MonoBehaviour
             float depth = 0.5f + Random.Range(-0.1f, 0.1f);
 
             enemies[i] = arena.Add(enemy_prefabs[i].gameObject, angle, depth).GetComponent<Enemy>();
+        }*/
+
+        for(int i = 0; i < 10; i++)
+        {
+            for(int j = 0; j < 10; j++)
+            {
+                int idx = 10 * i + j;
+
+                if(enemies[idx] != null){Destroy(enemies[idx].gameObject);}
+
+                Vector3 pos = 0.5f * (new Vector3(i, j, 0) - new Vector3(5, 5, 0));
+                enemies[idx] = arena.Add(enemy_prefabs[idx].gameObject, pos).GetComponent<Enemy>();
+            }
         }
     }
 

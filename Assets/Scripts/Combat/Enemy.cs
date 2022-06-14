@@ -25,11 +25,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     int max_lives;
-    [SerializeField]
-    float strike_shift;
-    Vector3 strike_offset => transform.up * strike_shift;
-    [SerializeField]
-    float strike_radius;
 
     Rigidbody2D rigidbody;
     Machine machine;
@@ -49,7 +44,7 @@ public class Enemy : MonoBehaviour
             break;
 
             case EnemyMotionMode.CIRCLE:
-                if(transform.localPosition.magnitude < 3){ print("adjusting"); return transform.localPosition.normalized; }
+                if(transform.localPosition.magnitude < 3){ return transform.localPosition.normalized; }
                 else{ return Vector3.Cross(-transform.localPosition, Vector3.forward).normalized; }
             break;
 
@@ -83,15 +78,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void PrepareDeathblow()
-    {
-        machine.Transition(Depleted);
-    }
-
     public void DeathEffects()
     {
         ProgressRing death_ring = AssetTools.SpawnComponent(progress_ring);
-        death_ring.Initialize(Color.black, 0.1f, combatant.arena_scale * 5, 1);
+        death_ring.Initialize(Color.black, 0.1f, combatant.arena_scale * 2.5f, 1);
         death_ring.transform.position = transform.position;
 
         Destroy(gameObject);
@@ -179,7 +169,7 @@ public class Enemy : MonoBehaviour
         machine = GetComponent<Machine>();
         combatant = GetComponent<Combatant>();
 
-        combatant.on_deplete.AddListener(PrepareDeathblow);
+        combatant.on_deplete.AddListener(delegate{ machine.Transition(Depleted); });
         combatant.on_die.AddListener(DeathEffects);
 
         shooter = FindObjectOfType<Shooter>();
@@ -190,11 +180,5 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         if(shooter == null){Destroy(gameObject);}
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + strike_offset, strike_radius);
     }
 }

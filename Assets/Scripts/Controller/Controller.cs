@@ -34,7 +34,7 @@ public abstract class Controller : MonoBehaviour
         set => _is_current = value;
     }
 
-    bool is_operable => _unmanaged || (_is_registered && _is_current) && _scheme != null;
+    protected bool is_operable => _unmanaged || (_is_registered && _is_current) && _scheme != null;
 
     public bool Pressed(InputCode code)
     {

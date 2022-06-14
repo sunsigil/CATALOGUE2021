@@ -16,6 +16,9 @@ public abstract class CombatMode : Subcontroller
 	[SerializeField]
 	protected float cooldown;
 
+	[SerializeField]
+	protected bool lethal;
+
 	protected Logger logger;
 
 	protected Combatant combatant;

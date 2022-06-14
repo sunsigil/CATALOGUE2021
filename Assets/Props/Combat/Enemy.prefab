@@ -106,8 +106,8 @@ Rigidbody2D:
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &4137613759322591999
 CircleCollider2D:
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _faction: 1
+  offset: {x: 0, y: 0, z: 0}
   max_lives: 1
   hurt_cooldown: 0
 --- !u!114 &-4244905406096967507
@@ -164,10 +165,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b0b35be2c06c5428b9cb857054e3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet_prefab: {fileID: 3173055655578325180, guid: 955e3bacf6544ff489bc672bcd2a0257, type: 3}
+  bullet_prefab: {fileID: 6089572887818401924, guid: 333ae05524b14b140a8d95772dd8fd9d, type: 3}
   deathblow_dot: {fileID: 6771002187170005132}
-  motion_mode: 1
-  fire_mode: 0
+  motion_mode: 0
+  fire_mode: 1
   fire_cooldown: 1
   max_lives: 1
   strike_shift: 0

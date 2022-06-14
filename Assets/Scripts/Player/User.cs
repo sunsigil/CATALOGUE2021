@@ -76,11 +76,5 @@ public class User : Controller
         {
             Instantiate(log_menu_prefab);
         }
-
-        if(Input.GetKeyDown(KeyCode.Minus))
-        {
-            logger.Save();
-            Application.Quit();
-        }
     }
 }
