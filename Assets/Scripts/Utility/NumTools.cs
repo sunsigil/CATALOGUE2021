@@ -9,29 +9,29 @@ public static class NumTools
         return new Vector3(v.x, v.y, 0);
     }
 
-    public static Quaternion XY_Rot(Vector2 v, float offset=0)
-    {
-        return Quaternion.Euler(0, 0, Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg + offset);
-    }
-
-    public static Vector3 XY_Scale(float scale)
-    {
-        return new Vector3(scale, scale, 1);
-    }
-
     public static Vector3 XY_Polar(float theta, float radius)
     {
         return new Vector3(Mathf.Cos(theta), Mathf.Sin(theta), 0) * radius;
     }
 
-    public static Vector3 PinwheelVelocity(float rps)
+    public static Quaternion XY_Quat(float t)
     {
-        return Vector3.forward * 2 * Mathf.PI * rps;
+        return Quaternion.Euler(0, 0, t * Mathf.Rad2Deg);
     }
 
-    public static Quaternion PinwheelRot(float theta)
+    public static Quaternion XY_Quat(Vector2 v, float offset=0)
     {
-        return Quaternion.Euler(new Vector3(0, 0, theta * Mathf.Rad2Deg));
+        return Quaternion.Euler(0, 0, Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg + offset);
+    }
+
+    public static Vector3 XY_Omega(float rps)
+    {
+        return rps * 2 * Mathf.PI * Vector3.forward;
+    }
+
+    public static Vector3 XY_Scale(float scale)
+    {
+        return new Vector3(scale, scale, 1);
     }
 
     public static float Blink(float t)

@@ -1,0 +1,4 @@
+give_rune 0
+give_rune 2
+give_rune 4
+give_rune 6

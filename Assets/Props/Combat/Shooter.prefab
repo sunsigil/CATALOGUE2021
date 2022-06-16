@@ -29,7 +29,7 @@ Transform:
   m_Children:
   - {fileID: 7787942731747804563}
   m_Father: {fileID: 2515228022098615884}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1081927546526277182
 GameObject:
@@ -61,7 +61,7 @@ Transform:
   - {fileID: 3374714050159789693}
   - {fileID: 2253670098197132478}
   m_Father: {fileID: 2515228022098615884}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2069313932665251194
 GameObject:
@@ -161,8 +161,9 @@ GameObject:
   - component: {fileID: 2435156633096006502}
   - component: {fileID: 4232791279838036129}
   - component: {fileID: 7767595128901129838}
-  - component: {fileID: 5695178729073392678}
+  - component: {fileID: 3767376099693005337}
   - component: {fileID: 4078412596870422368}
+  - component: {fileID: 5695178729073392678}
   - component: {fileID: 5016385179828890767}
   m_Layer: 3
   m_Name: Shooter
@@ -185,6 +186,7 @@ Transform:
   - {fileID: 2249931740604467955}
   - {fileID: 3838289231427805797}
   - {fileID: 7257605093125069068}
+  - {fileID: 7521459253196430393}
   - {fileID: 6706343718486564274}
   - {fileID: 7513474163987212196}
   - {fileID: 4623808948208919874}
@@ -315,7 +317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _faction: 0
   offset: {x: 0, y: 0.15, z: 0}
-  max_lives: 3
+  _max_lives: 3
   hurt_cooldown: 1
 --- !u!114 &4232791279838036129
 MonoBehaviour:
@@ -350,9 +352,10 @@ MonoBehaviour:
   rune_ability: 0
   rune_idx: 0
   cooldown: 0
+  lethal: 0
   bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
   speed: 3
---- !u!114 &5695178729073392678
+--- !u!114 &3767376099693005337
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -361,16 +364,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2515228022098615890}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31b4653808ac3fb468d4136b71962ac3, type: 3}
+  m_Script: {fileID: 11500000, guid: f3c91c81a7d4ac94c8727f4e25c12dd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rune_ability: 1
   rune_idx: 0
-  cooldown: 6
-  shield_ring: {fileID: 6761317021705238233}
-  shield_time: 3
-  max_shield_radius: 1.5
-  min_shield_radius: 0.9
+  cooldown: 5
+  lethal: 0
+  bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
+  base_count: 5
+  boost_count: 15
+  rotation_time: 0.75
 --- !u!114 &4078412596870422368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,10 +390,34 @@ MonoBehaviour:
   rune_ability: 1
   rune_idx: 1
   cooldown: 5
+  lethal: 0
   attack_line: {fileID: 2049484162033835144}
   attack_ring: {fileID: 7688609029733087172}
+  base_radius: 1
+  boost_radius: 2
   travel_time: 0.75
-  strike_radius: 0.9
+--- !u!114 &5695178729073392678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515228022098615890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b4653808ac3fb468d4136b71962ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rune_ability: 1
+  rune_idx: 2
+  cooldown: 5
+  lethal: 0
+  shield_ring: {fileID: 6761317021705238233}
+  base_durability: 3
+  boost_durability: 5
+  max_shield_radius: 1.5
+  min_shield_radius: 0.9
+  shield_time: 3
 --- !u!114 &5016385179828890767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,9 +431,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rune_ability: 1
-  rune_idx: 2
-  cooldown: 3
+  rune_idx: 3
+  cooldown: 5
+  lethal: 0
   pulse_wave: {fileID: 3430447489692392552}
+  base_arc: 0.785
+  boost_arc: 1.57
   pulse_time: 0.5
 --- !u!1 &2773781368029392682
 GameObject:
@@ -808,6 +839,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d56ec5062a2ed9489508cee2b5c1c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6254357030230677978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7521459253196430393}
+  m_Layer: 0
+  m_Name: Swirl
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7521459253196430393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6254357030230677978}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2515228022098615884}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6651688656236198675
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +980,7 @@ Transform:
   m_Children:
   - {fileID: 7865887612986377604}
   m_Father: {fileID: 2515228022098615884}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8647793070239032259
 GameObject:
@@ -932,6 +993,8 @@ GameObject:
   - component: {fileID: 7865887612986377604}
   - component: {fileID: 3953916836409520074}
   - component: {fileID: 6761317021705238233}
+  - component: {fileID: 8879247507104830540}
+  - component: {fileID: 8542294884382319}
   m_Layer: 0
   m_Name: Shield Ring
   m_TagString: Untagged
@@ -1016,3 +1079,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d56ec5062a2ed9489508cee2b5c1c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &8879247507104830540
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647793070239032259}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!114 &8542294884382319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647793070239032259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4df208daf7c3e949b072955e08a7d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _faction: 0
+  offset: {x: 0, y: 0, z: 0}
+  _max_lives: 0
+  hurt_cooldown: 0

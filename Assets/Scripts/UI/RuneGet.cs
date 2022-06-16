@@ -37,7 +37,7 @@ public class RuneGet : Controller
                 timeline.Tick(Time.fixedDeltaTime);
 
                 rune_widget.transform.localScale = NumTools.XY_Scale(Mathf.Lerp(scale_i, scale_f, timeline.progress));
-                rune_widget.transform.rotation = NumTools.PinwheelRot(Mathf.Lerp(theta_i, theta_f, timeline.progress));
+                rune_widget.transform.rotation = NumTools.XY_Quat(Mathf.Lerp(theta_i, theta_f, timeline.progress));
 
                 if(timeline.Evaluate())
                 {
@@ -75,7 +75,7 @@ public class RuneGet : Controller
         theta_f = 4 * (2 * Mathf.PI) + Random.Range(-Mathf.PI / 6, Mathf.PI / 6);
 
         rune_widget.transform.localScale = NumTools.XY_Scale(scale_i);
-        rune_widget.transform.rotation = NumTools.PinwheelRot(theta_i);
+        rune_widget.transform.rotation = NumTools.XY_Quat(theta_i);
         rune_widget.Bind(_rune);
 
         bubble.Attach(Intro);

@@ -125,7 +125,7 @@ public class Enemy : MonoBehaviour
             break;
 
             case StateSignal.FIXED_TICK:
-                transform.rotation = NumTools.XY_Rot(GetVelocity());
+                transform.rotation = NumTools.XY_Quat(GetVelocity());
                 rigidbody.MovePosition(transform.position + GetVelocity() * Time.fixedDeltaTime);
             break;
         }

@@ -9,8 +9,13 @@ public class Pulse : CombatMode
 	Material pulse_mat;
 
 	[SerializeField]
+	float base_arc;
+	[SerializeField]
+	float boost_arc;
+	[SerializeField]
 	float pulse_time;
 
+	float arc;
     Timeline timeline;
 
     Vector3 MouseDirection()
@@ -49,7 +54,7 @@ public class Pulse : CombatMode
 				combatant.ArcStrike
 				(
 					pulse_wave.transform.localScale.x/2 * timeline.progress,
-					1.57f, 1.57f,
+					1.57f, arc,
 					new Attack(combatant, transform.up, 1, lethal)
 				);
 
@@ -75,7 +80,10 @@ public class Pulse : CombatMode
 
 		pulse_mat = pulse_wave.material;
 
+		arc = powered ? boost_arc : base_arc;
+
 		pulse_mat.SetFloat("_Thickness", 0.05f);
+		pulse_mat.SetFloat("_Arc", arc);
 		pulse_wave.gameObject.SetActive(false);
     }
 

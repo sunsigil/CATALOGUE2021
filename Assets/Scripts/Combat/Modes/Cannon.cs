@@ -61,7 +61,7 @@ public class Cannon : CombatMode
     void UpdateRotation()
     {
         if(swivelling)
-        { transform.rotation = NumTools.XY_Rot(mouse_ray.normalized, -90); }
+        { transform.rotation = NumTools.XY_Quat(mouse_ray.normalized, -90); }
     }
 
     void UpdateVelocity()
@@ -99,7 +99,7 @@ public class Cannon : CombatMode
 				if(Pressed(InputCode.ACTION))
 				{
 					Bullet bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
-					bullet.transform.position = transform.position + transform.forward;
+					bullet.transform.position = transform.position + transform.up * combatant.arena_scale;
 					bullet.velocity = transform.up * 5;
 					bullet.lethal = lethal;
 				}

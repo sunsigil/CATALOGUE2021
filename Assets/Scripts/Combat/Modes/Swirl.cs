@@ -7,23 +7,21 @@ using UnityEngine;
 public class Swirl : CombatMode
 {
     [SerializeField]
-	LineRenderer attack_line;
-	[SerializeField]
-	ProgressRing attack_ring;
+    GameObject bullet_prefab;
 
     [SerializeField]
-    float travel_time;
+    int base_count;
     [SerializeField]
-    float strike_shift;
-	Vector3 strike_offset => transform.up * strike_shift;
+    int boost_count;
     [SerializeField]
-    float strike_radius;
+    float rotation_time;
 
-    Rigidbody2D rigidbody;
-
+    int count;
     Timeline timeline;
-    Vector3 start;
-    Vector3 end;
+    float omega;
+    float theta;
+    float spawn_arc;
+    float arc_accum;
 
     Vector3 MouseDirection()
     {
@@ -51,42 +49,7 @@ public class Swirl : CombatMode
     {
         if(signal == StateSignal.ENTER)
         {
-            machine.Transition(Anticipation);
-        }
-    }
-
-    public void Anticipation(StateSignal signal)
-    {
-        switch(signal)
-        {
-            case StateSignal.ENTER:
-				start = transform.position;
-                end = start;
-            break;
-
-            case StateSignal.TICK:
-                transform.rotation = NumTools.XY_Rot(MouseDirection(), -90);
-
-				if(Pressed(InputCode.CONFIRM) || Held(InputCode.CONFIRM))
-				{
-					Vector3 front_ray = RayToWall(MouseDirection());
-					Vector3 back_ray = RayToWall(-MouseDirection());
-					start = transform.position + back_ray;
-					end = transform.position + front_ray;
-
-					attack_line.gameObject.SetActive(true);
-					attack_line.SetPosition(0, start);
-			        attack_line.SetPosition(1, end);
-				}
-				else if(Released(InputCode.CONFIRM))
-				{
-					machine.Transition(Resolution);
-				}
-            break;
-
-			case StateSignal.EXIT:
-				attack_ring.gameObject.SetActive(true);
-			break;
+            machine.Transition(Resolution);
         }
     }
 
@@ -95,57 +58,50 @@ public class Swirl : CombatMode
         switch(signal)
         {
             case StateSignal.ENTER:
-                timeline = new Timeline(travel_time);
+                timeline = new Timeline(rotation_time);
                 combatant.ToggleInvincible(true);
+
+                omega = 2 * Mathf.PI / rotation_time;
+                theta = transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
+                spawn_arc = 2 * Mathf.PI / count;
+                arc_accum = 0;
             break;
 
             case StateSignal.FIXED_TICK:
-				timeline.Tick(Time.fixedDeltaTime);
+                transform.rotation = NumTools.XY_Quat(theta);
+                theta += omega * Time.fixedDeltaTime;
 
-                Vector3 velocity = (end - start) / travel_time;
-                rigidbody.MovePosition(transform.position + velocity * Time.fixedDeltaTime);
+                if(arc_accum == 0 || arc_accum >= spawn_arc)
+                {
+                    Bullet bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
+					bullet.transform.position = transform.position + transform.up * combatant.arena_scale;
+					bullet.velocity = transform.up;
+					bullet.lethal = lethal;
 
-				combatant.RingStrike(strike_radius, new Attack(combatant, Vector3.zero, 1, false));
-				attack_ring.transform.localPosition = strike_offset;
+                    arc_accum = 0;
+                }
+                arc_accum += omega * Time.deltaTime;
 
-                if(timeline.Evaluate())
-				{
-					machine.Transition(default_state);
-				}
+                if(timeline.Evaluate()){ machine.Transition(default_state); }
+                timeline.Tick(Time.fixedDeltaTime);
             break;
 
             case StateSignal.EXIT:
-                cooldown_timeline = new Timeline(cooldown);
                 combatant.ToggleInvincible(false);
-                attack_line.gameObject.SetActive(false);
-    			attack_ring.gameObject.SetActive(false);
+                cooldown_timeline = new Timeline(cooldown);
             break;
         }
     }
 
     protected override void Awake()
     {
-		base.Awake();
+        base.Awake();
 
-        rigidbody = GetComponent<Rigidbody2D>();
-
-        float line_width = attack_line.widthCurve[0].value * combatant.arena_scale;
-        attack_line.SetWidth(line_width, line_width);
-        attack_line.gameObject.SetActive(false);
-
-		attack_ring.transform.localScale = NumTools.XY_Scale(strike_radius * 2);
-		attack_ring.transform.localPosition = strike_offset;
-        attack_line.gameObject.SetActive(false);
+        count = powered ? boost_count : base_count;
     }
 
     void Update()
     {
         cooldown_timeline.Tick(Time.deltaTime);
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + strike_offset, strike_radius);
     }
 }

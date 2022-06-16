@@ -63,7 +63,7 @@ public class Arena : MonoBehaviour
             Vector3 offset = NumTools.XY_Polar(theta, disc_radius);
             piece.transform.localPosition = offset;
 
-            piece.transform.rotation = NumTools.PinwheelRot(theta - Mathf.PI * 0.5f);
+            piece.transform.rotation = NumTools.XY_Quat(theta - Mathf.PI * 0.5f);
         }
 	}
 
@@ -90,7 +90,7 @@ public class Arena : MonoBehaviour
             Vector3 offset = NumTools.XY_Polar(theta, wreath_radius);
             piece.transform.localPosition = offset;
 
-            piece.transform.rotation = NumTools.PinwheelRot(theta - Mathf.PI * 0.5f);
+            piece.transform.rotation = NumTools.XY_Quat(theta - Mathf.PI * 0.5f);
         }
     }
 
@@ -137,7 +137,7 @@ public class Arena : MonoBehaviour
 	{
 		if(wreath)
 		{
-			wreath.transform.Rotate(NumTools.PinwheelVelocity(wreath_rps) * Time.fixedDeltaTime);
+			wreath.transform.Rotate(NumTools.XY_Omega(wreath_rps) * Time.fixedDeltaTime);
 		}
 	}
 

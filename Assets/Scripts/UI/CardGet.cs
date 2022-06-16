@@ -38,7 +38,7 @@ public class CardGet : Controller
                 timeline.Tick(Time.fixedDeltaTime);
 
                 card_widget.transform.localScale = NumTools.XY_Scale(Mathf.Lerp(scale_i, scale_f, timeline.progress));
-                card_widget.transform.rotation = NumTools.PinwheelRot(Mathf.Lerp(theta_i, theta_f, timeline.progress));
+                card_widget.transform.rotation = NumTools.XY_Quat(Mathf.Lerp(theta_i, theta_f, timeline.progress));
 
                 if(timeline.Evaluate())
                 {
@@ -76,7 +76,7 @@ public class CardGet : Controller
         theta_f = 4 * (2 * Mathf.PI) + Random.Range(-Mathf.PI / 6, Mathf.PI / 6);
 
         card_widget.transform.localScale = NumTools.XY_Scale(scale_i);
-        card_widget.transform.rotation = NumTools.PinwheelRot(theta_i);
+        card_widget.transform.rotation = NumTools.XY_Quat(theta_i);
         card_widget.Bind(_card);
 
         bubble.Attach(Intro);

@@ -171,8 +171,6 @@ MonoBehaviour:
   fire_mode: 1
   fire_cooldown: 1
   max_lives: 1
-  strike_shift: 0
-  strike_radius: 0.2
 --- !u!1 &5016095467366799297
 GameObject:
   m_ObjectHideFlags: 0

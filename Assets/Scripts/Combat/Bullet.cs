@@ -45,7 +45,7 @@ public class Bullet : Combatant
 
 	void FixedUpdate()
 	{
-		transform.Rotate(NumTools.PinwheelVelocity(2));
+		transform.Rotate(NumTools.XY_Omega(2));
 		rigidbody.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
 	}
 

@@ -8,12 +8,20 @@ public class Shield : CombatMode
 	ProgressRing shield_ring;
 
 	[SerializeField]
-	float shield_time;
+	int base_durability;
+	[SerializeField]
+	int boost_durability;
 	[SerializeField]
 	float max_shield_radius;
 	[SerializeField]
 	float min_shield_radius;
+	[SerializeField]
+	float shield_time;
 
+	Combatant shield_combatant;
+	Collider2D shield_collider;
+
+	int durability;
     Timeline timeline;
 	float shield_radius;
 
@@ -25,6 +33,19 @@ public class Shield : CombatMode
         Vector3 mouse_line = mouse_point - transform.position;
         return mouse_line.normalized;
     }
+
+	void DamageShield()
+	{
+		if(machine.InState(Anticipation))
+		{
+			timeline.Tick(shield_time / durability);
+
+			if(timeline.Evaluate())
+			{
+				machine.Transition(Resolution);
+			}
+		}
+	}
 
     public override void Entry(StateSignal signal)
     {
@@ -48,7 +69,7 @@ public class Shield : CombatMode
 				if(Pressed(InputCode.CONFIRM) || Held(InputCode.CONFIRM))
 				{
 					shield_radius = Mathf.Lerp(max_shield_radius, min_shield_radius, timeline.progress);
-					shield_ring.Lock(Color.red, 0.1f, shield_radius);
+					shield_ring.Lock(Color.red, 0.15f, shield_radius);
 
 					timeline.Tick(Time.deltaTime);
 				}
@@ -74,7 +95,7 @@ public class Shield : CombatMode
 
             case StateSignal.TICK:
 				shield_radius = Mathf.Lerp(min_shield_radius, 0, timeline.progress);
-				shield_ring.Lock(Color.red, 0.1f, shield_radius);
+				shield_ring.Lock(Color.red, 0.05f, shield_radius);
 
 				timeline.Tick(Time.deltaTime);
 
@@ -86,6 +107,7 @@ public class Shield : CombatMode
 
             case StateSignal.EXIT:
                 shield_ring.gameObject.SetActive(false);
+				cooldown_timeline = new Timeline(cooldown);
             break;
         }
     }
@@ -93,18 +115,21 @@ public class Shield : CombatMode
     protected override void Awake()
     {
 		base.Awake();
-		shield_ring.gameObject.SetActive(false);
+
+		shield_combatant = shield_ring.GetComponent<Combatant>();
+		shield_collider = shield_ring.GetComponent<Collider2D>();
+
+		durability = powered ? boost_durability : base_durability;
     }
+
+	void Start()
+	{
+		shield_combatant.on_hurt.AddListener(DamageShield);
+		shield_ring.gameObject.SetActive(false);
+	}
 
     void Update()
     {
         cooldown_timeline.Tick(Time.deltaTime);
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(shield_ring.transform.position, max_shield_radius);
-		Gizmos.DrawWireSphere(shield_ring.transform.position, min_shield_radius);
     }
 }

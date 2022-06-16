@@ -19,9 +19,9 @@ public class Shooter : Controller
     int mode_shift;
     CombatMode ability => modes[1 + mode_shift];
 
-    void HitEffects()
+    void HurtEffects()
     {
-        int life_index = (int)(combatant.life * 3);
+        int life_index = combatant.lives;
         Vector3 orb_position = life_orbs[life_index].transform.position;
         Destroy(life_orbs[life_index]);
 
@@ -46,7 +46,8 @@ public class Shooter : Controller
         machine = GetComponent<Machine>();
         combatant = GetComponent<Combatant>();
 
-        combatant.on_hurt.AddListener(HitEffects);
+        combatant.on_hurt.AddListener(HurtEffects);
+        combatant.on_deplete.AddListener(DeathEffects);
         combatant.on_die.AddListener(DeathEffects);
     }
 

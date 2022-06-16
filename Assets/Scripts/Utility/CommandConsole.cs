@@ -117,12 +117,6 @@ public class CommandConsole : Controller
 
     void Evaluate(string command)
     {
-        if(String.IsNullOrWhiteSpace(command)){ return; }
-
-        Record(command);
-        Log(command);
-        prompt.text = "";
-
         string[] command_arr = command.ToLower().Split(' ');
         Array.Reverse(command_arr);
         command_stack = new Stack<string>(command_arr);
@@ -154,8 +148,23 @@ public class CommandConsole : Controller
                 break;
         }
     }
+
+    public void Process(string command)
+    {
+        if(String.IsNullOrWhiteSpace(command)){ prompt.text = ""; return; }
+
+        command = command.Trim(new char[]{' ', '\n'});
+        if(command.StartsWith("#")){ prompt.text = ""; return; }
+
+        Record(command);
+        Log(command);
+        prompt.text = "";
+
+        Evaluate(command);
+    }
 #endregion
 
+#region PUBLIC_FUNCS
     void Awake()
     {
         log = GetComponentInChildren<TextMeshProUGUI>();
@@ -164,7 +173,7 @@ public class CommandConsole : Controller
         command_record = new List<string>();
         record_index = 0;
 
-        prompt.onSubmit.AddListener(Evaluate);
+        prompt.onSubmit.AddListener(Process);
     }
 
     void Update()
@@ -192,4 +201,5 @@ public class CommandConsole : Controller
             }
         }
     }
+#endregion
 }

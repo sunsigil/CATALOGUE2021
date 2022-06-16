@@ -16,10 +16,11 @@ public class Combatant : MonoBehaviour
 	[Header("Taking Damage")]
 
 	[SerializeField]
-	protected int max_lives;
-	protected int lives;
-	public float life => (float)lives / (float)max_lives;
-	public string life_string => $"{lives} / {max_lives} = {life}";
+	protected int _max_lives;
+	public int max_lives => _max_lives;
+	protected int _lives;
+	public int lives => _lives;
+	public float life => (float)_lives / (float)_max_lives;
 
 	[SerializeField]
 	protected float hurt_cooldown;
@@ -40,12 +41,12 @@ public class Combatant : MonoBehaviour
 
 	protected void ProcessAttack(Attack attack)
 	{
-		int old_lives = lives;
-		lives = Mathf.Clamp(lives - attack.damage, 0, max_lives);
+		int old_lives = _lives;
+		_lives = Mathf.Clamp(_lives - attack.damage, 0, _max_lives);
 
 		_on_hurt.Invoke();
 
-		if(lives == 0)
+		if(_lives == 0)
 		{
 			if(old_lives != 0)
 			{
@@ -118,12 +119,12 @@ public class Combatant : MonoBehaviour
 
 	public void Heal(int quant)
 	{
-		lives = Mathf.Clamp(lives + quant, 0, max_lives);
+		_lives = Mathf.Clamp(_lives + quant, 0, _max_lives);
 	}
 
 	protected void Awake()
 	{
-		lives = max_lives;
+		_lives = _max_lives;
 
 		nohurt_timeline = new Timeline(hurt_cooldown);
 

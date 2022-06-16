@@ -12,12 +12,15 @@ public class Slingshot : CombatMode
 	ProgressRing attack_ring;
 
     [SerializeField]
-    float travel_time;
+    float base_radius;
     [SerializeField]
-    float strike_radius;
+    float boost_radius;
+    [SerializeField]
+    float travel_time;
 
     Rigidbody2D rigidbody;
 
+    float radius;
     Timeline timeline;
     Vector3 start;
     Vector3 end;
@@ -62,7 +65,7 @@ public class Slingshot : CombatMode
             break;
 
             case StateSignal.TICK:
-                transform.rotation = NumTools.XY_Rot(MouseDirection(), -90);
+                transform.rotation = NumTools.XY_Quat(MouseDirection(), -90);
 
 				if(Pressed(InputCode.CONFIRM) || Held(InputCode.CONFIRM))
 				{
@@ -113,14 +116,14 @@ public class Slingshot : CombatMode
             break;
 
             case StateSignal.TICK:
-                combatant.RingStrike(strike_radius, new Attack(combatant, Vector3.zero, 1, lethal));
+                combatant.RingStrike(radius, new Attack(combatant, Vector3.zero, 1, lethal));
             break;
 
             case StateSignal.EXIT:
-                cooldown_timeline = new Timeline(cooldown);
                 combatant.ToggleInvincible(false);
                 attack_line.gameObject.SetActive(false);
     			attack_ring.gameObject.SetActive(false);
+                cooldown_timeline = new Timeline(cooldown);
             break;
         }
     }
@@ -131,24 +134,18 @@ public class Slingshot : CombatMode
 
         rigidbody = GetComponent<Rigidbody2D>();
 
+        radius = powered ? boost_radius : base_radius;
+
         float line_width = attack_line.widthCurve[0].value * combatant.arena_scale;
         attack_line.SetWidth(line_width, line_width);
         attack_line.gameObject.SetActive(false);
 
-		attack_ring.transform.localScale = NumTools.XY_Scale(strike_radius * 2);
+		attack_ring.transform.localScale = NumTools.XY_Scale(radius * 2);
         attack_ring.gameObject.SetActive(false);
     }
 
     void Update()
     {
         cooldown_timeline.Tick(Time.deltaTime);
-    }
-
-    void OnDrawGizmos()
-    {
-        combatant = GetComponent<Combatant>();
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(combatant.arena_offset, strike_radius * combatant.arena_scale);
     }
 }
