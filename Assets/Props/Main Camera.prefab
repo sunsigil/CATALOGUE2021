@@ -93,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3759340113649938339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef2972a60cfa5464184210f98cf27f53, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e37b7db2c5346e4f9f002323c6621f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothing: 0.352
+  smoothing: 0.25

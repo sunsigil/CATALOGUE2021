@@ -9,6 +9,7 @@ public class Referee : MonoBehaviour
     [SerializeField]
     Enemy[] enemy_prefabs;
 
+    [SerializeField]
     [Range(0, 6.2831f)]
     float player_angle;
     [SerializeField]
@@ -110,8 +111,11 @@ public class Referee : MonoBehaviour
                 }
             } while(already_picked);
 
-            enemies[random_index].Aggro();
-            aggro_indices[i] = random_index;
+            if(random_index != -1)
+            {
+                enemies[random_index].Aggro();
+                aggro_indices[i] = random_index;
+            }
         }
     }
 }

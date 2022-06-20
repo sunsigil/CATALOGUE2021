@@ -13,7 +13,9 @@ public class IngredientWidget : MonoBehaviour, IBindable
 	public void Bind(object data)
 	{
 		ingredient = data as Ingredient;
-		image.sprite = (ingredient.icon != null) ? ingredient.icon : AssetTools.DefaultResource<Sprite>();
+
+		if(ingredient == null || ingredient.icon == null){ image.sprite = AssetTools.DefaultResource<Sprite>(); }
+		else{ image.sprite = ingredient.icon; }
 	}
 
 	public bool IsBound(){ return ingredient != null; }

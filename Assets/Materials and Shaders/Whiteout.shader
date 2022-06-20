@@ -4,6 +4,8 @@ Shader "Unlit/Whiteout"
     {
         [HideInInspector] _MainTex ("Texture", 2D) = "white" {}
         _Color ("Color", Color) = (1,1,1,1)
+        _BorderColor ("Border Color", Color) = (0,0,0,1)
+        _BorderThickness ("Border Thickness", Float) = 0
     }
     SubShader
     {
@@ -38,6 +40,8 @@ Shader "Unlit/Whiteout"
             float4 _MainTex_ST;
 			float4 _MainTex_TexelSize;
             float4 _Color;
+            float4 _BorderColor;
+            float4 _BorderThickness;
 
             v2f vert (appdata v)
             {
@@ -51,6 +55,9 @@ Shader "Unlit/Whiteout"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 col = _Color;
+
+                col *= i.uv.x > _BorderThickness;
+
                 return col;
             }
             ENDCG

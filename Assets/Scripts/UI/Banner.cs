@@ -48,7 +48,7 @@ public class Banner : MonoBehaviour
         left_dot_end = new TransformSnapshot(left_dot);
         right_dot_start = new TransformSnapshot(NumTools.XY_Scale(0), right_dot.rotation, dot.position);
         right_dot_end = new TransformSnapshot(right_dot);
-        float line_width_target = line_renderer.widthCurve[0].value;
+        line_width_target = line_renderer.widthCurve[0].value;
 
         line_renderer.SetWidth(0, 0);
         line_renderer.SetPosition(0, dot.localPosition);

@@ -1,4 +1,8 @@
-give_rune 0
-give_rune 2
-give_rune 4
-give_rune 6
+# give_rune 0
+# give_rune 1
+# give_rune 2
+# give_rune 3
+# give_rune 4
+# give_rune 5
+# give_rune 6
+# give_rune 7

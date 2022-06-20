@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6964208632247728235}
   - component: {fileID: 3047735241684574136}
   m_Layer: 0
-  m_Name: Med Pot 2
+  m_Name: Rustic Pot 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,10 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6964208632247728244}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b11d924877263b54cb7a31cb82ead256, type: 3}
+  m_Script: {fileID: 11500000, guid: 6217ff4a8a05c624daae1fa5ab8c5a42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 495c46cb603af764e888c547a11444f7, type: 3}
-  layer: Background
-  order: 0
-  _weight: 0.1
+  _weight: 1

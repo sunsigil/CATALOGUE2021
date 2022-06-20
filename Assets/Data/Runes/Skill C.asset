@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7f377b91328ce14b92aa54b9e90c835, type: 3}
+  m_Script: {fileID: 11500000, guid: 40a38777813e1444ba238fd50fe7b6c8, type: 3}
   m_Name: Skill C
   m_EditorClassIdentifier: 
-  _icon: {fileID: 21300000, guid: 1beccc0737f6e2342adc94752ab754ce, type: 3}
+  _icon: {fileID: 0}
   _flag: 4

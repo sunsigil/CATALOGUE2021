@@ -148,7 +148,7 @@ public class Arena : MonoBehaviour
 
 		if(disc_radius > 0)
 		{
-			Gizmos.color = Color.blue;
+			Gizmos.color = Color.green;
 			Gizmos.DrawWireSphere(transform.position, absolute_radius * (wreath_radius / disc_radius));
 		}
 	}

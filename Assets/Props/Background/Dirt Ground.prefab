@@ -92,10 +92,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5187783909433306118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b11d924877263b54cb7a31cb82ead256, type: 3}
+  m_Script: {fileID: 11500000, guid: 6217ff4a8a05c624daae1fa5ab8c5a42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: b8627d2df295bf643aac4e34599f4674, type: 3}
-  layer: Center
-  order: 0
   _weight: 1

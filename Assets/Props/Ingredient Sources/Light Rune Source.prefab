@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &172345449087882109
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6077646664554177856, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 75f46610909d6184898e02b87e8ad609, type: 3}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177857, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077646664554177859, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: m_Name
+      value: Light Rune Source
+      objectReference: {fileID: 0}
+    - target: {fileID: 7804666722336226827, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: output
+      value: 
+      objectReference: {fileID: 11400000, guid: 28ceda47e87ca0c4f981d17373e5a19d, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d71dff59727d035498c8132e9bb72335, type: 3}

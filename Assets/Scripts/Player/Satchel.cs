@@ -18,6 +18,7 @@ public class Satchel : MonoBehaviour
 
     public void Add(Ingredient ingredient)
     {
+        if(ingredient == null){ return; }
         if(_contents.Count == size){ return; }
 
         _contents.Add(ingredient);
@@ -26,6 +27,7 @@ public class Satchel : MonoBehaviour
 
     public void Remove(Ingredient ingredient)
     {
+        if(ingredient == null){ return; }
         if(_contents.Count == 0){ return; }
 
         _contents.Remove(ingredient);
@@ -40,6 +42,8 @@ public class Satchel : MonoBehaviour
 
     public bool Contains(Ingredient ingredient)
     {
+        if(ingredient == null){ return false; }
+
         for(int i = 0; i < _contents.Count; i++)
         {
             if(_contents[i] == ingredient){ return true; }
