@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 7856525370332582266}
   - component: {fileID: 425069033444609452}
   m_Layer: 0
-  m_Name: Text Canvas
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -273,5 +273,5 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 271098959
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_TargetDisplay: 0

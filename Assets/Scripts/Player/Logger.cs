@@ -72,7 +72,7 @@ public class Logger : MonoBehaviour
         }
 
         Vector3 position = transform.position;
-        //transform.position = new Vector3(x_position, position.y, position.z);
+        transform.position = new Vector3(x_position, position.y, position.z);
 
         Vector3 rotation = transform.rotation.eulerAngles;
         transform.rotation = Quaternion.Euler(0, y_rotation, 0);

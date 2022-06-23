@@ -72,24 +72,26 @@ public class NPC : MonoBehaviour
         }
     }
 
-    void Cleanup()
+    void Cleanup(bool complete)
     {
         Destroy(dialogue_bubble);
         text = null;
 
-        if(dialogue == card_dialogue)
+        if(complete)
         {
-            logger.AddCard(card.flag);
-            card_get_prefab.GetComponent<CardGet>().card = card;
-            spawn_queue.Add(card_get_prefab);
-        }
-
-        if(dialogue == essence_dialogue)
-        {
-            satchel.Remove(input);
-            logger.AddRune(output.flag);
-            rune_get_prefab.GetComponent<RuneGet>().rune = output;
-            spawn_queue.Add(rune_get_prefab);
+            if(dialogue == card_dialogue)
+            {
+                logger.AddCard(card.flag);
+                card_get_prefab.GetComponent<CardGet>().card = card;
+                spawn_queue.Add(card_get_prefab);
+            }
+            else if(dialogue == essence_dialogue)
+            {
+                satchel.Remove(input);
+                logger.AddRune(output.flag);
+                rune_get_prefab.GetComponent<RuneGet>().rune = output;
+                spawn_queue.Add(rune_get_prefab);
+            }
         }
     }
 
@@ -105,7 +107,7 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            Cleanup();
+            Cleanup(true);
             return;
         }
 
@@ -166,7 +168,7 @@ public class NPC : MonoBehaviour
         }
         else
         {
-            Cleanup();
+            Cleanup(false);
         }
     }
 

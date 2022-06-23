@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2fe30b219f88ce45bfb4a7c81f760b7, type: 3}
+  m_Name: Sculptures
+  m_EditorClassIdentifier: 
+  _props:
+  - {fileID: 5528219783160324771, guid: 9371ec73a59db374c8dc8da38d1c65be, type: 3}
+  - {fileID: 5434211731385378768, guid: 532a0cd3c124ff2439f1efb92b774d6c, type: 3}
+  - {fileID: 1154166120601288840, guid: 6f05c1960ac46eb41bc1ebe89f1034a8, type: 3}
+  _saturation: 0.8
+  _layer: Background
+  _order: 1
+  _colour: {r: 0.2735849, g: 0.2735849, b: 0.2735849, a: 1}

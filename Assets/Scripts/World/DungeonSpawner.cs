@@ -68,7 +68,7 @@ public class DungeonSpawner : MonoBehaviour
 	void OnDrawGizmos()
 	{
 		Vector3 origin = transform.position;
-		Vector3 peak = origin + Vector3.up * (Camera.main.transform.position.y + zoom_size);
+		Vector3 peak = origin + Vector3.up * (zoom_size * 2 - 0.5f);
 
 		Vector3 outer_l = origin - Vector3.right * zoom_outer_radius;
 		Vector3 outer_r = origin + Vector3.right * zoom_outer_radius;

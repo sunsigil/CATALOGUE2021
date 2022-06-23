@@ -6,6 +6,12 @@ public class SpawnQueue : MonoBehaviour
 {
     Queue<GameObject> queue;
     GameObject last;
+    GameObject hold;
+
+    public void WaitFor(GameObject hold)
+    {
+        this.hold = hold;
+    }
 
     public void Add(GameObject entry)
     {
@@ -19,7 +25,7 @@ public class SpawnQueue : MonoBehaviour
 
     void Update()
     {
-        if(last == null && queue.Count > 0)
+        if(hold == null && last == null && queue.Count > 0)
         { last = Instantiate(queue.Dequeue()); }
     }
 }

@@ -33,7 +33,7 @@ public class User : Controller
     // Start is called before the first frame update
     void Start()
     {
-        //Instantiate(start_menu_prefab);
+        Instantiate(start_menu_prefab);
         camera_follow.Snap();
 
         PopupBar popup_bar = AssetTools.SpawnComponent(popup_bar_prefab);

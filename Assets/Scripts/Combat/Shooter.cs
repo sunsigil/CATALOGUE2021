@@ -36,6 +36,8 @@ public class Shooter : Controller
         death_ring.Initialize(Color.red, 0.05f, combatant.arena_scale * 5, 1.5f);
         death_ring.transform.position = transform.position;
 
+        AudioWizard._.PlayEffect("death");
+
         Destroy(gameObject);
     }
 

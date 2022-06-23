@@ -76,6 +76,7 @@ MonoBehaviour:
   _unmanaged: 0
   _control_layer: 1
   card_widget: {fileID: 2269758031835310220}
+  _card: {fileID: 0}
 --- !u!1 &8052824330274210328
 GameObject:
   m_ObjectHideFlags: 0
@@ -146,7 +147,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 271098959
   m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 026c172574ecd5a4ba2b16a3ab12120e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

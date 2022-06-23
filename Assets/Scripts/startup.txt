@@ -6,3 +6,7 @@
 # give_rune 5
 # give_rune 6
 # give_rune 7
+give_card starving_dog
+give_card breaking_form
+give_card rebirth
+give_card cyclops_monk

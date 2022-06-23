@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: a6d1248fff0b4bd40adf7e1509a7a899, type: 2}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: card_dialogue.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: card_dialogue.Array.data[0]
@@ -77,11 +77,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: card_dialogue.Array.data[2]
-      value: His personhood was granted as a reward...
+      value: His personhood was a reward for saving a life.
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: card_dialogue.Array.data[3]
-      value: He defied the natural order of the sentinels to save a pilgrim.
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: essence_dialogue.Array.size

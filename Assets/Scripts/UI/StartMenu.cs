@@ -44,6 +44,7 @@ public class StartMenu : Controller
 
                 if(timeline.Evaluate())
                 {
+                    AudioWizard._.PlayEffect("start");
                     bubble.Chain(Unlocking);
                 }
             break;

@@ -10,6 +10,6 @@ public class Dungeon : ScriptableObject
 	public Card[] cards => _cards;
 
 	[SerializeField]
-	Ingredient _reward;
-	public Ingredient reward => _reward;
+	Rune _rune;
+	public Rune rune => _rune;
 }

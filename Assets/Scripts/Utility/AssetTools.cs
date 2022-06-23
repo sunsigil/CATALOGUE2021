@@ -13,8 +13,7 @@ public static class AssetTools
     {
         Dictionary<string, T> dict = new Dictionary<string, T>();
 
-        object[] asset_objects = Resources.LoadAll(path, typeof(T));
-        T[] assets = (T[]) asset_objects;
+        T[] assets = Resources.LoadAll<T>(path);
 
         foreach(T asset in assets)
         {

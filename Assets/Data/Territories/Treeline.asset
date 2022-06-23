@@ -15,7 +15,7 @@ MonoBehaviour:
   _props:
   - {fileID: 6251952374225440485, guid: 43ca1fd1ae68b2d4182bb6d5b4515ada, type: 3}
   - {fileID: 5075978420122024334, guid: 537957cf5b16cbc47a2206dbb98f681b, type: 3}
-  _saturation: 0.8
+  _saturation: 1
   _layer: Background
-  _order: 0
+  _order: -1
   _colour: {r: 0.058713328, g: 0.1981132, b: 0.019437516, a: 1}

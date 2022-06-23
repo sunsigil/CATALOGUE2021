@@ -19,13 +19,27 @@ public class IngredientSource : MonoBehaviour
 
         Satchel satchel = usable.user.GetComponent<Satchel>();
 
+        if(satchel.Contains(output))
+        { usable.Fail($"You are already holding {output.name}"); return; }
+
+        List<Ingredient> misses = new List<Ingredient>();
         foreach(Ingredient input in inputs)
         {
             if(!satchel.Contains(input))
-            { usable.Fail($"You are missing at least 1 of {inputs.Length} reagents"); return; }
+            { misses.Add(input); }
         }
-        if(satchel.Contains(output))
-        { usable.Fail($"You are already holding {output.name}"); return; }
+
+        if(misses.Count > 0)
+        {
+            string report = "Missing reagents: ";
+            for(int i = 0; i < misses.Count; i++)
+            {
+                report += misses[i].name;
+                if(i < misses.Count-1){ report += ", "; }
+            }
+            usable.Fail(report);
+            return;
+        }
 
         foreach(Ingredient input in inputs)
         {

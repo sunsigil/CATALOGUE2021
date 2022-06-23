@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 273572920326098671}
   - component: {fileID: 273572920326098670}
   - component: {fileID: 5592097289750583716}
+  - component: {fileID: 640600655120007474}
+  - component: {fileID: 7337250976988748361}
   m_Layer: 0
   m_Name: Management Hub
   m_TagString: Untagged
@@ -61,3 +63,29 @@ MonoBehaviour:
   _control_layer: 0
   console_prefab: {fileID: 142315270373299942, guid: 9a41c44f0478feb44ba8d95c5f800877, type: 3}
   startup_file: {fileID: 4900000, guid: 759effdf35c71eb4589362083fd0cb7f, type: 3}
+--- !u!114 &640600655120007474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273572920326098656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ecc651e67ecd2b47966a8dd15a4cf29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  garbage_threshold: 10
+  garbage_cooldown: 60
+--- !u!114 &7337250976988748361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 273572920326098656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27c01e449dcbc2f4bbe5c30ef1fdd73c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -5,6 +5,9 @@ using TMPro;
 
 public class DungeonMenu : Controller
 {
+    PopupBar popup_bar_prefab;
+    RuneGet rune_get_prefab;
+
     [SerializeField]
     CardWidget[] card_widgets;
 
@@ -20,6 +23,7 @@ public class DungeonMenu : Controller
     Timeline timeline;
 
     Logger logger;
+    SpawnQueue spawn_queue;
 
     CardWidget selected_widget;
 
@@ -50,6 +54,10 @@ public class DungeonMenu : Controller
             }
         }
 
+        rune_get_prefab.rune = dungeon.rune;
+        spawn_queue.Add(rune_get_prefab.gameObject);
+
+        AudioWizard._.PlayEffect("victory");
         bubble.Detach();
     }
 
@@ -72,10 +80,15 @@ public class DungeonMenu : Controller
 
     void Awake()
     {
+        popup_bar_prefab = Resources.Load<PopupBar>("Popup Bar");
+        rune_get_prefab = Resources.Load<RuneGet>("Rune Get");
+
         bubble = GetComponent<BubbleScreen>();
+        spawn_queue = FindObjectOfType<SpawnQueue>();
         logger = FindObjectOfType<Logger>();
 
         bubble.Attach(Main);
+        spawn_queue.WaitFor(gameObject);
     }
 
     void Start()

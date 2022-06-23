@@ -41,6 +41,7 @@ public class RuneGet : Controller
 
                 if(timeline.Evaluate())
                 {
+                    AudioWizard._.PlayEffect("rune_get");
                     bubble.Chain(Main);
                 }
             break;

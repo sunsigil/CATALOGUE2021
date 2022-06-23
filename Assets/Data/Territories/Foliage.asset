@@ -21,9 +21,7 @@ MonoBehaviour:
   - {fileID: 6756929057165083018, guid: 74a7948c279392449883e1e75293900e, type: 3}
   - {fileID: 1212175054147604365, guid: e03f5ddcffb372543b76de7759f44cff, type: 3}
   - {fileID: 4942676620788700152, guid: 0c62489070b41e649b3bba1b731a5d33, type: 3}
-  - {fileID: 5528219783160324771, guid: 9371ec73a59db374c8dc8da38d1c65be, type: 3}
-  - {fileID: 5434211731385378768, guid: 532a0cd3c124ff2439f1efb92b774d6c, type: 3}
   _saturation: 0.8
   _layer: Background
-  _order: 1
+  _order: 0
   _colour: {r: 0.4208615, g: 0.8679245, b: 0.5729641, a: 1}
