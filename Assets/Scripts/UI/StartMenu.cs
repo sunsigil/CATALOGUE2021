@@ -45,6 +45,7 @@ public class StartMenu : Controller
                 if(timeline.Evaluate())
                 {
                     AudioWizard._.PlayEffect("start");
+
                     bubble.Chain(Unlocking);
                 }
             break;
@@ -82,6 +83,11 @@ public class StartMenu : Controller
         initial_shaft_width = shaft_renderer.widthCurve[0].value;
 
         bubble.Attach(Charging);
+    }
+
+    void Start()
+    {
+        AudioWizard._.PushMusic(gameObject, "start menu");
     }
 
     void FixedUpdate()

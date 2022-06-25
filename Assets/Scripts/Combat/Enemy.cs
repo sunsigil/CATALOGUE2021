@@ -40,7 +40,9 @@ public class Enemy : MonoBehaviour
         switch(motion_mode)
         {
             case EnemyMotionMode.LINE:
-                return (shooter.transform.position - transform.position).normalized;
+                Vector3 line = (shooter.transform.position - transform.position);
+                if(line.magnitude > combatant.arena_scale){ return line.normalized; }
+                else{ return Vector3.zero; }
             break;
 
             case EnemyMotionMode.CIRCLE:

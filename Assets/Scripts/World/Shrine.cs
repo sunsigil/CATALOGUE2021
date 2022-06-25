@@ -32,14 +32,9 @@ public class Shrine : MonoBehaviour
     	switch(signal)
     	{
             case StateSignal.ENTER:
-                if(logger.GetShrine(flag))
-                {
-                    machine.Transition(null);
-                }
-                else
-                {
-                    arena.Spawn();
-                }
+                usable.show_prompt = true;
+                if(logger.GetShrine(flag)){ machine.Transition(null); }
+                else{ arena.Spawn(); }
             break;
 
     		case StateSignal.TICK:
@@ -53,6 +48,8 @@ public class Shrine : MonoBehaviour
     	switch(signal)
     	{
     		case StateSignal.ENTER:
+                usable.show_prompt = false;
+                AudioWizard._.PushMusic(arena.gameObject, "combat");
                 referee.StartCombat(arena);
     		break;
 
@@ -60,11 +57,14 @@ public class Shrine : MonoBehaviour
                 switch(referee.EvaluateCombat())
                 {
                     case 1:
+                        logger.AddShrine(flag);
+                        AudioWizard._.PopMusic();
                         arena.Clear();
                         machine.Transition(Cleared);
                     break;
 
                     case -1:
+                        AudioWizard._.PopMusic();
                         arena.Clear();
                         machine.Transition(Watching);
                     break;
@@ -78,13 +78,12 @@ public class Shrine : MonoBehaviour
         switch(signal)
         {
             case StateSignal.ENTER:
-                logger.AddShrine(flag);
-
+                usable.show_prompt = true;
                 timeline = new Timeline(1);
             break;
 
             case StateSignal.TICK:
-                timeline.Tick(Time.fixedDeltaTime);
+                timeline.Tick(Time.deltaTime);
 
                 float scale = NumTools.Powstep(timeline.progress, 6, true);
                 arena.transform.localScale = NumTools.XY_Scale(scale);

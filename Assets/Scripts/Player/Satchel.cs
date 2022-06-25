@@ -16,22 +16,24 @@ public class Satchel : MonoBehaviour
     UnityEvent _on_remove;
     public UnityEvent on_remove => _on_remove;
 
-    public void Add(Ingredient ingredient)
+    public bool Add(Ingredient ingredient)
     {
-        if(ingredient == null){ return; }
-        if(_contents.Count == size){ return; }
+        if(ingredient == null){ return false; }
+        if(_contents.Count == size){ return false; }
 
         _contents.Add(ingredient);
         _on_add.Invoke();
+        return true;
     }
 
-    public void Remove(Ingredient ingredient)
+    public bool Remove(Ingredient ingredient)
     {
-        if(ingredient == null){ return; }
-        if(_contents.Count == 0){ return; }
+        if(ingredient == null){ return false; }
+        if(_contents.Count == 0){ return false; }
 
         _contents.Remove(ingredient);
         _on_remove.Invoke();
+        return true;
     }
 
     public void Clear()

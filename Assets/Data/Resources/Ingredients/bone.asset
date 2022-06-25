@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: bone
   m_EditorClassIdentifier: 
   _name: Bone Shard
-  _icon: {fileID: 21300000, guid: 796a9e29f0a5d234d85f7d1ebcea2654, type: 3}
+  _icon: {fileID: 21300000, guid: 23d93a12ec0075f40ab09732ac59f88d, type: 3}

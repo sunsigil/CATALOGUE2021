@@ -28,6 +28,7 @@ public class DungeonSpawner : MonoBehaviour
 	void Use()
 	{
 		if(dungeon == null){ usable.Fail("Null dungeon!"); return; }
+		if(logger.GetRune(dungeon.rune.flag)){ usable.Fail("You have completed this challenge"); return; }
 
 		for(int i = 0; i < dungeon.cards.Length; i++)
 		{
@@ -53,7 +54,8 @@ public class DungeonSpawner : MonoBehaviour
 	void Start()
 	{
 		usable.on_used.AddListener(Use);
-
+		usable.show_prompt = true;
+		
 		zoomline = new Distline(usable.user, transform, zoom_inner_radius, zoom_outer_radius);
 	}
 

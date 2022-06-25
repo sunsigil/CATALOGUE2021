@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40a38777813e1444ba238fd50fe7b6c8, type: 3}
   m_Name: Power D
   m_EditorClassIdentifier: 
-  _icon: {fileID: 0}
+  _icon: {fileID: 21300000, guid: 25ca4690a6e3569488a4cbed5c7d5495, type: 3}
   _flag: 7

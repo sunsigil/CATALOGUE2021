@@ -10,6 +10,9 @@ public class Bullet : Combatant
 	[SerializeField]
 	int damage;
 
+	[SerializeField]
+	float spin;
+
 	Rigidbody2D rigidbody;
 	CircleCollider2D collider;
 
@@ -41,11 +44,14 @@ public class Bullet : Combatant
 
 		on_deplete.AddListener(Die);
 		on_die.AddListener(Die);
+
+
 	}
 
 	void FixedUpdate()
 	{
-		transform.Rotate(NumTools.XY_Omega(2));
+		if(spin > 0){ transform.Rotate(NumTools.XY_Omega(spin)); }
+		else{ transform.rotation = NumTools.XY_Quat(_velocity, -90); }
 		rigidbody.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
 	}
 

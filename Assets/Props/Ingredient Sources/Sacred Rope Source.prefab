@@ -63,5 +63,13 @@ PrefabInstance:
       propertyPath: output
       value: 
       objectReference: {fileID: 11400000, guid: f4fad242349d4a949801155d97976f1c, type: 2}
+    - target: {fileID: 7804666722336226827, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: grab_clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d70a8ed612ae30b4c9c351b7ea23ef68, type: 3}
+    - target: {fileID: 7854002060981352202, guid: d71dff59727d035498c8132e9bb72335, type: 3}
+      propertyPath: use_clip
+      value: 
+      objectReference: {fileID: 8300000, guid: d70a8ed612ae30b4c9c351b7ea23ef68, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d71dff59727d035498c8132e9bb72335, type: 3}

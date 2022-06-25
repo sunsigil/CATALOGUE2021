@@ -54,10 +54,12 @@ public class DungeonMenu : Controller
             }
         }
 
+        AudioWizard._.PlayEffect("victory");
+
+        logger.AddRune(dungeon.rune.flag);
         rune_get_prefab.rune = dungeon.rune;
         spawn_queue.Add(rune_get_prefab.gameObject);
 
-        AudioWizard._.PlayEffect("victory");
         bubble.Detach();
     }
 
@@ -70,7 +72,7 @@ public class DungeonMenu : Controller
             break;
 
             case StateSignal.TICK:
-                if(Pressed(InputCode.CANCEL))
+                if(Pressed(InputCode.CANCEL) || Pressed(InputCode.CONFIRM))
                 {
                     bubble.Detach();
                 }
@@ -111,6 +113,8 @@ public class DungeonMenu : Controller
         {
             card_widgets[i].gameObject.SetActive(false);
         }
+
+        AudioWizard._.PushMusic(gameObject, "dungeon");
     }
 
     void OnDestroy()

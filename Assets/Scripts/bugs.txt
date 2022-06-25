@@ -1,0 +1,4 @@
+bullets dont damage enemies
+music volume imbalance
+scientist art missing
+no sound on card get

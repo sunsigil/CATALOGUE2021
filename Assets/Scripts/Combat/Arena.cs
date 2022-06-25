@@ -132,7 +132,7 @@ public class Arena : MonoBehaviour
 		wreath.transform.localScale *= scale_factor;
 		grounds.transform.localScale *= scale_factor;
 	}
-
+	
 	void FixedUpdate()
 	{
 		if(wreath)

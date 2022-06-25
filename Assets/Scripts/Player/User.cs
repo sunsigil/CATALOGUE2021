@@ -12,6 +12,7 @@ public class User : Controller
     GameObject log_menu_prefab;
 
     CameraFollow camera_follow;
+    SpawnQueue spawn_queue;
 
     Satchel satchel;
     Logger logger;
@@ -22,6 +23,7 @@ public class User : Controller
         popup_bar_prefab = Resources.Load<PopupBar>("Popup Bar");
 
         camera_follow = FindObjectOfType<CameraFollow>();
+        spawn_queue = FindObjectOfType<SpawnQueue>();
 
         satchel = GetComponent<Satchel>();
         logger = GetComponent<Logger>();
@@ -33,11 +35,12 @@ public class User : Controller
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(start_menu_prefab);
+        AudioWizard._.PushMusic(gameObject, "ambience 1");
+        
         camera_follow.Snap();
-
-        PopupBar popup_bar = AssetTools.SpawnComponent(popup_bar_prefab);
-        popup_bar.message = "Game Start!";
+        spawn_queue.Add(start_menu_prefab.gameObject);
+        popup_bar_prefab.message = "Game Start!";
+        spawn_queue.Add(popup_bar_prefab.gameObject);
     }
 
     // Update is called once per frame

@@ -50,6 +50,11 @@ public class PopupBar : Controller
         transform.position = world_center;
     }
 
+    void Start()
+    {
+        AudioWizard._.PlayEffect("popup");
+    }
+
     void Update()
 	{
         material.SetFloat("_Progress", NumTools.Perlinstep(timeline.progress));

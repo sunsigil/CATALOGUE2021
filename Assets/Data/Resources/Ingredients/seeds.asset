@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: seeds
   m_EditorClassIdentifier: 
   _name: Mealgrass Seeds
-  _icon: {fileID: 21300000, guid: 796a9e29f0a5d234d85f7d1ebcea2654, type: 3}
+  _icon: {fileID: 21300000, guid: 42689bacd0a76f0429f1e88370264cc7, type: 3}

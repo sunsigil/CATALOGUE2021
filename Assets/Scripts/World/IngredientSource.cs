@@ -11,6 +11,9 @@ public class IngredientSource : MonoBehaviour
     [SerializeField]
     Ingredient output;
 
+    [SerializeField]
+    AudioClip grab_clip;
+
     Usable usable;
 
     void Use()
@@ -45,7 +48,7 @@ public class IngredientSource : MonoBehaviour
         {
             satchel.Remove(input);
         }
-        satchel.Add(output);
+        if(satchel.Add(output)){ AudioWizard._.PlayEffect(grab_clip); }
     }
 
     void Awake()
@@ -56,10 +59,6 @@ public class IngredientSource : MonoBehaviour
     void Start()
     {
         usable.on_used.AddListener(Use);
-    }
-
-    void Update()
-    {
         usable.show_prompt = true;
     }
 }

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: violet_scale
   m_EditorClassIdentifier: 
   _name: Violet Scale
-  _icon: {fileID: 21300000, guid: 796a9e29f0a5d234d85f7d1ebcea2654, type: 3}
+  _icon: {fileID: 21300000, guid: 9df7a744d4d618a4699f4a15766db1d6, type: 3}

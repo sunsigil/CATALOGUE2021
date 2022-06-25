@@ -18,8 +18,6 @@ public class RuneGet : Controller
     BubbleScreen bubble;
     Timeline timeline;
 
-    Logger logger;
-
     float scale_i;
     float scale_f;
     float theta_i;
@@ -41,7 +39,7 @@ public class RuneGet : Controller
 
                 if(timeline.Evaluate())
                 {
-                    AudioWizard._.PlayEffect("rune_get");
+                    AudioWizard._.PlayEffect("rune get");
                     bubble.Chain(Main);
                 }
             break;
@@ -68,7 +66,6 @@ public class RuneGet : Controller
     void Awake()
     {
         bubble = GetComponent<BubbleScreen>();
-        logger = FindObjectOfType<Logger>();
 
         scale_f = rune_widget.transform.localScale.x;
         scale_i = scale_f * 0.05f;

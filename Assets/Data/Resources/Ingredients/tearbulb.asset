@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: tearbulb
   m_EditorClassIdentifier: 
   _name: Tearbulb
-  _icon: {fileID: 21300000, guid: 796a9e29f0a5d234d85f7d1ebcea2654, type: 3}
+  _icon: {fileID: 21300000, guid: 0a0e4bbcf7201d34fa7fe786ee1c58cb, type: 3}

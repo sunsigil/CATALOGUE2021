@@ -42,6 +42,7 @@ public class CardGet : Controller
 
                 if(timeline.Evaluate())
                 {
+                    AudioWizard._.PlayEffect("card get");
                     bubble.Chain(Main);
                 }
             break;
