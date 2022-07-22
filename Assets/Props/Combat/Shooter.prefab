@@ -161,9 +161,9 @@ GameObject:
   - component: {fileID: 2435156633096006502}
   - component: {fileID: 4232791279838036129}
   - component: {fileID: 7767595128901129838}
-  - component: {fileID: 3767376099693005337}
   - component: {fileID: 4078412596870422368}
   - component: {fileID: 5695178729073392678}
+  - component: {fileID: 3767376099693005337}
   - component: {fileID: 5016385179828890767}
   m_Layer: 3
   m_Name: Shooter
@@ -318,7 +318,7 @@ MonoBehaviour:
   _faction: 0
   offset: {x: 0, y: 0.15, z: 0}
   _max_lives: 3
-  hurt_cooldown: 1
+  hurt_cooldown: 0.5
 --- !u!114 &4232791279838036129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,32 +349,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32df6554540244b438d592e4617d5ced, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rune_ability: 0
-  rune_idx: 0
-  cooldown: 0
-  lethal: 0
+  _skill_rune: {fileID: 0}
+  _power_rune: {fileID: 0}
+  cooldown: 0.25
+  lethal: 1
   bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
   speed: 3
---- !u!114 &3767376099693005337
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2515228022098615890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3c91c81a7d4ac94c8727f4e25c12dd7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rune_ability: 1
-  rune_idx: 0
-  cooldown: 5
-  lethal: 0
-  bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
-  base_count: 5
-  boost_count: 15
-  rotation_time: 0.75
 --- !u!114 &4078412596870422368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,8 +367,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca12468b0239bc4085c5cefbf98ac71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rune_ability: 1
-  rune_idx: 1
+  _skill_rune: {fileID: 11400000, guid: a6d1248fff0b4bd40adf7e1509a7a899, type: 2}
+  _power_rune: {fileID: 11400000, guid: 77e62d358687d1145abe50c2917f2d00, type: 2}
   cooldown: 5
   lethal: 0
   attack_line: {fileID: 2049484162033835144}
@@ -408,8 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b4653808ac3fb468d4136b71962ac3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rune_ability: 1
-  rune_idx: 2
+  _skill_rune: {fileID: 11400000, guid: eee9e64dbb130d148b9b3c527e237e5b, type: 2}
+  _power_rune: {fileID: 11400000, guid: 94c050e3201da334bb0a0aa757e440cd, type: 2}
   cooldown: 5
   lethal: 0
   shield_ring: {fileID: 6761317021705238233}
@@ -418,6 +398,26 @@ MonoBehaviour:
   max_shield_radius: 1.5
   min_shield_radius: 0.9
   shield_time: 3
+--- !u!114 &3767376099693005337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2515228022098615890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c91c81a7d4ac94c8727f4e25c12dd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skill_rune: {fileID: 11400000, guid: aee5d345e6991f34c85bd075aea3d66f, type: 2}
+  _power_rune: {fileID: 11400000, guid: e5bf9557644554d4eadf409409485fd8, type: 2}
+  cooldown: 5
+  lethal: 0
+  bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
+  base_count: 10
+  boost_count: 20
+  rotation_time: 0.75
 --- !u!114 &5016385179828890767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,8 +430,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 095c1e53fa0ec254d8a28ad4b29f8160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rune_ability: 1
-  rune_idx: 3
+  _skill_rune: {fileID: 11400000, guid: d5ac2c0cd478b4b4f885570e742c9210, type: 2}
+  _power_rune: {fileID: 11400000, guid: dd74c3fd147bb3446892151b5c78b6c0, type: 2}
   cooldown: 5
   lethal: 0
   pulse_wave: {fileID: 3430447489692392552}

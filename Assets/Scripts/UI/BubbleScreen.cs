@@ -126,4 +126,9 @@ public class BubbleScreen : MonoBehaviour
 			machine.Transition(Expanding);
 		}
 	}
+
+	void OnDestroy()
+	{
+		camera_follow.Snap();
+	}
 }

@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Logger : MonoBehaviour
 {
     [SerializeField]
     string save_path;
     string full_save_path;
-
     [SerializeField]
-    bool save;
+    float save_cooldown;
 
     int shrines;
     int runes;
@@ -18,6 +18,8 @@ public class Logger : MonoBehaviour
 
     float x_position;
     float y_rotation;
+
+    Timeline timeline;
 
     public void AddShrine(ShrineFlag shrine){ shrines = EnumTools.Flag(shrines, shrine); }
     public void AddShrine(int index){ shrines |= (1 << index); }
@@ -37,16 +39,34 @@ public class Logger : MonoBehaviour
     public bool GetCard(int index){ return (cards & (1 << index)) > 0; }
     public string CardDump(){ return EnumTools.FlagView<CardFlag>(cards); }
 
-    public void Save()
+    [ContextMenu("Clear Saved Data")]
+    public void Clear()
     {
-        x_position = transform.position.x;
-        y_rotation = transform.rotation.eulerAngles.y;
+        full_save_path = $"{Application.persistentDataPath}\\{save_path}";
 
         StreamWriter writer = new StreamWriter(full_save_path);
+        writer.WriteLine("");
+        writer.Close();
+    }
+
+    public void Save()
+    {
+        StreamWriter writer = new StreamWriter(full_save_path);
+
         writer.WriteLine(shrines.ToString());
         writer.WriteLine(runes.ToString());
-        writer.WriteLine(x_position.ToString());
-        writer.WriteLine(y_rotation.ToString());
+        writer.WriteLine(cards.ToString());
+
+        Walker walker = FindObjectOfType<Walker>();
+        if(walker)
+        {
+            x_position = walker.transform.position.x;
+            y_rotation = walker.transform.rotation.eulerAngles.y;
+
+            writer.WriteLine(x_position.ToString());
+            writer.WriteLine(y_rotation.ToString());
+        }
+
         writer.Close();
     }
 
@@ -71,21 +91,19 @@ public class Logger : MonoBehaviour
             y_rotation = 0;
         }
 
-        Vector3 position = transform.position;
-        transform.position = new Vector3(x_position, position.y, position.z);
-
-        Vector3 rotation = transform.rotation.eulerAngles;
-        transform.rotation = Quaternion.Euler(0, y_rotation, 0);
+        Walker walker = FindObjectOfType<Walker>();
+        if(walker)
+        {
+            Vector3 position = walker.transform.position;
+            walker.transform.position = new Vector3(x_position, position.y, position.z);
+            Vector3 rotation = walker.transform.rotation.eulerAngles;
+            walker.transform.rotation = Quaternion.Euler(0, y_rotation, 0);
+        }
     }
 
-    [ContextMenu("Clear Saved Data")]
-    public void Clear()
+    public void Restart()
     {
-        full_save_path = $"{Application.persistentDataPath}\\{save_path}";
-
-        StreamWriter writer = new StreamWriter(full_save_path);
-        writer.WriteLine("");
-        writer.Close();
+        SceneManager.LoadScene("Island");
     }
 
     void Awake()
@@ -95,17 +113,20 @@ public class Logger : MonoBehaviour
         Load();
     }
 
-    void OnDestroy()
+    void Update()
     {
-        if(!save){ return; }
+        if(timeline == null || timeline.Evaluate())
+        {
+            timeline = new Timeline(save_cooldown);
+            Save();
+        }
 
-        Save();
+        timeline.Tick(Time.deltaTime);
     }
+
+    void OnDestroy()
+    { Save(); }
 
     void OnApplicationQuit()
-    {
-        if(!save){ return; }
-
-        Save();
-    }
+    { Save(); }
 }

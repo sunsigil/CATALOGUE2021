@@ -19,8 +19,12 @@ public class Shrine : MonoBehaviour
 
     Timeline timeline;
 
+    bool complete => logger.GetShrine(flag);
+
     void Use()
     {
+        if(complete){ usable.Notify("You have completed this challenge"); return; }
+
         if(machine.InState(Watching))
         {
             machine.Transition(Active);
@@ -33,13 +37,20 @@ public class Shrine : MonoBehaviour
     	{
             case StateSignal.ENTER:
                 usable.show_prompt = true;
-                if(logger.GetShrine(flag)){ machine.Transition(null); }
-                else{ arena.Spawn(); }
+
+                if(complete){ return; }
+                arena.Spawn();
+                arena.transform.localScale = new Vector3(0, 0, 1);
             break;
 
     		case StateSignal.TICK:
+                if(complete){ return; }
                 arena.transform.localScale = NumTools.XY_Scale(usable.usability);
     		break;
+
+            case StateSignal.EXIT:
+                usable.show_prompt = false;
+            break;
     	}
     }
 
@@ -48,7 +59,6 @@ public class Shrine : MonoBehaviour
     	switch(signal)
     	{
     		case StateSignal.ENTER:
-                usable.show_prompt = false;
                 AudioWizard._.PushMusic(arena.gameObject, "combat");
                 referee.StartCombat(arena);
     		break;
@@ -59,6 +69,7 @@ public class Shrine : MonoBehaviour
                     case 1:
                         logger.AddShrine(flag);
                         AudioWizard._.PopMusic();
+                        AudioWizard._.PlayEffect("victory");
                         arena.Clear();
                         machine.Transition(Cleared);
                     break;
@@ -78,7 +89,6 @@ public class Shrine : MonoBehaviour
         switch(signal)
         {
             case StateSignal.ENTER:
-                usable.show_prompt = true;
                 timeline = new Timeline(1);
             break;
 
@@ -90,7 +100,7 @@ public class Shrine : MonoBehaviour
 
                 if(timeline.Evaluate())
                 {
-                    machine.Transition(null);
+                    machine.Transition(Watching);
                 }
             break;
         }

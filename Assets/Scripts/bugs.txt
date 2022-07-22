@@ -1,4 +1,19 @@
-bullets dont damage enemies
-music volume imbalance
-scientist art missing
-no sound on card get
+[urgent]
+un-aggroed enemies do not aggro in first shrine
+arena colliders trap player
+# remenu preserves satchel items, not cards or runes
+# remenu and reenter causes shrines to half-start, with the disc spawning but no ornaments or enemies
+eventually a half-started shrine will register itself as complete and give u the "complete" message
+# entering dungeon-zoom, quitting, then restarting will preserve dungeon-zoom and fuck the camera
+sentinels can "spawn" right on top of the player (what did barman mean by spawn? aggro?)
+# [esc][space] causes a crash
+
+
+[design]
+logmenu looks unfinished and confusing to players when there's no runes in it
+the invisible walls are stupid
+barman had no trouble beating all the shrines without any runes
+add a sound effect when player loses a life
+there is a conflict between [space] and [f]. they are both the "do-something" button. sometimes it is unclear if a thing is [f]-thing or [space]-thing
+add a "wind-up" to the start of the shrine combat
+the card puzzle in the church makes no sense, is easy to brute force

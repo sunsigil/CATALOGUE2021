@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a10e51b9aef9d4e853b56c389623e3, type: 3}
   m_Name: essence_c
   m_EditorClassIdentifier: 
-  _name: Essence C
-  _icon: {fileID: 0}
+  _name: Spiral Essence
+  _icon: {fileID: 21300000, guid: 9eb3dd906b36bf44ba2bb0e9ececc630, type: 3}

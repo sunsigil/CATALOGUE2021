@@ -17,16 +17,65 @@ public class CommandConsole : Controller
     int record_index;
 
 #region OP_FUNCS
-    void QuitGame()
+    void Help()
+    {
+        Log("[OPERATIONS]");
+        Log("clear");
+        Log("save");
+        Log("load");
+        Log("quit");
+        Log("reset [WARNING: WILL DELETE SAVE DATA]");
+        Log("give_shrine <idx: int>");
+        Log("shrines");
+        Log("give_rune <idx: int>");
+        Log("runes");
+        Log("give_card <name: string>");
+        Log("cards");
+        Log("give_ingredient <name: string>");
+        Log("ingredients");
+        Log("toggle_music <toggle: bool>");
+        Log("play_clip <name: string>");
+    }
+
+    void Clear()
+    {
+        log_string = "";
+        log.text = "";
+    }
+
+    void Save()
+    {
+        Logger logger = FindObjectOfType<Logger>();
+        if(logger == null){ Log("Error: logger not found"); return; }
+
+        Log("Saving...");
+        logger.Save();
+    }
+
+    void Load()
+    {
+        Logger logger = FindObjectOfType<Logger>();
+        if(logger == null){ Log("Error: logger not found"); return; }
+
+        Log("Load...");
+        logger.Load();
+    }
+
+    void Quit()
     {
         Log("Quitting...");
         Application.Quit();
     }
 
-    void ClearLog()
+    void Reset()
     {
-        log_string = "";
-        log.text = log_string;
+        Logger logger = FindObjectOfType<Logger>();
+        if(logger == null){ Log("Error: logger not found"); return; }
+
+        Log("Clearing save data...");
+        logger.Clear();
+        Log("Restarting...");
+        logger.Restart();
     }
 
     void GiveShrine(Stack<string> arg_stack)
@@ -44,6 +93,12 @@ public class CommandConsole : Controller
         if(logger == null){ Log("Error: logger not found"); return; }
 
         logger.AddShrine(idx);
+    }
+
+    void Shrines()
+    {
+        Logger logger = FindObjectOfType<Logger>();
+        if(logger == null){ Log("Error: logger not found"); return; }
         Log(logger.ShrineDump());
     }
 
@@ -62,6 +117,12 @@ public class CommandConsole : Controller
         if(logger == null){ Log("Error: logger not found"); return; }
 
         logger.AddRune(idx);
+    }
+
+    void Runes()
+    {
+        Logger logger = FindObjectOfType<Logger>();
+        if(logger == null){ Log("Error: logger not found"); return; }
         Log(logger.RuneDump());
     }
 
@@ -79,6 +140,12 @@ public class CommandConsole : Controller
         if(logger == null){ Log("Error: logger not found"); return; }
 
         logger.AddCard(card.flag);
+    }
+
+    void Cards()
+    {
+        Logger logger = FindObjectOfType<Logger>();
+        if(logger == null){ Log("Error: logger not found"); return; }
         Log(logger.CardDump());
     }
 
@@ -97,6 +164,39 @@ public class CommandConsole : Controller
 
         satchel.Add(ing);
     }
+
+    void Ingredients()
+    {
+        Satchel satchel = FindObjectOfType<Satchel>();
+        if(satchel == null){ Log("Error: satchel not found"); return; }
+        Log(satchel.IngredientDump());
+    }
+
+    void ToggleMusic(Stack<string> arg_stack)
+    {
+        string tog_str = "";
+        try{ tog_str = arg_stack.Pop(); }
+        catch{ Log("Operation toggle_music requires one argument"); return; }
+
+        bool tog = false;
+        try{ tog = Boolean.Parse(tog_str); }
+        catch{ Log("Argument idx must be of boolean type {True, False}"); return; }
+
+        if(AudioWizard._ == null){ Log("Error: audio wizard not found"); return; }
+
+        AudioWizard._.ToggleMusic(tog);
+    }
+
+    void PlayClip(Stack<string> arg_stack)
+    {
+        string clip_str = "";
+        try{ clip_str = arg_stack.Pop(); }
+        catch{ Log("Operation play_clip requires one argument"); return; }
+
+        if(AudioWizard._ == null){ Log("Error: audio wizard not found"); return; }
+
+        if(!AudioWizard._.PlayEffect(clip_str)){ Log($"Error: clip {clip_str} not found"); }
+    }
 #endregion
 
 #region ONSUBMIT_FUNCS
@@ -113,6 +213,13 @@ public class CommandConsole : Controller
     {
         log_string += $"{text}\n";
         log.text = log_string;
+        log.ForceMeshUpdate();
+
+        if(log.isTextTruncated)
+        {
+            log_string = $"{text}\n";
+            log.text = log_string;
+        }
     }
 
     void Evaluate(string command)
@@ -125,23 +232,53 @@ public class CommandConsole : Controller
 
         switch(op)
         {
-            case "quit_game":
-                QuitGame();
+            case "help":
+                Help();
                 break;
             case "clear":
-                ClearLog();
+                Clear();
+                break;
+            case "save":
+                Save();
+                break;
+            case "load":
+                Load();
+                break;
+            case "quit":
+                Quit();
+                break;
+            case "reset":
+                Reset();
                 break;
             case "give_shrine":
                 GiveShrine(command_stack);
                 break;
+            case "shrines":
+                Shrines();
+                break;
             case "give_rune":
                 GiveRune(command_stack);
+                break;
+            case "runes":
+                Runes();
                 break;
             case "give_card":
                 GiveCard(command_stack);
                 break;
+            case "cards":
+                Cards();
+                break;
             case "give_ingredient":
                 GiveIngredient(command_stack);
+                break;
+            case "ingredients":
+                Ingredients();
+                break;
+            case "toggle_music":
+                ToggleMusic(command_stack);
+                break;
+            case "play_clip":
+                PlayClip(command_stack);
                 break;
             default:
                 Log($"Unknown operation: {op}");

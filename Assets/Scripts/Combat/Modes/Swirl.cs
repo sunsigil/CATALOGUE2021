@@ -74,7 +74,7 @@ public class Swirl : CombatMode
                 if(arc_accum == 0 || arc_accum >= spawn_arc)
                 {
                     Bullet bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
-					bullet.transform.position = transform.position + transform.up * combatant.arena_scale;
+					bullet.transform.position = transform.position + transform.up * combatant.arena.scale;
 					bullet.velocity = transform.up;
 					bullet.lethal = lethal;
 
@@ -88,6 +88,7 @@ public class Swirl : CombatMode
 
             case StateSignal.EXIT:
                 combatant.ToggleInvincible(false);
+
                 cooldown_timeline = new Timeline(cooldown);
             break;
         }
@@ -98,10 +99,5 @@ public class Swirl : CombatMode
         base.Awake();
 
         count = powered ? boost_count : base_count;
-    }
-
-    void Update()
-    {
-        cooldown_timeline.Tick(Time.deltaTime);
     }
 }

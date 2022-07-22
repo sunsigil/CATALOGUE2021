@@ -116,9 +116,4 @@ public class DungeonMenu : Controller
 
         AudioWizard._.PushMusic(gameObject, "dungeon");
     }
-
-    void OnDestroy()
-    {
-        FindObjectOfType<CameraFollow>().Snap();
-    }
 }

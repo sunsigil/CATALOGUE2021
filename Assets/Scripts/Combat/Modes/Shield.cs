@@ -107,6 +107,7 @@ public class Shield : CombatMode
 
             case StateSignal.EXIT:
                 shield_ring.gameObject.SetActive(false);
+
 				cooldown_timeline = new Timeline(cooldown);
             break;
         }
@@ -127,9 +128,4 @@ public class Shield : CombatMode
 		shield_combatant.on_hurt.AddListener(DamageShield);
 		shield_ring.gameObject.SetActive(false);
 	}
-
-    void Update()
-    {
-        cooldown_timeline.Tick(Time.deltaTime);
-    }
 }

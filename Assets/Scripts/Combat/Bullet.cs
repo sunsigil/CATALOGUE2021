@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CircleCollider2D))]
 
 public class Bullet : Combatant
@@ -13,7 +12,6 @@ public class Bullet : Combatant
 	[SerializeField]
 	float spin;
 
-	Rigidbody2D rigidbody;
 	CircleCollider2D collider;
 
 	Vector3 _velocity;
@@ -39,27 +37,26 @@ public class Bullet : Combatant
 	{
 		base.Awake();
 
-		rigidbody = GetComponent<Rigidbody2D>();
 		collider = GetComponent<CircleCollider2D>();
 
 		on_deplete.AddListener(Die);
 		on_die.AddListener(Die);
-
-
 	}
 
 	void FixedUpdate()
 	{
 		if(spin > 0){ transform.Rotate(NumTools.XY_Omega(spin)); }
 		else{ transform.rotation = NumTools.XY_Quat(_velocity, -90); }
-		rigidbody.MovePosition(transform.position + _velocity * Time.fixedDeltaTime);
+
+		if(!Move(transform.position + _velocity * Time.fixedDeltaTime))
+		{ Die(); }
 	}
 
 	void OnTriggerEnter2D(Collider2D col)
 	{
 		Combatant other = col.GetComponent<Combatant>();
 
-		if(other == null || other.faction != faction)
+		if(other && other.faction != faction)
 		{
 			RingStrike(collider.radius, new Attack(this, _velocity, damage, _lethal));
 			Die();

@@ -89,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: essence_dialogue.Array.data[0]
-      value: Oh, you have essence?
+      value: Oh, you have spear essence?
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: standard_dialogue.Array.data[0]

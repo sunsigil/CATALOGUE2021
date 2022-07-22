@@ -27,8 +27,8 @@ public class DungeonSpawner : MonoBehaviour
 
 	void Use()
 	{
-		if(dungeon == null){ usable.Fail("Null dungeon!"); return; }
-		if(logger.GetRune(dungeon.rune.flag)){ usable.Fail("You have completed this challenge"); return; }
+		if(dungeon == null){ usable.Notify("Null dungeon!"); return; }
+		if(logger.GetRune(dungeon.rune.flag)){ usable.Notify("You have completed this challenge"); return; }
 
 		for(int i = 0; i < dungeon.cards.Length; i++)
 		{
@@ -40,7 +40,7 @@ public class DungeonSpawner : MonoBehaviour
 			}
 		}
 
-		usable.Fail("No requisite cards in inventory");
+		usable.Notify("No requisite cards in inventory");
 	}
 
 	void Awake()
@@ -55,13 +55,15 @@ public class DungeonSpawner : MonoBehaviour
 	{
 		usable.on_used.AddListener(Use);
 		usable.show_prompt = true;
-		
+
 		zoomline = new Distline(usable.user, transform, zoom_inner_radius, zoom_outer_radius);
 	}
 
 	void Update()
 	{
-		if(zoomline.progress > 0)
+		User user = FindObjectOfType<User>();
+
+		if(user && ControllerRegistry._.current == user)
 		{
 			camera_follow.Zoom(zoom_size, zoomline.progress);
 		}

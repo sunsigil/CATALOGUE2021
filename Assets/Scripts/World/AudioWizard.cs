@@ -27,12 +27,15 @@ public class AudioWizard : MonoBehaviour
 		music_source.Play();
 	}
 
-	public void PushMusic(GameObject sender, string name)
+	public bool PushMusic(GameObject sender, string name)
 	{
 		if(clip_map.ContainsKey(name))
 		{
 			PushMusic(sender, clip_map[name]);
+			return true;
 		}
+
+		return false;
 	}
 
 	public void PopMusic()
@@ -80,12 +83,15 @@ public class AudioWizard : MonoBehaviour
 		source.Play();
 	}
 
-	public void PlayEffect(string name)
+	public bool PlayEffect(string name)
 	{
 		if(clip_map.ContainsKey(name))
 		{
 			PlayEffect(clip_map[name]);
+			return true;
 		}
+
+		return false;
 	}
 
 	void Awake()

@@ -72,7 +72,7 @@ public class Usable : MonoBehaviour
         }
     }
 
-    public void Fail(string message)
+    public void Notify(string message)
     {
         PopupBar popup_bar = AssetTools.SpawnComponent(popup_bar_prefab);
         popup_bar.message = message;

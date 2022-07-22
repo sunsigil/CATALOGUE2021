@@ -93,7 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: essence_dialogue.Array.data[0]
-      value: You have essence with you.
+      value: You have shield essence with you.
       objectReference: {fileID: 0}
     - target: {fileID: 8447098932035957450, guid: 6124acd28bd7db04286b47b78357f1ba, type: 3}
       propertyPath: essence_dialogue.Array.data[1]

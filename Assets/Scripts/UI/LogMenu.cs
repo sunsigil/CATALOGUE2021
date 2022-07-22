@@ -51,9 +51,4 @@ public class LogMenu : Controller
 
         bubble.Attach(Main);
     }
-
-    void OnDestroy()
-    {
-        FindObjectOfType<CameraFollow>().Snap();
-    }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,9 +21,9 @@ public class Kiln : MonoBehaviour
 
     void Use()
     {
-        if(output == null){ usable.Fail("Null output!"); return; }
-        if(!satchel.Contains(input)){ usable.Fail("No Sacred Coal in inventory"); return; }
-        if(logger.GetRune(output.flag)){ usable.Fail("You have already burned sacred coal here"); return; }
+        if(output == null){ usable.Notify("Null output!"); return; }
+        if(!satchel.Contains(input)){ usable.Notify("No Sacred Coal in inventory"); return; }
+        if(logger.GetRune(output.flag)){ usable.Notify("You have already burned sacred coal here"); return; }
 
         satchel.Remove(input);
         logger.AddRune(output.flag);
@@ -49,4 +49,4 @@ public class Kiln : MonoBehaviour
     {
         usable.show_prompt = true;
     }
-}
+}*/

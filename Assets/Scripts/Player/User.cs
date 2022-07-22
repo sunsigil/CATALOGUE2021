@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class User : Controller
 {
-    PopupBar popup_bar_prefab;
-
     [SerializeField]
     GameObject start_menu_prefab;
     [SerializeField]
@@ -20,8 +19,6 @@ public class User : Controller
 
     void Awake()
     {
-        popup_bar_prefab = Resources.Load<PopupBar>("Popup Bar");
-
         camera_follow = FindObjectOfType<CameraFollow>();
         spawn_queue = FindObjectOfType<SpawnQueue>();
 
@@ -36,11 +33,9 @@ public class User : Controller
     void Start()
     {
         AudioWizard._.PushMusic(gameObject, "ambience 1");
-        
+
         camera_follow.Snap();
-        spawn_queue.Add(start_menu_prefab.gameObject);
-        popup_bar_prefab.message = "Game Start!";
-        spawn_queue.Add(popup_bar_prefab.gameObject);
+        Instantiate(start_menu_prefab);
     }
 
     // Update is called once per frame
@@ -78,6 +73,10 @@ public class User : Controller
         else if(Pressed(InputCode.JOURNAL))
         {
             Instantiate(log_menu_prefab);
+        }
+        else if(Held(InputCode.CANCEL))
+        {
+            SceneManager.LoadScene("Island");
         }
     }
 }

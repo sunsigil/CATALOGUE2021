@@ -82,9 +82,4 @@ public class CardGet : Controller
 
         bubble.Attach(Intro);
     }
-
-    void OnDestroy()
-    {
-        FindObjectOfType<CameraFollow>().Snap();
-    }
 }

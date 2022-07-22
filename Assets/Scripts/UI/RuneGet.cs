@@ -78,9 +78,4 @@ public class RuneGet : Controller
 
         bubble.Attach(Intro);
     }
-
-    void OnDestroy()
-    {
-        FindObjectOfType<CameraFollow>().Snap();
-    }
 }

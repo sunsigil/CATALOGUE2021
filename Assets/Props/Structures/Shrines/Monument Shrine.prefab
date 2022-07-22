@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1385119667056747706, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: flag
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2805011869614908604, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.82
@@ -15,6 +19,30 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 4.89
       objectReference: {fileID: 0}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: max_aggroed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4112902278180488179, guid: 63da5b117506afd42be98ad02f919306, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[1]
+      value: 
+      objectReference: {fileID: 2908102675562657145, guid: ca6133c9dbaee9141916a653fa23cbe3, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[2]
+      value: 
+      objectReference: {fileID: 2606249772495314152, guid: 2c56ba26de0d17f4ab409cfb273be57c, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[3]
+      value: 
+      objectReference: {fileID: 2606249772495314152, guid: 2c56ba26de0d17f4ab409cfb273be57c, type: 3}
     - target: {fileID: 8044656317588997512, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: m_Name
       value: Monument Shrine

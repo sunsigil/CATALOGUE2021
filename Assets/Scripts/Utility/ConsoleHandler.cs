@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class ConsoleHandler : Controller
 {
+    PopupBar popup_bar_prefab;
+
     [SerializeField]
     CommandConsole console_prefab;
     [SerializeField]
     TextAsset startup_file;
+    [SerializeField]
+    bool enable_commands;
 
     CommandConsole console_instance;
+    int open_attempts;
+
+    void Awake()
+    {
+        popup_bar_prefab = Resources.Load<PopupBar>("Popup Bar");
+    }
 
     void Start()
     {
@@ -31,8 +41,22 @@ public class ConsoleHandler : Controller
     {
         if(Pressed(InputCode.CONSOLE))
         {
-            if(console_instance == null){ console_instance = AssetTools.SpawnComponent(console_prefab); }
-            else{ Destroy(console_instance.gameObject); }
+            if(enable_commands)
+            {
+                if(console_instance == null){ console_instance = AssetTools.SpawnComponent(console_prefab); }
+                else{ Destroy(console_instance.gameObject); }
+            }
+            else
+            {
+                open_attempts++;
+
+                if(open_attempts >= 10)
+                {
+                    PopupBar popup_bar = AssetTools.SpawnComponent(popup_bar_prefab);
+                    popup_bar.message = "No, you really can't use console commands";
+                    open_attempts = 0;
+                }
+            }
         }
     }
 }

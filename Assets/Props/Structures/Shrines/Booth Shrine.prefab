@@ -9,16 +9,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: max_aggroed
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: enemy_prefabs.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: enemy_prefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 2908102675562657145, guid: ca6133c9dbaee9141916a653fa23cbe3, type: 3}
+      objectReference: {fileID: 4112902278180488179, guid: 63da5b117506afd42be98ad02f919306, type: 3}
     - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: enemy_prefabs.Array.data[1]
       value: 
@@ -31,13 +31,21 @@ PrefabInstance:
       propertyPath: enemy_prefabs.Array.data[3]
       value: 
       objectReference: {fileID: 2606249772495314152, guid: 2c56ba26de0d17f4ab409cfb273be57c, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 2606249772495314152, guid: 2c56ba26de0d17f4ab409cfb273be57c, type: 3}
+    - target: {fileID: 5306822427449761095, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
+      propertyPath: enemy_prefabs.Array.data[5]
+      value: 
+      objectReference: {fileID: 8645619632709431190, guid: d2e7cca4707f04145b8a465ec88e2580, type: 3}
     - target: {fileID: 7278209177241053761, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: use_radius
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8044656317588997512, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: m_Name
-      value: Shrine A
+      value: Booth Shrine
       objectReference: {fileID: 0}
     - target: {fileID: 8044656317588997518, guid: 3814c6c77abde6844bdaca6670b73cf3, type: 3}
       propertyPath: m_RootOrder

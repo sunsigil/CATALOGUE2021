@@ -67,7 +67,7 @@ public class NPC : MonoBehaviour
 
         if(dialogue == null)
         {
-            usable.Fail("Null dialogue!");
+            usable.Notify("Null dialogue!");
             return;
         }
     }

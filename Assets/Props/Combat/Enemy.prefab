@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _faction: 1
   offset: {x: 0, y: 0, z: 0}
-  _max_lives: 0
+  _max_lives: 1
   hurt_cooldown: 0
 --- !u!114 &-4244905406096967507
 MonoBehaviour:
@@ -166,11 +166,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet_prefab: {fileID: 6089572887818401924, guid: 333ae05524b14b140a8d95772dd8fd9d, type: 3}
+  idle_material: {fileID: 2100000, guid: 5559a26fbe9a4b14286bb387ff435e18, type: 2}
+  aggro_material: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   deathblow_dot: {fileID: 6771002187170005132}
   motion_mode: 0
   fire_mode: 1
   fire_cooldown: 1
-  max_lives: 1
 --- !u!1 &5016095467366799297
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +242,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -448931465
   m_SortingLayer: 3
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 4f2e00837d149c84f9b980016c58b7b6, type: 3}
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0

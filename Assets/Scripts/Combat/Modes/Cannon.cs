@@ -2,16 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-
 public class Cannon : CombatMode
 {
 	[SerializeField]
     GameObject bullet_prefab;
 	[SerializeField]
     float speed;
-
-	Rigidbody2D rigidbody;
 
     Vector3 mouse_ray; // ray from body to mouse
     Vector3 input_ray; // wasd ray
@@ -85,10 +81,6 @@ public class Cannon : CombatMode
     {
         switch(signal)
         {
-			case StateSignal.ENTER:
-				x  = transform.position;
-			break;
-
             case StateSignal.TICK:
 				UpdateMouseRay();
 				UpdateInputRay();
@@ -96,26 +88,22 @@ public class Cannon : CombatMode
 				UpdateRotation();
 				UpdateVelocity();
 
-				if(Pressed(InputCode.ACTION))
+				if(Pressed(InputCode.ACTION) && cooldown_timeline.Evaluate())
 				{
 					Bullet bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
-					bullet.transform.position = transform.position + transform.up * combatant.arena_scale;
+					bullet.transform.position = transform.position + transform.up * combatant.arena.scale;
 					bullet.velocity = transform.up * 5;
 					bullet.lethal = lethal;
+
+					cooldown_timeline = new Timeline(cooldown);
 				}
             break;
 
 			case StateSignal.FIXED_TICK:
+				x = transform.position;
 				x += v * Time.fixedDeltaTime;
-				rigidbody.MovePosition(x);
+				combatant.Move(x);
 			break;
         }
     }
-
-	protected override void Awake()
-	{
-		base.Awake();
-
-		rigidbody = GetComponent<Rigidbody2D>();
-	}
 }

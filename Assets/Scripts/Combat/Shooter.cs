@@ -15,9 +15,10 @@ public class Shooter : Controller
     Combatant combatant;
 
     CombatMode[] modes;
-    Timeline[] mode_cooldowns;
     int mode_shift;
     CombatMode ability => modes[1 + mode_shift];
+
+    ModesWidget modes_widget;
 
     void HurtEffects()
     {
@@ -26,14 +27,14 @@ public class Shooter : Controller
         Destroy(life_orbs[life_index]);
 
         ProgressRing hit_ring = AssetTools.SpawnComponent(progress_ring);
-        hit_ring.Initialize(Color.red, 0.1f, combatant.arena_scale * 2.5f, 0.75f);
+        hit_ring.Initialize(Color.red, 0.1f, combatant.arena.scale * 2.5f, 0.75f);
         hit_ring.transform.position = orb_position;
     }
 
     void DeathEffects()
     {
         ProgressRing death_ring = AssetTools.SpawnComponent(progress_ring);
-        death_ring.Initialize(Color.red, 0.05f, combatant.arena_scale * 5, 1.5f);
+        death_ring.Initialize(Color.red, 0.05f, combatant.arena.scale * 5, 1.5f);
         death_ring.transform.position = transform.position;
 
         AudioWizard._.PlayEffect("death");
@@ -65,10 +66,12 @@ public class Shooter : Controller
 
         for(int i = 1; i < modes.Length; i++)
         {
-            if(modes[i].unlocked){ mode_shift = i-1; }
+            if(modes[i].unlocked){ mode_shift = i-1; break; }
         }
 
         machine.Transition(modes[0].Entry);
+
+        modes_widget = combatant.arena.GetComponentInChildren<ModesWidget>();
     }
 
     void Update()
@@ -80,12 +83,13 @@ public class Shooter : Controller
 
         if(mode_flux != 0)
         {
-            int old_shift = mode_shift;
-            do
-            {
-                mode_shift = (mode_shift + mode_flux) % (modes.Length-1);
-            }
-            while(!ability.unlocked && mode_shift != old_shift);
+            mode_shift = (mode_shift + mode_flux) % (modes.Length-1);
+        }
+        for(int i = 0; i < modes.Length-1; i++)
+        {
+            int real_index = 1 + ((mode_shift + i) % (modes.Length-1));
+            CombatMode mode_i = modes[real_index];
+            modes_widget.Refresh(i, mode_i);
         }
 
         if(Pressed(InputCode.CONFIRM) && ability.unlocked && ability.ready)

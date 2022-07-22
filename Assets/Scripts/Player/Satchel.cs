@@ -54,6 +54,16 @@ public class Satchel : MonoBehaviour
         return false;
     }
 
+    public string IngredientDump()
+    {
+        string result = "";
+        foreach(Ingredient ingredient in _contents)
+        {
+            result += $"{ingredient.name} ";
+        }
+        return result;
+    }
+
     void Awake()
     {
         _contents = new List<Ingredient>();

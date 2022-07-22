@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4244905406096967507, guid: 09117c54cd156df41bfdb9ea530b13d2, type: 3}
       propertyPath: fire_cooldown
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3348866413341909404, guid: 09117c54cd156df41bfdb9ea530b13d2, type: 3}
       propertyPath: m_RootOrder

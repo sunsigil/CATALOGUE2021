@@ -18,6 +18,7 @@ public class StartMenu : Controller
 
     BubbleScreen bubble;
     Timeline timeline;
+    Timeline exit_timeline;
 
     void Charging(StateSignal signal)
     {
@@ -25,6 +26,7 @@ public class StartMenu : Controller
         {
             case StateSignal.ENTER:
                 timeline = new Timeline(1);
+                exit_timeline = new Timeline(1);
             break;
 
             case StateSignal.TICK:
@@ -32,9 +34,14 @@ public class StartMenu : Controller
                 {
                     timeline.Tick(Time.deltaTime);
                 }
+                else if(Pressed(InputCode.CANCEL) || Held(InputCode.CANCEL))
+                {
+                    exit_timeline.Tick(Time.deltaTime);
+                }
                 else
                 {
                     timeline.Tick(-Time.deltaTime);
+                    exit_timeline.Tick(-Time.deltaTime * 2);
                 }
 
                 float progress = NumTools.Hillstep(timeline.progress, -3);
@@ -42,11 +49,16 @@ public class StartMenu : Controller
                 shaft_renderer.SetPosition(0, key_start.transform.position);
                 shaft_renderer.SetPosition(1, destination);
 
+                key_start.transform.localScale = Vector3.Lerp(NumTools.XY_Scale(1), NumTools.XY_Scale(0), exit_timeline.progress);
+
                 if(timeline.Evaluate())
                 {
                     AudioWizard._.PlayEffect("start");
-
                     bubble.Chain(Unlocking);
+                }
+                else if(exit_timeline.Evaluate())
+                {
+                    Application.Quit();
                 }
             break;
         }
@@ -92,18 +104,7 @@ public class StartMenu : Controller
 
     void FixedUpdate()
     {
-        if(Held(InputCode.CANCEL))
-        {
-            SceneManager.LoadScene("Display");
-        }
-
         float shaft_width = initial_shaft_width * (transform.localScale.x / 8);
         shaft_renderer.SetWidth(shaft_width, shaft_width);
-    }
-
-    void OnDestroy()
-    {
-        FindObjectOfType<Logger>().Load();
-        FindObjectOfType<CameraFollow>().Snap();
     }
 }

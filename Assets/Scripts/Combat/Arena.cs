@@ -31,6 +31,10 @@ public class Arena : MonoBehaviour
 	GameObject wreath;
 	GameObject grounds;
 
+	public Vector3 center => transform.position;
+	public float limit => absolute_radius;
+	public float scale => absolute_radius / disc_radius;
+
 	void SpawnDisc()
 	{
 		if(disc != null){ Destroy(disc); }
@@ -94,20 +98,17 @@ public class Arena : MonoBehaviour
         }
     }
 
-	public GameObject Add(GameObject prefab, float theta, float norm_r)
-	{
-		GameObject instance = Instantiate(prefab, grounds.transform);
-		instance.transform.localPosition = NumTools.XY_Polar(theta, disc_radius * norm_r);
-
-		return instance;
-	}
-
 	public GameObject Add(GameObject prefab, Vector3 pos)
 	{
 		GameObject instance = Instantiate(prefab, grounds.transform);
 		instance.transform.localPosition = pos;
 
 		return instance;
+	}
+
+	public GameObject Add(GameObject prefab, float theta, float norm_r)
+	{
+		return Add(prefab, NumTools.XY_Polar(theta, disc_radius * norm_r));
 	}
 
 	public void Clear()
@@ -121,18 +122,17 @@ public class Arena : MonoBehaviour
 	public void Spawn()
 	{
 		SpawnDisc();
-		SpawnWall();
+		//SpawnWall();
 		SpawnWreath();
 
 		Clear();
 
-		float scale_factor = absolute_radius / disc_radius;
-		disc.transform.localScale *= scale_factor;
-		wall.transform.localScale *= scale_factor;
-		wreath.transform.localScale *= scale_factor;
-		grounds.transform.localScale *= scale_factor;
+		disc.transform.localScale *= scale;
+		//wall.transform.localScale *= scale;
+		wreath.transform.localScale *= scale;
+		grounds.transform.localScale *= scale;
 	}
-	
+
 	void FixedUpdate()
 	{
 		if(wreath)

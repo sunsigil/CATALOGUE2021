@@ -16,6 +16,9 @@ public class ControllerRegistry : MonoBehaviour
     List<Controller> controllers;
     int index;
 
+    Controller _current;
+    public Controller current => _current;
+
     static int CompareByControlLayer(Controller a, Controller b)
     {
         if(a == null && b == null){return 0;}
@@ -36,6 +39,7 @@ public class ControllerRegistry : MonoBehaviour
 
             if(controllers.Count > 0)
             {
+                _current = null;
                 controllers[index].is_current = false;
             }
 
@@ -46,6 +50,7 @@ public class ControllerRegistry : MonoBehaviour
 
             controllers.Sort(CompareByControlLayer);
 
+            _current = controllers[index];
             controllers[index].is_current = true;
         }
     }
@@ -58,6 +63,7 @@ public class ControllerRegistry : MonoBehaviour
             controllers[index] == controller
         )
         {
+            _current = null;
             controller.is_current = false;
 
             while
@@ -76,6 +82,7 @@ public class ControllerRegistry : MonoBehaviour
             {
                 controllers.Sort(CompareByControlLayer);
 
+                _current = controllers[index];
                 controllers[index].is_current = true;
             }
         }

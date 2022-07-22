@@ -18,37 +18,45 @@ public class IngredientSource : MonoBehaviour
 
     void Use()
     {
-        if(output == null){ usable.Fail("Null output!"); return; }
+        if(output == null){ usable.Notify("Null output!"); return; }
 
         Satchel satchel = usable.user.GetComponent<Satchel>();
 
         if(satchel.Contains(output))
-        { usable.Fail($"You are already holding {output.name}"); return; }
+        { usable.Notify($"You are already holding {output.name}"); return; }
 
-        List<Ingredient> misses = new List<Ingredient>();
-        foreach(Ingredient input in inputs)
+        if(inputs.Length > 0)
         {
-            if(!satchel.Contains(input))
-            { misses.Add(input); }
-        }
-
-        if(misses.Count > 0)
-        {
-            string report = "Missing reagents: ";
-            for(int i = 0; i < misses.Count; i++)
+            List<Ingredient> misses = new List<Ingredient>();
+            foreach(Ingredient input in inputs)
             {
-                report += misses[i].name;
-                if(i < misses.Count-1){ report += ", "; }
+                if(!satchel.Contains(input))
+                { misses.Add(input); }
             }
-            usable.Fail(report);
-            return;
-        }
 
-        foreach(Ingredient input in inputs)
-        {
-            satchel.Remove(input);
+            if(misses.Count > 0)
+            {
+                string report = "Missing reagents: ";
+                for(int i = 0; i < misses.Count; i++)
+                {
+                    report += misses[i].name;
+                    if(i < misses.Count-1){ report += ", "; }
+                }
+                usable.Notify(report);
+                return;
+            }
+
+            foreach(Ingredient input in inputs)
+            {
+                satchel.Remove(input);
+            }
+
+            if(satchel.Add(output)){ usable.Notify($"Brewed {output.name}"); }
         }
-        if(satchel.Add(output)){ AudioWizard._.PlayEffect(grab_clip); }
+        else
+        {
+            if(satchel.Add(output)){ AudioWizard._.PlayEffect(grab_clip); }
+        }
     }
 
     void Awake()

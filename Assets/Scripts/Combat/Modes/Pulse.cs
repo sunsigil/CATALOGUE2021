@@ -67,9 +67,10 @@ public class Pulse : CombatMode
             break;
 
             case StateSignal.EXIT:
-				cooldown_timeline = new Timeline(cooldown);
                 combatant.ToggleInvincible(false);
 				pulse_wave.gameObject.SetActive(false);
+
+				cooldown_timeline = new Timeline(cooldown);
             break;
         }
     }
@@ -85,10 +86,5 @@ public class Pulse : CombatMode
 		pulse_mat.SetFloat("_Thickness", 0.05f);
 		pulse_mat.SetFloat("_Arc", arc);
 		pulse_wave.gameObject.SetActive(false);
-    }
-
-    void Update()
-    {
-        cooldown_timeline.Tick(Time.deltaTime);
     }
 }

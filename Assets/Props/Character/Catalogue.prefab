@@ -256,7 +256,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4708744309521678305}
   - component: {fileID: 4708744309521678307}
-  - component: {fileID: 2331134560318824392}
   - component: {fileID: 3276847345129066994}
   - component: {fileID: 4708744309521678306}
   - component: {fileID: 8881733379567625102}
@@ -306,20 +305,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 6
---- !u!114 &2331134560318824392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4708744309521678301}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8bf00c0e83ca9ba4ab85d04a685ab003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  save_path: catalogue.txt
-  save: 0
 --- !u!114 &3276847345129066994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3d1fa02c6f13a478a9386077db069d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 4
+  size: 24
 --- !u!114 &4708744309521678306
 MonoBehaviour:
   m_ObjectHideFlags: 0

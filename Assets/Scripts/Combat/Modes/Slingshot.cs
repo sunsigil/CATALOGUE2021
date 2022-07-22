@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
-
 public class Slingshot : CombatMode
 {
     [SerializeField]
@@ -17,8 +15,6 @@ public class Slingshot : CombatMode
     float boost_radius;
     [SerializeField]
     float travel_time;
-
-    Rigidbody2D rigidbody;
 
     float radius;
     Timeline timeline;
@@ -103,7 +99,7 @@ public class Slingshot : CombatMode
 				timeline.Tick(Time.fixedDeltaTime);
 
                 Vector3 velocity = (end - start) / travel_time;
-                rigidbody.MovePosition(transform.position + velocity * Time.fixedDeltaTime);
+                combatant.Move(transform.position + velocity * Time.fixedDeltaTime);
 
 				attack_ring.transform.position = combatant.local_offset;
                 attack_line.SetPosition(0, transform.InverseTransformPoint(start));
@@ -123,6 +119,7 @@ public class Slingshot : CombatMode
                 combatant.ToggleInvincible(false);
                 attack_line.gameObject.SetActive(false);
     			attack_ring.gameObject.SetActive(false);
+
                 cooldown_timeline = new Timeline(cooldown);
             break;
         }
@@ -132,20 +129,13 @@ public class Slingshot : CombatMode
     {
 		base.Awake();
 
-        rigidbody = GetComponent<Rigidbody2D>();
-
         radius = powered ? boost_radius : base_radius;
 
-        float line_width = attack_line.widthCurve[0].value * combatant.arena_scale;
+        float line_width = attack_line.widthCurve[0].value * combatant.arena.scale;
         attack_line.SetWidth(line_width, line_width);
         attack_line.gameObject.SetActive(false);
 
 		attack_ring.transform.localScale = NumTools.XY_Scale(radius * 2);
         attack_ring.gameObject.SetActive(false);
-    }
-
-    void Update()
-    {
-        cooldown_timeline.Tick(Time.deltaTime);
     }
 }

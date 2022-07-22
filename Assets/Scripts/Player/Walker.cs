@@ -53,6 +53,9 @@ public class Walker : Subcontroller
 
         Vector2 position = new Vector2(transform.position.x, transform.position.y);
         Vector2 destination = position + Vector2.right * current_frame_speed;
+        // MOST SCUFFED LINE OF CODE IVE EVER WRITTEN
+        if(destination.x < 0){ destination.x = 0; }
+        if(destination.x > 165){ destination.x = 165; }
 
         rigidbody_2d.MovePosition(destination);
         _walking = !Mathf.Approximately(current_frame_speed, 0);

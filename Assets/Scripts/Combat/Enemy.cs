@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Combatant))]
 [RequireComponent(typeof(Machine))]
 
@@ -12,6 +11,10 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     Bullet bullet_prefab;
+    [SerializeField]
+    Material idle_material;
+    [SerializeField]
+    Material aggro_material;
 
     [SerializeField]
     SpriteRenderer deathblow_dot;
@@ -23,12 +26,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     float fire_cooldown;
 
-    [SerializeField]
-    int max_lives;
-
-    Rigidbody2D rigidbody;
     Machine machine;
     Combatant combatant;
+    SpriteRenderer sprite_renderer;
 
     Shooter shooter;
     bool aggroed;
@@ -37,23 +37,24 @@ public class Enemy : MonoBehaviour
 
     Vector3 GetVelocity()
     {
-        switch(motion_mode)
+        if(shooter != null)
         {
-            case EnemyMotionMode.LINE:
-                Vector3 line = (shooter.transform.position - transform.position);
-                if(line.magnitude > combatant.arena_scale){ return line.normalized; }
-                else{ return Vector3.zero; }
-            break;
+            switch(motion_mode)
+            {
+                case EnemyMotionMode.LINE:
+                    Vector3 line = (shooter.transform.position - transform.position);
+                    if(line.magnitude > combatant.arena.scale){ return line.normalized; }
+                    else{ return Vector3.zero; }
+                break;
 
-            case EnemyMotionMode.CIRCLE:
-                if(transform.localPosition.magnitude < 3){ return transform.localPosition.normalized; }
-                else{ return Vector3.Cross(-transform.localPosition, Vector3.forward).normalized; }
-            break;
-
-            default:
-                return Vector3.zero;
-            break;
+                case EnemyMotionMode.CIRCLE:
+                    if(transform.localPosition.magnitude < 3){ return transform.localPosition.normalized; }
+                    else{ return Vector3.Cross(-transform.localPosition, Vector3.forward).normalized; }
+                break;
+            }
         }
+
+        return Vector3.zero;
     }
 
     void Fire()
@@ -61,8 +62,7 @@ public class Enemy : MonoBehaviour
         switch(fire_mode)
         {
             case EnemyFireMode.BEAM:
-                Bullet bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
-                bullet.transform.position = transform.position + transform.forward;
+                Bullet bullet = combatant.arena.Add(bullet_prefab.gameObject, transform.localPosition + transform.forward).GetComponent<Bullet>();
                 bullet.velocity = (shooter.transform.position - transform.position).normalized;
             break;
 
@@ -70,21 +70,22 @@ public class Enemy : MonoBehaviour
                 for(int i = 0; i < 8; i++)
                 {
                     float t = Mathf.PI * 0.25f * i;
-                    float r = 1.5f * combatant.arena_scale;
+                    float r = 1.5f;
 
-                    bullet = Instantiate(bullet_prefab, transform.parent).GetComponent<Bullet>();
-                    bullet.transform.position = transform.position + NumTools.XY_Polar(t, r);
+                    bullet = combatant.arena.Add(bullet_prefab.gameObject, transform.localPosition + NumTools.XY_Polar(t, r)).GetComponent<Bullet>();
                     bullet.velocity = NumTools.XY_Polar(t, r);
                 }
             break;
         }
     }
 
-    public void DeathEffects()
+    void DeathEffects()
     {
         ProgressRing death_ring = AssetTools.SpawnComponent(progress_ring);
-        death_ring.Initialize(Color.black, 0.1f, combatant.arena_scale * 2.5f, 1);
+        death_ring.Initialize(Color.black, 0.1f, combatant.arena.scale * 2.5f, 1);
         death_ring.transform.position = transform.position;
+
+        AudioWizard._.PlayEffect("sentinel death");
 
         Destroy(gameObject);
     }
@@ -96,11 +97,21 @@ public class Enemy : MonoBehaviour
     {
         switch(signal)
         {
+            case StateSignal.ENTER:
+                sprite_renderer.material = idle_material;
+                combatant.ToggleInvincible(true);
+            break;
+
             case StateSignal.TICK:
                 if(aggroed)
                 {
                     machine.Transition(Active);
                 }
+            break;
+
+            case StateSignal.EXIT:
+                sprite_renderer.material = aggro_material;
+                combatant.ToggleInvincible(false);
             break;
         }
     }
@@ -110,6 +121,11 @@ public class Enemy : MonoBehaviour
         switch(signal)
         {
             case StateSignal.TICK:
+                if(!aggroed || shooter == null)
+                {
+                    machine.Transition(Idle);
+                }
+
                 if(timeline == null || timeline.Evaluate())
                 {
                     Fire();
@@ -119,16 +135,11 @@ public class Enemy : MonoBehaviour
                 {
                     timeline.Tick(Time.deltaTime);
                 }
-
-                if(!aggroed)
-                {
-                    machine.Transition(Idle);
-                }
             break;
 
             case StateSignal.FIXED_TICK:
-                transform.rotation = NumTools.XY_Quat(GetVelocity());
-                rigidbody.MovePosition(transform.position + GetVelocity() * Time.fixedDeltaTime);
+                transform.rotation = NumTools.XY_Quat(GetVelocity(), 90);
+                combatant.Move(transform.position + GetVelocity() * Time.fixedDeltaTime);
             break;
         }
     }
@@ -139,7 +150,7 @@ public class Enemy : MonoBehaviour
         {
             case StateSignal.ENTER:
                 deathblow_dot.enabled = true;
-                timeline = new Timeline(3);
+                timeline = new Timeline(1);
             break;
 
             case StateSignal.TICK:
@@ -167,9 +178,9 @@ public class Enemy : MonoBehaviour
     {
         progress_ring = Resources.Load<ProgressRing>("Progress Ring");
 
-        rigidbody = GetComponent<Rigidbody2D>();
         machine = GetComponent<Machine>();
         combatant = GetComponent<Combatant>();
+        sprite_renderer = GetComponent<SpriteRenderer>();
 
         combatant.on_deplete.AddListener(delegate{ machine.Transition(Depleted); });
         combatant.on_die.AddListener(DeathEffects);

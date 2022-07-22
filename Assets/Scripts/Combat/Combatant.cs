@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Rigidbody2D))]
+
 public class Combatant : MonoBehaviour
 {
 	[SerializeField]
@@ -35,9 +37,18 @@ public class Combatant : MonoBehaviour
 	protected UnityEvent _on_die;
 	public UnityEvent on_die => _on_die;
 
-	public float arena_scale => transform.lossyScale.x;
+	protected Arena _arena;
+	public Arena arena
+	{
+		get => _arena;
+		set => _arena = value;
+	}
+
+	//public float _arena.scale => _arena.scale;
 	public Vector3 local_offset => transform.TransformPoint(offset);
-	public Vector3 arena_offset => transform.TransformPoint(offset * arena_scale);
+	public Vector3 arena_offset => transform.TransformPoint(offset * _arena.scale);
+
+	protected Rigidbody2D rigidbody;
 
 	protected void ProcessAttack(Attack attack)
 	{
@@ -61,6 +72,11 @@ public class Combatant : MonoBehaviour
 
 	public void ToggleInvincible(bool toggle){ invincible = toggle; }
 
+	public void Heal(int quant)
+	{
+		_lives = Mathf.Clamp(_lives + quant, 0, _max_lives);
+	}
+
 	public bool EnqueueAttack(Attack attack)
 	{
 		if(invincible){ return false; }
@@ -77,7 +93,7 @@ public class Combatant : MonoBehaviour
 
 	public void RingStrike(float radius, Attack attack)
     {
-        Collider2D[] cols = Physics2D.OverlapCircleAll(arena_offset, radius * arena_scale);
+        Collider2D[] cols = Physics2D.OverlapCircleAll(arena_offset, radius * _arena.scale);
 
         foreach(Collider2D col in cols)
         {
@@ -92,8 +108,8 @@ public class Combatant : MonoBehaviour
 
 	public void ArcStrike(float radius, float phase, float arc, Attack attack)
 	{
-		Vector3 c = transform.position + offset * arena_scale;
-		float r = radius * arena_scale;
+		Vector3 c = transform.position + offset * _arena.scale;
+		float r = radius * _arena.scale;
 
 		float min = phase - arc/2;
 		float max = phase + arc/2;
@@ -117,13 +133,26 @@ public class Combatant : MonoBehaviour
         }
 	}
 
-	public void Heal(int quant)
+	public bool Move(Vector3 destination)
 	{
-		_lives = Mathf.Clamp(_lives + quant, 0, _max_lives);
+		Vector3 spoke = destination - _arena.center;
+		Vector3 dir = spoke.normalized;
+		bool full_move = true;
+
+		if(spoke.magnitude >= _arena.limit)
+		{
+			destination = _arena.center + dir * _arena.limit * 0.95f;
+			full_move = false;
+		}
+
+		rigidbody.MovePosition(destination);
+		return full_move;
 	}
 
 	protected void Awake()
 	{
+		rigidbody = GetComponent<Rigidbody2D>();
+
 		_lives = _max_lives;
 
 		nohurt_timeline = new Timeline(hurt_cooldown);
@@ -132,6 +161,8 @@ public class Combatant : MonoBehaviour
 		_on_hurt = new UnityEvent();
 		_on_deplete = new UnityEvent();
 		_on_die = new UnityEvent();
+
+		_arena = transform.root.GetComponentInChildren<Arena>();
 	}
 
 	protected void Update()
@@ -145,6 +176,9 @@ public class Combatant : MonoBehaviour
 	void OnDrawGizmos()
 	{
 		Gizmos.color = Color.red;
-		Gizmos.DrawSphere(arena_offset, 0.1f * arena_scale);
+		if(_arena != null)
+		{ Gizmos.DrawSphere(arena_offset, 0.1f * _arena.scale); }
+		else
+		{ Gizmos.DrawSphere(offset, 0.1f); }
 	}
 }

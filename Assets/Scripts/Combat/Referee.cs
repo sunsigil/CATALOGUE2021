@@ -82,34 +82,40 @@ public class Referee : MonoBehaviour
     {
         if(!in_combat){ return; }
 
+        int alive = 0;
+        int aggroed = 0;
         for(int i = 0; i < enemies.Length; i++)
         {
-            if(enemies[i] != null && enemies[i].IsAggroed())
+            if(enemies[i] != null)
             {
-                return;
+                alive++;
+
+                if(enemies[i].IsAggroed()){ aggroed++; }
             }
+
         }
+        if(aggroed == max_aggroed || aggroed == alive){ return; }
 
-        int[] aggro_indices = new int[max_aggroed];
+        int[] aggro_indices = new int[Mathf.Min(max_aggroed, alive)];
 
-        for(int i = 0; i < max_aggroed; i++)
+        for(int i = 0; i < aggro_indices.Length; i++)
         {
             int random_index = -1;
-            bool already_picked = false;
+            bool invalid_index = false;
 
             do {
                 random_index = Random.Range(0, enemies.Length);
-                already_picked = false;
+                invalid_index = false;
 
                 for(int j = 0; j < i; j++)
                 {
-                    if(aggro_indices[j] == random_index)
+                    if(random_index == aggro_indices[j] || enemies[random_index] == null)
                     {
-                        already_picked = true;
+                        invalid_index = true;
                         break;
                     }
                 }
-            } while(already_picked);
+            } while(invalid_index);
 
             if(random_index != -1)
             {
