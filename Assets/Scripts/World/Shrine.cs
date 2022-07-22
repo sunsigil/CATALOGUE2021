@@ -17,41 +17,44 @@ public class Shrine : MonoBehaviour
 
     Logger logger;
 
+    bool primed;
     Timeline timeline;
 
     bool complete => logger.GetShrine(flag);
 
     void Use()
     {
-        if(complete){ usable.Notify("You have completed this challenge"); return; }
-
-        if(machine.InState(Watching))
-        {
-            machine.Transition(Active);
-        }
+        if(complete){ usable.Notify("You have completed this challenge"); }
+        else{ primed = true; }
     }
 
     void Watching(StateSignal signal)
     {
-    	switch(signal)
-    	{
-            case StateSignal.ENTER:
-                usable.show_prompt = true;
+        if(!complete)
+        {
+            switch(signal)
+            {
+                case StateSignal.ENTER:
+                    usable.show_prompt = true;
+                    arena.Spawn();
+                    arena.transform.localScale = new Vector3(0, 0, 1);
+                break;
 
-                if(complete){ return; }
-                arena.Spawn();
-                arena.transform.localScale = new Vector3(0, 0, 1);
-            break;
+                case StateSignal.TICK:
+                    arena.transform.localScale = NumTools.XY_Scale(usable.usability);
+                    if(primed){ machine.Transition(Active); }
+                break;
 
-    		case StateSignal.TICK:
-                if(complete){ return; }
-                arena.transform.localScale = NumTools.XY_Scale(usable.usability);
-    		break;
-
-            case StateSignal.EXIT:
-                usable.show_prompt = false;
-            break;
-    	}
+                case StateSignal.EXIT:
+                    usable.show_prompt = false;
+                    primed = false;
+                break;
+            }
+        }
+        else if(signal == StateSignal.ENTER)
+        {
+            usable.show_prompt = true;
+        }
     }
 
     void Active(StateSignal signal)
@@ -64,23 +67,24 @@ public class Shrine : MonoBehaviour
     		break;
 
     		case StateSignal.TICK:
-                switch(referee.EvaluateCombat())
+                switch(referee.state)
                 {
-                    case 1:
+                    case CombatState.COMPLETE:
                         logger.AddShrine(flag);
-                        AudioWizard._.PopMusic();
                         AudioWizard._.PlayEffect("victory");
-                        arena.Clear();
                         machine.Transition(Cleared);
                     break;
 
-                    case -1:
-                        AudioWizard._.PopMusic();
-                        arena.Clear();
+                    case CombatState.DORMANT:
                         machine.Transition(Watching);
                     break;
                 }
     		break;
+
+            case StateSignal.EXIT:
+                arena.Clear();
+                AudioWizard._.PopMusic();
+            break;
     	}
     }
 

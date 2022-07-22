@@ -24,7 +24,10 @@ public class Referee : MonoBehaviour
     GameObject player;
     Enemy[] enemies;
 
-    bool in_combat;
+    CombatState _state;
+    public CombatState state => _state;
+
+    Timeline sumsick_timeline;
 
     void SpawnPlayer(Arena arena)
     {
@@ -35,7 +38,6 @@ public class Referee : MonoBehaviour
 
     void SpawnEnemies(Arena arena)
     {
-        // Address possibility of unitinitialized enemy array
         if(enemies == null){enemies = new Enemy[enemy_prefabs.Length];}
 
         for(int i = 0; i < enemies.Length; i++)
@@ -55,73 +57,57 @@ public class Referee : MonoBehaviour
         SpawnPlayer(arena);
         SpawnEnemies(arena);
 
-        in_combat = true;
-    }
-
-    public int EvaluateCombat()
-    {
-        if(!in_combat){return 0;}
-
-        foreach(Enemy enemy in enemies)
-        {
-            if(enemy != null)
-            {
-                return 0;
-            }
-        }
-
-        in_combat = false;
-
-        if(player == null)
-        { return -1; }
-        else
-        { return 1; }
+        _state = CombatState.ONGOING;
+        sumsick_timeline = new Timeline(0.75f);
     }
 
     void Update()
     {
-        if(!in_combat){ return; }
+        if(_state != CombatState.ONGOING){ return; }
+        if(!sumsick_timeline.Evaluate())
+        {
+            sumsick_timeline.Tick(Time.deltaTime);
+            return;
+        }
 
-        int alive = 0;
-        int aggroed = 0;
+        int alive_ct = 0;
+        int aggroed_ct = 0;
+
         for(int i = 0; i < enemies.Length; i++)
         {
             if(enemies[i] != null)
             {
-                alive++;
-
-                if(enemies[i].IsAggroed()){ aggroed++; }
+                alive_ct++;
+                if(enemies[i].IsAggroed()){ aggroed_ct++; }
             }
-
         }
-        if(aggroed == max_aggroed || aggroed == alive){ return; }
 
-        int[] aggro_indices = new int[Mathf.Min(max_aggroed, alive)];
+        if(alive_ct == 0){ _state = player == null ? CombatState.DORMANT : CombatState.COMPLETE; return; }
+        if(aggroed_ct == max_aggroed || aggroed_ct == alive_ct){ return; }
+
+        int[] aggro_indices = new int[Mathf.Min(max_aggroed, alive_ct)];
 
         for(int i = 0; i < aggro_indices.Length; i++)
         {
             int random_index = -1;
-            bool invalid_index = false;
+            bool index_valid = false;
 
             do {
                 random_index = Random.Range(0, enemies.Length);
-                invalid_index = false;
+                index_valid = true;
 
                 for(int j = 0; j < i; j++)
                 {
                     if(random_index == aggro_indices[j] || enemies[random_index] == null)
                     {
-                        invalid_index = true;
+                        index_valid = false;
                         break;
                     }
                 }
-            } while(invalid_index);
+            } while(!index_valid);
 
-            if(random_index != -1)
-            {
-                enemies[random_index].Aggro();
-                aggro_indices[i] = random_index;
-            }
+            enemies[random_index].Aggro();
+            aggro_indices[i] = random_index;
         }
     }
 }

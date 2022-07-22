@@ -8,7 +8,7 @@ public class Logger : MonoBehaviour
 {
     [SerializeField]
     string save_path;
-    string full_save_path;
+    string full_save_path => $"{Application.persistentDataPath}\\{save_path}";
     [SerializeField]
     float save_cooldown;
 
@@ -18,6 +18,8 @@ public class Logger : MonoBehaviour
 
     float x_position;
     float y_rotation;
+
+    string satchel_log;
 
     Timeline timeline;
 
@@ -42,8 +44,6 @@ public class Logger : MonoBehaviour
     [ContextMenu("Clear Saved Data")]
     public void Clear()
     {
-        full_save_path = $"{Application.persistentDataPath}\\{save_path}";
-
         StreamWriter writer = new StreamWriter(full_save_path);
         writer.WriteLine("");
         writer.Close();
@@ -62,10 +62,16 @@ public class Logger : MonoBehaviour
         {
             x_position = walker.transform.position.x;
             y_rotation = walker.transform.rotation.eulerAngles.y;
-
-            writer.WriteLine(x_position.ToString());
-            writer.WriteLine(y_rotation.ToString());
         }
+        writer.WriteLine(x_position.ToString());
+        writer.WriteLine(y_rotation.ToString());
+
+        Satchel satchel = FindObjectOfType<Satchel>();
+        if(satchel)
+        {
+            satchel_log = satchel.IngredientDump().Trim(' ');
+        }
+        writer.WriteLine(satchel_log);
 
         writer.Close();
     }
@@ -80,15 +86,18 @@ public class Logger : MonoBehaviour
             cards = int.Parse(reader.ReadLine());
             x_position = float.Parse(reader.ReadLine());
             y_rotation = float.Parse(reader.ReadLine());
+            satchel_log = reader.ReadLine();
             reader.Close();
         }
         catch
         {
+            print("catching");
             shrines = 0;
             runes = 0;
             cards = 0;
             x_position = 0;
             y_rotation = 0;
+            satchel_log = "";
         }
 
         Walker walker = FindObjectOfType<Walker>();
@@ -103,14 +112,26 @@ public class Logger : MonoBehaviour
 
     public void Restart()
     {
+        Save();
         SceneManager.LoadScene("Island");
     }
 
     void Awake()
     {
-        full_save_path = $"{Application.persistentDataPath}\\{save_path}";
-
         Load();
+    }
+
+    void Start()
+    {
+        Satchel satchel = FindObjectOfType<Satchel>();
+        if(satchel)
+        {
+            foreach(string ing_name in satchel_log.Split(' '))
+            {
+                Ingredient ing = Resources.Load<Ingredient>($"Ingredients/{ing_name}");
+                if(ing != null){ satchel.Add(ing); }
+            }
+        }
     }
 
     void Update()

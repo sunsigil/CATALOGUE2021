@@ -92,3 +92,10 @@ public enum EnemyFireMode
     RING,
     SPIRAL
 }
+
+public enum CombatState
+{
+    DORMANT,
+    ONGOING,
+    COMPLETE
+}

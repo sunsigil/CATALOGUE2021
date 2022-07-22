@@ -7,8 +7,6 @@ public class Arena : MonoBehaviour
 	[SerializeField]
     GameObject disc_prefab;
 	[SerializeField]
-	GameObject wall_piece;
-	[SerializeField]
 	GameObject[] wreath_pieces;
 
 	[SerializeField]
@@ -19,15 +17,12 @@ public class Arena : MonoBehaviour
 	float absolute_radius;
 
 	[SerializeField]
-	int wall_resolution;
-	[SerializeField]
 	int wreath_resolution;
 
 	[SerializeField]
 	float wreath_rps;
 
 	GameObject disc;
-	GameObject wall;
 	GameObject wreath;
 	GameObject grounds;
 
@@ -42,33 +37,6 @@ public class Arena : MonoBehaviour
 
 		float diameter = disc_radius * 2;
 		disc.transform.localScale = NumTools.XY_Scale(diameter);
-	}
-
-	void SpawnWall()
-	{
-		if(wall != null){ Destroy(wall); }
-		wall = new GameObject("Wall");
-		wall.transform.SetParent(transform);
-		wall.transform.localPosition = Vector3.zero;
-
-        float piece_arc = 2 * Mathf.PI / wall_resolution;
-        // Secant length: 2r * sin(theta / 2)
-        float piece_length = 2 * disc_radius * Mathf.Sin(piece_arc * 0.5f);
-
-        for(int i = 0; i < wall_resolution; i++)
-        {
-            GameObject piece = Instantiate(wall_piece, wall.transform);
-            BoxCollider2D collider = piece.GetComponent<BoxCollider2D>();
-            Vector3 original_size = collider.size;
-			// Scale by 1.1f for "airtight" overlap
-            collider.size = new Vector3(piece_length * 1.1f, original_size.y, original_size.z);
-
-            float theta = piece_arc * i;
-            Vector3 offset = NumTools.XY_Polar(theta, disc_radius);
-            piece.transform.localPosition = offset;
-
-            piece.transform.rotation = NumTools.XY_Quat(theta - Mathf.PI * 0.5f);
-        }
 	}
 
 	void SpawnWreath()
@@ -122,13 +90,11 @@ public class Arena : MonoBehaviour
 	public void Spawn()
 	{
 		SpawnDisc();
-		//SpawnWall();
 		SpawnWreath();
 
 		Clear();
 
 		disc.transform.localScale *= scale;
-		//wall.transform.localScale *= scale;
 		wreath.transform.localScale *= scale;
 		grounds.transform.localScale *= scale;
 	}

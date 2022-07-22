@@ -132,8 +132,7 @@ public class CommandConsole : Controller
         try{ card_str = arg_stack.Pop(); }
         catch{ Log("Operation give_card requires one argument"); return; }
 
-        Card card = null;
-        card = Resources.Load<Card>($"Cards/{card_str}");
+        Card card = Resources.Load<Card>($"Cards/{card_str}");
         if(card == null){ Log($"Error: card {card_str} not found"); return; }
 
         Logger logger = FindObjectOfType<Logger>();
@@ -155,8 +154,7 @@ public class CommandConsole : Controller
         try{ ing_str = arg_stack.Pop(); }
         catch{ Log("Operation give_ingredient requires one argument"); return; }
 
-        Ingredient ing = null;
-        ing = Resources.Load<Ingredient>($"Ingredients/{ing_str}");
+        Ingredient ing = Resources.Load<Ingredient>($"Ingredients/{ing_str}");
         if(ing == null){ Log($"Error: ingredient {ing_str} not found"); return; }
 
         Satchel satchel = FindObjectOfType<Satchel>();
