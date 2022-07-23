@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8990099927021841939}
   - component: {fileID: 8990099927021841964}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arena Disc
   m_TagString: Untagged
   m_Icon: {fileID: 0}

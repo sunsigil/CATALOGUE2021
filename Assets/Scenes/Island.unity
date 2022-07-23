@@ -423,6 +423,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Arch Shrine
       objectReference: {fileID: 0}
+    - target: {fileID: 7247002194649402862, guid: 885786bf6907dfd45a636ade3f13811b, type: 3}
+      propertyPath: rune
+      value: 
+      objectReference: {fileID: 11400000, guid: aee5d345e6991f34c85bd075aea3d66f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 885786bf6907dfd45a636ade3f13811b, type: 3}
 --- !u!1001 &262933358
@@ -1583,6 +1587,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1835611325}
     m_Modifications:
+    - target: {fileID: 4270565223778078075, guid: 43dff26a48914ab4b83fb4c9943919c3, type: 3}
+      propertyPath: rune
+      value: 
+      objectReference: {fileID: 11400000, guid: eee9e64dbb130d148b9b3c527e237e5b, type: 2}
     - target: {fileID: 5177075522580016201, guid: 43dff26a48914ab4b83fb4c9943919c3, type: 3}
       propertyPath: m_Name
       value: Booth Shrine
@@ -1894,6 +1902,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6639573392143854558, guid: fe71ea611231cbf45a03f6aa17f9f96f, type: 3}
+      propertyPath: output
+      value: 
+      objectReference: {fileID: 11400000, guid: 94c050e3201da334bb0a0aa757e440cd, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe71ea611231cbf45a03f6aa17f9f96f, type: 3}
 --- !u!1001 &1436800076
@@ -2400,15 +2412,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8098239639629808501, guid: 5a05de85729017946b1f119aae378738, type: 3}
       propertyPath: m_text
-      value: 'Cards are arranged and rearranged in card dungeons
+      value: 'Cards arranged in card dungeons
 
 
-        Ingredients
-        are brewed into essences at brewing stations
+        Ingredients are brewed into
+        essences at brewing stations
 
 
-        Dungeons and essence
-        drinkers yield runes'
+        Dungeons, shrines, and essence drinkers
+        yield runes'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a05de85729017946b1f119aae378738, type: 3}
@@ -2570,6 +2582,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1007972420751801696, guid: d032dde4a2d5d8e4295a2a0c9e1bcddd, type: 3}
+      propertyPath: rune
+      value: 
+      objectReference: {fileID: 11400000, guid: d5ac2c0cd478b4b4f885570e742c9210, type: 2}
     - target: {fileID: 8170016947184901202, guid: d032dde4a2d5d8e4295a2a0c9e1bcddd, type: 3}
       propertyPath: m_Name
       value: Eye Shrine
@@ -3103,6 +3119,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Monument Shrine
       objectReference: {fileID: 0}
+    - target: {fileID: 6941983508129606750, guid: f60a75dd940d77e4d8d3dbd910a72d68, type: 3}
+      propertyPath: rune
+      value: 
+      objectReference: {fileID: 11400000, guid: a6d1248fff0b4bd40adf7e1509a7a899, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f60a75dd940d77e4d8d3dbd910a72d68, type: 3}
 --- !u!1001 &2137034777

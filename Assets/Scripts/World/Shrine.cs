@@ -7,8 +7,12 @@ using UnityEngine;
 
 public class Shrine : MonoBehaviour
 {
+    RuneGet rune_get_prefab;
+
     [SerializeField]
     ShrineFlag flag;
+    [SerializeField]
+    Rune rune;
 
     Usable usable;
     Machine machine;
@@ -107,11 +111,19 @@ public class Shrine : MonoBehaviour
                     machine.Transition(Watching);
                 }
             break;
+
+            case StateSignal.EXIT:
+                logger.AddRune(rune.flag);
+                rune_get_prefab.rune = rune;
+                Instantiate(rune_get_prefab);
+            break;
         }
     }
 
     void Awake()
     {
+        rune_get_prefab = Resources.Load<RuneGet>("Rune Get");
+
         usable = GetComponentInChildren<Usable>();
         machine = GetComponentInChildren<Machine>();
         arena = GetComponentInChildren<Arena>();
