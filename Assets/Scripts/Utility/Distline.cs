@@ -20,7 +20,8 @@ public class Distline
 	{
 		get
 		{
-			if(horizontal){ return Mathf.Abs(b.position.x - a.position.x); }
+			if(horizontal)
+			{ return Mathf.Abs(b.position.x - a.position.x); }
 			return (b.position - a.position).magnitude;
 		}
 	}
@@ -29,13 +30,16 @@ public class Distline
 	{
 		get
 		{
-			if(distance > max_dist){ return 0; }
-			if(distance <= min_dist){ return 1; }
+			if(distance > max_dist)
+			{ return 0; }
+			if(distance <= min_dist)
+			{ return 1; }
 			return 1-((distance - min_dist) / (max_dist - min_dist));
 		}
 	}
 
-	public bool Evaluate(){ return progress >= 1; }
+	public bool Evaluate()
+	{ return progress >= 1; }
 
 	public Distline(Transform a, Transform b, float min_dist, float max_dist, bool horizontal = true)
 	{

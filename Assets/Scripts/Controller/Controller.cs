@@ -2,6 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Provides an interface for reading the
+/// status of the inputs mapped to by
+/// InputCodes via a control scheme. The
+/// interfacing functions yield null-equivalent
+/// results when the controller is not considered
+/// activated by the ControllerRegistry
+/// </summary>
 public abstract class Controller : MonoBehaviour
 {
     [SerializeField]
@@ -20,6 +28,8 @@ public abstract class Controller : MonoBehaviour
         set => _scheme = value;
     }
 
+    ControllerRegistry registry;
+
     protected bool _is_registered;
     public bool is_registered
     {
@@ -37,48 +47,36 @@ public abstract class Controller : MonoBehaviour
     protected bool is_operable => _unmanaged || (_is_registered && _is_current) && _scheme != null;
 
     public bool Pressed(InputCode code)
-    {
-        return is_operable && Input.GetKeyDown(scheme.GetKeyCode(code));
-    }
+    { return is_operable && Input.GetKeyDown(scheme.GetKeyCode(code)); }
 
     public bool Released(InputCode code)
-    {
-        return is_operable && Input.GetKeyUp(scheme.GetKeyCode(code));
-    }
+    { return is_operable && Input.GetKeyUp(scheme.GetKeyCode(code)); }
 
     public bool Held(InputCode code)
-    {
-        return is_operable && Input.GetKey(scheme.GetKeyCode(code));
-    }
+    { return is_operable && Input.GetKey(scheme.GetKeyCode(code)); }
 
     public float InputValue(string axis, bool raw=false)
-    {
-        return is_operable ? (raw ? Input.GetAxisRaw(axis) : Input.GetAxis(axis)) : 0;
-    }
+    { return is_operable ? (raw ? Input.GetAxisRaw(axis) : Input.GetAxis(axis)) : 0; }
 
     public void Commandeer(Subcontroller subcontroller)
-    {
-        subcontroller.Obey(this);
-    }
+    { subcontroller.Obey(this); }
 
     protected virtual void OnEnable()
     {
-        if(_unmanaged){return;}
+        registry = FindObjectOfType<ControllerRegistry>();
 
-        if(!ControllerRegistry._){return;}
+        if (_unmanaged) { return; }
+        if(registry == null || !registry.primed){ return; }
 
-        ControllerRegistry._.Register(this);
+        registry.Register(this);
     }
 
     protected virtual void OnDisable()
     {
-        if(_unmanaged){return;}
-
-        if(!ControllerRegistry._){return;}
+        if(_unmanaged){ return; }
+        if(registry == null){ return; }
 
         if(_is_registered)
-        {
-            ControllerRegistry._.Deregister(this);
-        }
+        { registry.Deregister(this); }
     }
 }

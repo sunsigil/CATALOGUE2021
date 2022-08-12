@@ -4,7 +4,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(Usable))]
 [RequireComponent(typeof(Machine))]
-
 public class Shrine : MonoBehaviour
 {
     RuneGet rune_get_prefab;

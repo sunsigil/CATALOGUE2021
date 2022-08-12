@@ -18,12 +18,13 @@ public class DungeonSpawner : MonoBehaviour
 	[SerializeField]
 	float zoom_outer_radius;
 
-	Usable usable;
-
 	CameraFollow camera_follow;
-	Distline zoomline;
-
 	Logger logger;
+	ControllerRegistry controller_registry;
+
+	Usable usable;
+	
+	Distline zoomline;
 
 	void Use()
 	{
@@ -49,6 +50,7 @@ public class DungeonSpawner : MonoBehaviour
 
 		camera_follow = FindObjectOfType<CameraFollow>();
 		logger = FindObjectOfType<Logger>();
+		controller_registry = FindObjectOfType<ControllerRegistry>();
 	}
 
 	void Start()
@@ -63,10 +65,8 @@ public class DungeonSpawner : MonoBehaviour
 	{
 		User user = FindObjectOfType<User>();
 
-		if(user && ControllerRegistry._.current == user)
-		{
-			camera_follow.Zoom(zoom_size, zoomline.progress);
-		}
+		if(user && controller_registry.current == user)
+		{ camera_follow.Zoom(zoom_size, zoomline.progress); }
 	}
 
 	void OnDrawGizmos()

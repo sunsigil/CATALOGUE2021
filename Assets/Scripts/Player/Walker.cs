@@ -2,30 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Subcontroller which handles
+/// the player's sidescrolling
+/// worlspace movement.
+/// </summary>
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Walker : Subcontroller
 {
-    [SerializeField]
-    GameObject hat;
-    [SerializeField]
-    GameObject head;
-    [SerializeField]
-    GameObject body;
+    // Prefabs
     [SerializeField]
     Sprite[] walk_sprites;
 
+    // Settings
     [SerializeField]
     float walk_fps;
-
     [SerializeField]
     float speed;
 
+    // Plugins
+    [SerializeField]
+    GameObject body;
+
+    // Components
     Rigidbody2D rigidbody_2d;
     SpriteRenderer body_renderer;
 
-    Vector3 hat_origin;
-    Vector3 head_origin;
-    Vector3 body_origin;
-
+    // State
     float walk_frequency;
     float walk_timer;
     int walk_sprite_index;
@@ -37,10 +41,6 @@ public class Walker : Subcontroller
     {
         rigidbody_2d = GetComponent<Rigidbody2D>();
         body_renderer = body.GetComponent<SpriteRenderer>();
-
-        hat_origin = hat.transform.localPosition;
-        head_origin = head.transform.localPosition;
-        body_origin = body.transform.localPosition;
 
         walk_frequency = 1/walk_fps;
     }
@@ -54,8 +54,7 @@ public class Walker : Subcontroller
         Vector2 position = new Vector2(transform.position.x, transform.position.y);
         Vector2 destination = position + Vector2.right * current_frame_speed;
         // MOST SCUFFED LINE OF CODE IVE EVER WRITTEN
-        if(destination.x < 0){ destination.x = 0; }
-        if(destination.x > 165){ destination.x = 165; }
+        destination.x = Mathf.Clamp(destination.x, 0, 165);
 
         rigidbody_2d.MovePosition(destination);
         _walking = !Mathf.Approximately(current_frame_speed, 0);
@@ -68,6 +67,7 @@ public class Walker : Subcontroller
 
             walk_timer += Time.fixedDeltaTime * speed_ratio;
 
+            // Animate the player's walk by indexing a sprite array
             if(walk_timer >= walk_frequency)
             {
                 walk_sprite_index = (walk_sprite_index+1) % walk_sprites.Length;

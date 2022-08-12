@@ -69,7 +69,7 @@ public static class NumTools
 
     public static void BoogieWoogie(Transform a, Transform b)
     {
-        // *clap*
+        // The act of applause is an acclamation of the soul
         Vector3 intermediate = a.position;
         a.position = b.position;
         b.position = intermediate;

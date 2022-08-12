@@ -3,16 +3,29 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Generates and maintains a mapping
+/// of KeyCodes to InputCodes from an
+/// XML control-scheme file
+/// </summary>
 public class ControlScheme
 {
     Dictionary<InputCode, KeyCode> map;
     Dictionary<InputCode, string> string_map;
 
+    /// <summary>
+    /// Assume existing mapping
+    /// </summary>
+    /// <param name="map"></param>
     public ControlScheme(Dictionary<InputCode, KeyCode> map)
     {
         this.map = map;
     }
 
+    /// <summary>
+    /// Generate mapping from XML file
+    /// </summary>
+    /// <param name="scheme_file"></param>
     public ControlScheme(TextAsset scheme_file)
     {
         map = new Dictionary<InputCode, KeyCode>();

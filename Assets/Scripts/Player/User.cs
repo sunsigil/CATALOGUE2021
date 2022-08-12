@@ -3,27 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// The player's commander controller,
+/// which also governs
+/// in-world interaction and menu
+/// opening
+/// </summary>
 public class User : Controller
 {
+    // Prefabs
     [SerializeField]
     GameObject start_menu_prefab;
     [SerializeField]
     GameObject log_menu_prefab;
 
+    // Outsiders
     CameraFollow camera_follow;
-    SpawnQueue spawn_queue;
+    AudioWizard audio_wizard;
 
-    Satchel satchel;
-    Logger logger;
+    // Components
     Walker walker;
 
     void Awake()
     {
         camera_follow = FindObjectOfType<CameraFollow>();
-        spawn_queue = FindObjectOfType<SpawnQueue>();
+        audio_wizard = FindObjectOfType<AudioWizard>();
 
-        satchel = GetComponent<Satchel>();
-        logger = GetComponent<Logger>();
         walker = GetComponent<Walker>();
 
         Commandeer(walker);
@@ -32,9 +37,8 @@ public class User : Controller
     // Start is called before the first frame update
     void Start()
     {
-        AudioWizard._.PushMusic(gameObject, "ambience 1");
+        audio_wizard.PushMusic(gameObject, "ambience 1");
 
-        camera_follow.Snap();
         Instantiate(start_menu_prefab);
     }
 
@@ -49,6 +53,7 @@ public class User : Controller
             Usable best_usable = null;
             float best_grab_dist = max_grab_dist;
 
+            // Select nearest usable
             foreach (Collider2D col in cols)
             {
                 Usable usable = col.transform.GetComponent<Usable>();
@@ -66,17 +71,13 @@ public class User : Controller
             }
 
             if(best_usable != null)
-            {
-                best_usable.RequestUse();
-            }
+            { best_usable.RequestUse(); }
         }
-        else if(Pressed(InputCode.JOURNAL))
-        {
-            Instantiate(log_menu_prefab);
-        }
-        else if(Held(InputCode.CANCEL))
-        {
-            SceneManager.LoadScene("Island");
-        }
+
+        if(Pressed(InputCode.JOURNAL))
+        { Instantiate(log_menu_prefab); }
+
+        if(Held(InputCode.CANCEL))
+        { SceneManager.LoadScene("Island"); }
     }
 }

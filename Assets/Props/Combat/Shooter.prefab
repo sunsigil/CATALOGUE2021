@@ -369,7 +369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skill_rune: {fileID: 11400000, guid: a6d1248fff0b4bd40adf7e1509a7a899, type: 2}
   _power_rune: {fileID: 11400000, guid: 77e62d358687d1145abe50c2917f2d00, type: 2}
-  cooldown: 5
+  cooldown: 3
   lethal: 0
   attack_line: {fileID: 2049484162033835144}
   attack_ring: {fileID: 7688609029733087172}
@@ -390,7 +390,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skill_rune: {fileID: 11400000, guid: eee9e64dbb130d148b9b3c527e237e5b, type: 2}
   _power_rune: {fileID: 11400000, guid: 94c050e3201da334bb0a0aa757e440cd, type: 2}
-  cooldown: 5
+  cooldown: 3
   lethal: 0
   shield_ring: {fileID: 6761317021705238233}
   base_durability: 3
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skill_rune: {fileID: 11400000, guid: aee5d345e6991f34c85bd075aea3d66f, type: 2}
   _power_rune: {fileID: 11400000, guid: e5bf9557644554d4eadf409409485fd8, type: 2}
-  cooldown: 5
+  cooldown: 3
   lethal: 0
   bullet_prefab: {fileID: 3173055655578325182, guid: a97396d57d4f1614aa27f3a39a7d5bfb, type: 3}
   base_count: 10
@@ -432,7 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skill_rune: {fileID: 11400000, guid: d5ac2c0cd478b4b4f885570e742c9210, type: 2}
   _power_rune: {fileID: 11400000, guid: dd74c3fd147bb3446892151b5c78b6c0, type: 2}
-  cooldown: 5
+  cooldown: 3
   lethal: 0
   pulse_wave: {fileID: 3430447489692392552}
   base_arc: 0.785
@@ -995,6 +995,7 @@ GameObject:
   - component: {fileID: 6761317021705238233}
   - component: {fileID: 8879247507104830540}
   - component: {fileID: 8542294884382319}
+  - component: {fileID: 3071199657215246568}
   m_Layer: 0
   m_Name: Shield Ring
   m_TagString: Untagged
@@ -1111,3 +1112,24 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   _max_lives: 0
   hurt_cooldown: 0
+--- !u!50 &3071199657215246568
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647793070239032259}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

@@ -3,19 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// Maintains the collection of ingredients
+/// gathered by the player.
+/// </summary>
 public class Satchel : MonoBehaviour
 {
+    // Settings
     [SerializeField]
     int size;
 
+    // State
     List<Ingredient> _contents;
     public List<Ingredient> contents => _contents;
 
+    // Events
     UnityEvent _on_add;
     public UnityEvent on_add => _on_add;
     UnityEvent _on_remove;
     public UnityEvent on_remove => _on_remove;
 
+    /// <summary>
+    /// If the satchel is not full,
+    /// adds the ingredient and returns true.
+    /// Otherwise, adds nothing and returns false.
+    /// </summary>
+    /// <param name="ingredient"></param>
+    /// <returns></returns>
     public bool Add(Ingredient ingredient)
     {
         if(ingredient == null){ return false; }
@@ -26,6 +40,13 @@ public class Satchel : MonoBehaviour
         return true;
     }
 
+    /// <summary>
+    /// Removes the ingredient from the satchel
+    /// and returns true if the ingredient was present.
+    /// Otherwise, returns false.
+    /// </summary>
+    /// <param name="ingredient"></param>
+    /// <returns></returns>
     public bool Remove(Ingredient ingredient)
     {
         if(ingredient == null){ return false; }

@@ -2,23 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Player combat controller
+/// which commands the CombatModes
+/// attached to it
+/// </summary>
 [RequireComponent(typeof(Machine))]
 [RequireComponent(typeof(Combatant))]
-
 public class Shooter : Controller
 {
+    // Prefabs
     ProgressRing progress_ring;
+
+    // Plugins
     [SerializeField]
     GameObject[] life_orbs;
 
+    // Outsiders
+    ModesWidget modes_widget;
+
+    // Components
     Machine machine;
     Combatant combatant;
-
     CombatMode[] modes;
+
+    // State
     int mode_shift;
     CombatMode ability => modes[1 + mode_shift];
-
-    ModesWidget modes_widget;
 
     void HurtEffects()
     {
@@ -76,11 +86,12 @@ public class Shooter : Controller
 
     void Update()
     {
+        // Scroll through combat modes using [QE]
         int mode_flux = 0;
 
         if(Pressed(InputCode.BACK)){ mode_flux = modes.Length-2; }
         else if(Pressed(InputCode.FORTH)){ mode_flux = 1; }
-
+        
         if(mode_flux != 0)
         {
             mode_shift = (mode_shift + mode_flux) % (modes.Length-1);
@@ -92,6 +103,7 @@ public class Shooter : Controller
             modes_widget.Refresh(i, mode_i);
         }
 
+        // Point machine to the selected mode
         if(Pressed(InputCode.CONFIRM) && ability.unlocked && ability.ready)
         {
             machine.Transition(ability.Entry);

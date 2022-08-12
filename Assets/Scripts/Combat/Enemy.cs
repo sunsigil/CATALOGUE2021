@@ -2,11 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Operational state and behaviour
+/// for a combatant hostile to the player
+/// </summary>
 [RequireComponent(typeof(Combatant))]
 [RequireComponent(typeof(Machine))]
-
 public class Enemy : MonoBehaviour
 {
+    // Prefabs
     ProgressRing progress_ring;
 
     [SerializeField]
@@ -16,9 +20,7 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     Material aggro_material;
 
-    [SerializeField]
-    SpriteRenderer deathblow_dot;
-
+    // Settings
     [SerializeField]
     EnemyMotionMode motion_mode;
     [SerializeField]
@@ -26,10 +28,16 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     float fire_cooldown;
 
+    // Props
+    [SerializeField]
+    SpriteRenderer deathblow_dot;
+
+    // Components
     Machine machine;
     Combatant combatant;
     SpriteRenderer sprite_renderer;
-
+       
+    // State
     Shooter shooter;
     bool aggroed;
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // MachineState Template
+// WARNING: LACK OF ANY SIGNAL-BASED CONTROL FLOW CAN
+// CAUSE INFINITE LOOPING
 /*void State(StateSignal signal)
 {
 	switch(signal)
@@ -31,16 +33,22 @@ public class Machine : MonoBehaviour
 
 	MachineState state;
 
-	public bool InState(MachineState state){ return this.state != null && this.state.Equals(state); }
+	public bool InState(MachineState state)
+	{ return this.state != null && this.state.Equals(state); }
+
 	public void Transition(MachineState state)
 	{
-		if(this.state != null){ this.state(StateSignal.EXIT); }
+		if(this.state != null)
+		{ this.state(StateSignal.EXIT); }
 
 		this.state = state;
 
-		if(this.state != null){ this.state(StateSignal.ENTER); }
+		if(this.state != null)
+		{ this.state(StateSignal.ENTER); }
 	}
 
-	void Update(){ if(state != null){ state(StateSignal.TICK); } }
-	void FixedUpdate(){ if(state != null){ state(StateSignal.FIXED_TICK); } }
+	void Update()
+	{ if(state != null){ state(StateSignal.TICK); } }
+	void FixedUpdate()
+	{ if(state != null){ state(StateSignal.FIXED_TICK); } }
 }
